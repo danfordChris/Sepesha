@@ -13,10 +13,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('trip_ratings', function (Blueprint $table) {
-            $table->uuid('id')->primary();
-            $table->foreignUuid('booking_id')->constrained('bookings');
-            $table->foreignUuid('driver_id')->constrained('clients_info','auth_key');
-            $table->foreignUuid('customer_id')->constrained('clients_info','auth_key');
+            $table->char('id',36)->primary();
+            $table->char('booking_id', 36)->nullable();
+            $table->foreign('booking_id')->references('id')->on('bookings');
+            $table->char('driver_id', 36)->nullable();
+            $table->foreign('driver_id')->references('auth_key')->on('clients_info');
+            $table->char('customer_id', 36)->nullable();
+            $table->foreign('customer_id')->references('auth_key')->on('clients_info');
             $table->integer('rating')->nullable();
             $table->text('comment')->nullable();
             $table->foreignIdFor(User::class, 'created_by')->nullable();

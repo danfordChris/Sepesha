@@ -13,7 +13,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('documents', function (Blueprint $table) {
-            $table->uuid('id')->primary();
+            $table->char('id',36)->primary();
             $table->string('owner_id')->nullable()->constrained('document_types');
             $table->integer('document_type_id')->nullable()->constrained('document_types');
             $table->string('document_number')->nullable();

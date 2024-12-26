@@ -13,8 +13,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('client_bank_accounts', function (Blueprint $table) {
-            $table->uuid('id')->primary();
-            $table->foreignUuid('client_id')->constrained('clients_info','auth_key')->nullable();
+            $table->char('id', 36)->primary();
+            $table->char('client_id', 36)->nullable();
+            $table->foreign('client_id')->references('auth_key')->on('clients_info');
             $table->string('bank_name');
             $table->string('account_number')->unique();
             $table->string('account_name');

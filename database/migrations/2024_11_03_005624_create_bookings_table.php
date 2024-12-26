@@ -14,11 +14,15 @@ return new class extends Migration
     {
 
         Schema::create('bookings', function (Blueprint $table) {
-            $table->uuid('id')->primary();
-            $table->foreignUuid('customer_id')->constrained('clients_info','auth_key');
-            $table->foreignUuid('agent_id')->nullable()->constrained('clients_info','auth_key');
-            $table->foreignUuid('vendor_id')->nullable()->constrained('clients_info','auth_key');
-            $table->foreignUuid('driver_assignment_id')->nullable()->constrained('driver_vehicle_assignments','auth_key');
+            $table->char('id',36)->primary();
+            $table->char('customer_id', 36)->nullable();
+            $table->foreign('customer_id')->references('auth_key')->on('clients_info');
+            $table->char('agent_id', 36)->nullable();
+            $table->foreign('agent_id')->references('auth_key')->on('clients_info');
+            $table->char('vendor_id', 36)->nullable();
+            $table->foreign('vendor_id')->references('auth_key')->on('clients_info');
+            $table->char('driver_assignment_id', 36)->nullable();
+            $table->foreign('driver_assignment_id')->references('id')->on('driver_vehicle_assignments');
             $table->string('booking_reference')->unique();
             $table->string('discount_code',50)->nullable();
             $table->string('recepient_name',190)->nullable();

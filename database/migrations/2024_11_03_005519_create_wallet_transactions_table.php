@@ -13,9 +13,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('wallet_transactions', function (Blueprint $table) {
-            $table->uuid('id')->primary();
-            $table->foreignUuid('wallet_id')->constrained('client_wallets')->nullable();
-            $table->foreignUuid('client_id')->constrained('clients_info','auth_key');
+            $table->char('id',36)->primary();
+            $table->char('wallet_id', 36)->nullable();
+            $table->foreign('wallet_id')->references('id')->on('client_wallets');
+            $table->char('client_id', 36)->nullable();
+            $table->foreign('client_id')->references('auth_key')->on('clients_info');
             $table->string('transaction_type')->comment('Type of transaction: deposit, withdrawal, refund');
             $table->decimal('amount', 15, 2);
             $table->decimal('balance_before', 15, 2);

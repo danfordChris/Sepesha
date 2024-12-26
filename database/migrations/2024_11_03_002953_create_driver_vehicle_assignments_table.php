@@ -13,9 +13,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('driver_vehicle_assignments', function (Blueprint $table) {
-            $table->uuid('id')->primary();
-            $table->foreignUuid('driver_id')->constrained('clients_info','auth_key');
-            $table->foreignUuid('vehicle_id')->constrained('vehicles');
+            $table->char('id', 36)->primary();
+            $table->char('driver_id', 36)->nullable();
+            $table->char('vehicle_id', 36)->nullable();
+            $table->foreign('driver_id')->references('auth_key')->on('clients_info');
+            $table->foreign('vehicle_id')->references('id')->on('vehicles');
             $table->decimal('latitude', 10, 8)->nullable();
             $table->decimal('longitude', 11, 8)->nullable();
             $table->timestamp('location_updated_at')->nullable();

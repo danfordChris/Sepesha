@@ -10,19 +10,24 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
+
     public function up(): void
     {
         Schema::create('trip_assignments', function (Blueprint $table) {
-    $table->uuid('id')->primary();
-    $table->foreignUuid('booking_id')->constrained('bookings');
-    $table->foreignUuid('driver_vehicle_id')->constrained('driver_vehicle_assignments')->nullable();
-    $table->foreignUuid('driver_id')->constrained('clients_info','auth_key')->nullable();
-    $table->foreignUuid('vehicle_id')->constrained('vehicles')->nullable();
-    $table->enum('status', ['assigned', 'intransit', 'completed', 'canceled', 'pending'])->default('pending');
-    $table->foreignIdFor(User::class, 'created_by')->nullable();
-    $table->foreignIdFor(User::class, 'updated_by')->nullable();
-    $table->softDeletes();
-    $table->timestamps();
+            $table->char('id', 36)->primary();
+            $table->char('booking_id', 36)->nullable();
+            $table->foreign('booking_id')->references('id')->on('bookings');
+            $table->char('driver_vehicle_id', 36)->nullable();
+            $table->foreign('driver_vehicle_id')->references('id')->on('driver_vehicle_assignments');
+            $table->char('driver_id', 36)->nullable();
+            $table->char('vehicle_id', 36)->nullable();
+            $table->foreign('driver_id')->references('auth_key')->on('clients_info');
+            $table->foreign('vehicle_id')->references('id')->on('vehicles');
+            $table->enum('status', ['assigned', 'intransit', 'completed', 'canceled', 'pending'])->default('pending');
+            $table->foreignIdFor(User::class, 'created_by')->nullable();
+            $table->foreignIdFor(User::class, 'updated_by')->nullable();
+            $table->softDeletes();
+            $table->timestamps();
         });
     }
 
