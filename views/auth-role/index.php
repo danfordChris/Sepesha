@@ -1,0 +1,37 @@
+<?php
+use yii\helpers\Html;
+
+/* @var $this yii\web\View */
+/* @var $roles yii\rbac\Role[] */
+
+$this->title = 'Roles';
+$this->params['breadcrumbs'][] = $this->title;
+?>
+
+<div class="role-index">
+    <h1><?= Html::encode($this->title) ?></h1>
+
+    <p><?= Html::a('Create Role', ['create'], ['class' => 'btn btn-success']) ?></p>
+
+    <table class="table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($roles as $role): ?>
+            <tr>
+                <td><?= Html::encode($role->name) ?></td>
+                <td><?= Html::encode($role->description) ?></td>
+                <td>
+                    <?= Html::a('Update', ['update', 'name' => $role->name], ['class' => 'btn btn-primary']) ?>
+                    <?= Html::a('Delete', ['delete', 'name' => $role->name], ['class' => 'btn btn-danger', 'data-method' => 'post', 'data-confirm' => 'Are you sure you want to delete this item?']) ?>
+                </td>
+            </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+</div>
