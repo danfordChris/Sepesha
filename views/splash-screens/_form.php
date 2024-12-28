@@ -14,9 +14,13 @@ use kartik\widgets\ActiveForm;
 
 <div class="splash-screens-form">
 
-<?php $form = ActiveForm::begin([
-        'action'=>['create'],
-    ]); ?>
+<?php 
+ 
+    $formAction = $model->isNewRecord ? ['create'] : ['update', 'id' => $model->id];
+    $form = ActiveForm::begin([
+        'action' => $formAction,
+    ]); 
+?>
 
     <div class="row">
         <div class="col-md-4">

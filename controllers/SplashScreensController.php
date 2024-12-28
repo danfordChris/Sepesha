@@ -119,15 +119,34 @@ public function actionCreate()
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-
-        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        $oldPhoto = $model->photo;
+        if ($this->request->isPost && $model->load($this->request->post())) {
+            $splashPic = UploadedFile::getInstance($model, 'photo');
+            if ($splashPic) {
+                $pic = time() . 'splashphoto.' . $splashPic->extension;
+                $protocol = Yii::$app->request->getIsSecureConnection() ? 'https' : 'http';
+                $baseUrl = Yii::getAlias('@web');
+                $model->photo = $protocol . '://' . Yii::$app->request->serverName . $baseUrl . '/uploads/' . $pic;
+                $splashPic->saveAs(Yii::getAlias('@webroot') . '/uploads/' . $pic);
+                if ($oldPhoto && file_exists(Yii::getAlias('@webroot') . '/uploads/' . basename($oldPhoto))) {
+                    unlink(Yii::getAlias('@webroot') . '/uploads/' . basename($oldPhoto));
+                }
+            } else {
+                $model->photo = $oldPhoto;
+            }
+            if ($model->save()) {
+                Yii::$app->session->setFlash('success', 'Data saved successfully.');
+                return $this->redirect(['index', 'id' => $model->id]); 
+            } else {
+                Yii::$app->session->setFlash('failure', 'Failed to save data!');
+            }
         }
 
         return $this->render('update', [
             'model' => $model,
         ]);
     }
+    
 
     /**
      * Deletes an existing SplashScreens model.
