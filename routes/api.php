@@ -1,8 +1,11 @@
 <?php
 
+use app\controllers\FeesController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\FeeCategoryController;
+use App\Http\Controllers\VehicleController;
 
 // Route::get('/user', function (Request $request) {
 //     return $request->user();
@@ -14,7 +17,7 @@ use App\Http\Controllers\AuthController;
 // Route::post('logout', [AuthController::class, 'logout'])->middleware('auth:api');
 
 Route::middleware('jwt.auth')->get('/user', function (Request $request) {
-    return response()->json(['user' => $request->user,'success' => true, 'code' => 200]);
+    return response()->json(['user' => $request->user, 'success' => true, 'code' => 200]);
 });
 
 
@@ -24,11 +27,18 @@ Route::middleware('jwt.auth')->get('/user', function (Request $request) {
 // Public Routes
 Route::post('index', [AuthController::class, 'index']);
 Route::post('login', [AuthController::class, 'login']);
+Route::post('register', [AuthController::class, 'register']);
 Route::post('refresh', [AuthController::class, 'refresh']);
 Route::post('logout', [AuthController::class, 'logout']);
 
 // Protected Routes
 Route::middleware(['auth.jwt:driver,vendor,agent,customer'])->group(function () {
+
+    Route::get('/vehicle/{id}', [VehicleController::class, 'view']);
+    Route::get('/vehicles', [VehicleController::class, 'index']);
+    Route::get('/category/{id}', [FeeCategoryController::class, 'view']);
+    Route::get('/categories', [FeeCategoryController::class, 'index']);
+
     Route::get('/dashboard', function (Request $request) {
         return response()->json([
             'message' => 'Welcome to your dashboard',
