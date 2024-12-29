@@ -3,12 +3,13 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as Authenticatable;
+use DateTime;
+use Laravel\Sanctum\HasApiTokens;
+use Laravel\Jetstream\HasProfilePhoto;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
-use Laravel\Jetstream\HasProfilePhoto;
-use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
@@ -25,10 +26,31 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
+    protected $table = 'clients_info';
     protected $fillable = [
         'name',
         'email',
+        'phone',
         'password',
+        'mname',
+        'sname',
+        'phonecode',
+        'user_type',
+        'licence_number',
+        'licence_expiry',
+        'reference_number',
+        'referal_code',
+        'auth_key',
+        'role',
+        'password_hash',
+        'login_attempts',
+        'wid',
+        'privacy_checked',
+        'entity_type',
+        'status'
+
+
+
     ];
 
     /**
@@ -38,7 +60,9 @@ class User extends Authenticatable
      */
     protected $hidden = [
         'password',
+        'password_confirmation',
         'remember_token',
+        'password_hash',
         'two_factor_recovery_codes',
         'two_factor_secret',
     ];
@@ -62,6 +86,25 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'password_hash'=>'hashed'
         ];
+    }
+
+
+    public static function getRegistrationNumber($user_type)
+    {
+
+        if ($user_type == "driver") {
+            $pref = "D";
+        } elseif ($user_type == 'customer') {
+            $pref = "C";
+        } else {
+            //VENDOR
+            $pref = "V";
+        }
+        $no =  (User::max('id') ?? 0) + 1;
+        $dob = new DateTime(Date('Y-m-d'));
+        $keyvalue =  $pref . $dob->format('Ymd') . $no;
+        return   $keyvalue;
     }
 }
