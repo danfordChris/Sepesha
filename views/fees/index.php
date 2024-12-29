@@ -62,6 +62,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 },
             ],
             'description',
+            'capacity',
             'vehicle_multiplier',
             'base_price',
             'price_per_km',

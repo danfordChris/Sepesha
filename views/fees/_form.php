@@ -57,6 +57,9 @@ use kartik\file\FileInput;
 
 <div class="row">
     <div class="col-md-4">
+    <?= $form->field($model, 'capacity')->textInput(['maxlength' => true]) ?> 
+    </div>
+    <div class="col-md-4">
     <?= $form->field($model, 'icon')->widget(FileInput::class, [
     'options' => ['accept' => 'image/x-icon, image/svg+xml, image/png'],
     'pluginOptions' => [
