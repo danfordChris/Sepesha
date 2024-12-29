@@ -41,6 +41,26 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             'name',
+            [
+                'attribute' => 'photo',
+                'format' => 'raw',
+                'value' => function ($model) {
+                    if (!empty($model->photo)) {
+                        return Html::img($model->photo, ['class' => 'img-responsive', 'height' => 40, 'width' => 40, 'onclick' => 'window.open(this.src)']);
+                    }
+                    return 'No Image';
+                },
+            ],
+            [
+                'attribute' => 'icon',
+                'format' => 'raw',
+                'value' => function ($model) {
+                    if (!empty($model->icon)) {
+                        return Html::img($model->icon, ['class' => 'img-responsive', 'height' => 40, 'width' => 40, 'onclick' => 'window.open(this.src)']);
+                    }
+                    return 'Not Set';
+                },
+            ],
             'description',
             'vehicle_multiplier',
             'base_price',
@@ -94,7 +114,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="modal-content">
             <div class="modal-header bg-success">
                 <h4 class="modal-title mb-2 font-weight-bold text-white" id="formModal"><strong>
-                        Add</strong></h4>
+                        Add Vehicle Fee Category</strong></h4>
             </div>
             <div class="modal-body">
                 <?= $this->render('_form', ['model' => $model]); ?>

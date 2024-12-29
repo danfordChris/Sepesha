@@ -43,7 +43,7 @@ class FeeCategory extends \yii\db\ActiveRecord
             [['created_by', 'updated_by'], 'integer'],
             [['deleted_at', 'created_at', 'updated_at'], 'safe'],
             [['id'], 'string', 'max' => 40],
-            [['name', 'description', 'vehicle_multiplier', 'base_price', 'price_per_km', 'status'], 'string', 'max' => 191],
+            [['name', 'description', 'vehicle_multiplier', 'base_price', 'price_per_km', 'status','photo','icon'], 'string', 'max' => 191],
             [['id'], 'unique'],
         ];
     }
