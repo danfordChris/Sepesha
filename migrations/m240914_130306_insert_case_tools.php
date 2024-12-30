@@ -23,6 +23,7 @@ class m240914_130306_insert_case_tools extends Migration
             ['National ID', 1, '', 1, '2024-09-14 05:29:46', NULL, '2024-09-14 05:29:46', NULL],
             ['Voter ID', 1, '', 1, '2024-09-14 05:29:46', NULL, '2024-09-14 05:29:46', NULL],
             ['Passport ID', 1, '', 1, '2024-09-14 05:29:46', NULL, '2024-09-14 05:29:46', NULL],
+            ['Vehicle Insurance', 1, '', 1, '2024-09-14 05:29:46', NULL, '2024-09-14 05:29:46', NULL],
 
         ]);
     }
