@@ -4,6 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 use app\models\CustomHelper;
 use app\widgets\AttachmentTableWidget;
+use app\widgets\AttachmentTableWidgetByOwner;
 
 /** @var yii\web\View $this */
 /** @var app\models\DriverVehicleAssignment $model */
@@ -84,7 +85,8 @@ $this->params['breadcrumbs'][] = $this->title;
         ]) ?>
 
     <?= Yii::$app->approvals->getView($model,$model->id) ?>
-    <?= AttachmentTableWidget::widget(['refno' => $model->id]); ?>
-
+    
+        <?= AttachmentTableWidgetByOwner::widget(['cby' => $model->created_by]); ?>
+   
 
 </div>

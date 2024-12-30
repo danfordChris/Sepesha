@@ -13,6 +13,7 @@ class m240914_130306_insert_case_tools extends Migration
     public function safeUp()
     {
 
+        $this->execute('TRUNCATE TABLE case_tools'); 
         $this->batchInsert('case_tools',
         ['name', 'type', 'description', 'status', 'created_at', 'created_by', 'updated_at', 'updated_by'],
         [

@@ -188,7 +188,7 @@ class AttachmentController extends Controller
 
         if ($attachment) {
             // Remove the file from the uploads/documents folder
-            $filePath = Yii::getAlias('@webroot/' . $attachment->attachment);
+            $filePath = $attachment->attachment;
             if (file_exists($filePath)) {
                 if (unlink($filePath)) {
                     if ($attachment->delete()) {
@@ -219,31 +219,6 @@ class AttachmentController extends Controller
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
-
-    protected function findBeneficiary($id)
-    {
-        if (($model = Beneficiary::findOne(['id' => $id])) !== null) {
-            return $model;
-        }
-
-        throw new NotFoundHttpException('The requested page does not exist.');
-    }
-
-    protected function findIntake($id)
-    {
-        if (($model = Intake::findOne(['refno' => $id])) !== null) {
-            return $model;
-        }
-
-        throw new NotFoundHttpException('The requested page does not exist.');
-    }
-
-    protected function findIntakeById($id)
-    {
-        if (($model = Intake::findOne(['id' => $id])) !== null) {
-            return $model;
-        }
-
-        throw new NotFoundHttpException('The requested page does not exist.');
-    }
+ 
+    
 }

@@ -222,6 +222,13 @@ class CustomHelper extends Model
         return $name;
     }
 
+    public static function getFullNames($USER)
+    {
+        $query = ClientInfo::find()->where(['id' => $USER])->one();
+          $name = $query ? (($query->name ?? '') . ' ' . ($query->sname ?? '')) : '';
+        return $name;
+    }
+
     public static function getEmployeeName($USER)
     {
         $query = Employee::find()->where(['id' => $USER])->one();

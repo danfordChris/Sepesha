@@ -18,8 +18,7 @@ class DataController extends  Controller
 
         $q = "DELETE FROM migration WHERE  version='m241009_180913_insert_default_tables_data'";
         Yii::$app->db->createCommand($q)->execute();
-
-        $q = "DELETE FROM migration WHERE  version='m240922_173739_insert_tools_data'";
+        $q = "DELETE FROM migration WHERE  version='m240914_130306_insert_case_tools'";
         Yii::$app->db->createCommand($q)->execute();
 
         echo "successful removed please run: 'php yii migrate' to re create new data";

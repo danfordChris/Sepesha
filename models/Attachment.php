@@ -55,12 +55,12 @@ class Attachment extends \yii\db\ActiveRecord
     {
         return [
             [['type', 'attachment'], 'required'],
-            [['type', 'owner_id', 'created_by', 'updated_by', 'wid', 'stid'], 'integer'],
+            [['type', 'created_by', 'updated_by', 'wid', 'stid'], 'integer'],
             [['description', 'status'], 'string'],
             [['created_at', 'updated_at'], 'safe'],
             [['name'], 'string', 'max' => 150],
             [['module'], 'string', 'max' => 100],
-            [['owner_id', 'moduleId', 'table_key'], 'integer'],
+            [['owner_id', 'moduleId', 'table_key'], 'safe'],
             [['name', 'type', 'refno', 'table_name', 'model_name'], 'string', 'max' => 255],
             [['attachment'], 'file', 'extensions' => 'pdf,docx,xls,xlsx', 'maxSize' => 1024 * 1024 * 2], // 2MB limit
         ];
@@ -104,10 +104,13 @@ class Attachment extends \yii\db\ActiveRecord
     public function upload()
     {
         if ($this->validate()) {
-            $filePath = 'uploads/documents/' . time() . '.' . $this->attachment->extension;
-            $this->attachment->saveAs($filePath);
-            $this->attachment = $filePath; // store the file path in attachment column
+            $filePath =Yii::getAlias('@webroot'). '/uploads/documents/' . time() . '.' . $this->attachment->extension;
+            $filePathDoc= Yii::$app->urlManager->createAbsoluteUrl('uploads/documents/' .time() . '.' . $this->attachment->extension);
+           if($this->attachment->saveAs($filePath)){
+            $this->attachment = $filePathDoc; // store the file path in attachment column
             return true;
+           }
+           
         }
         return false;
     }
@@ -130,7 +133,6 @@ class Attachment extends \yii\db\ActiveRecord
 
         return $attachment;
     }
-
 
 
 

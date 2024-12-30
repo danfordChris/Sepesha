@@ -1,11 +1,12 @@
 <?php
 
-use app\models\CarePlan;
-use app\models\CustomHelper;
 use app\models\User;
 use yii\helpers\Html;
-use app\widgets\AttachmentTableWidget;
+use app\models\CarePlan;
+use app\models\CustomHelper;
 use app\widgets\AttachmentWidget;
+use app\widgets\AttachmentTableWidget;
+use app\widgets\AttachmentTableWidgetByOwner;
 
 
 ?>
@@ -26,8 +27,10 @@ use app\widgets\AttachmentWidget;
 
                     <?= Yii::$app->approvals->getView($mainModel,$mainModel->id) ?>
 
-                    <?= AttachmentTableWidget::widget(['refno' => $mainModel->id]); ?>
-
+                     
+ 
+        <?= AttachmentTableWidgetByOwner::widget(['cby' => $mainModel->created_by]); ?>
+    
                     <?= $this->render('_form_approvals', [
                             'mainModel' => $mainModel,
                             'modelApproval' => $modelApproval,

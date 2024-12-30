@@ -9,15 +9,15 @@ use yii\helpers\Html;
 use app\models\Attachment;
 use app\models\CustomHelper;
 
-class AttachmentTableWidget extends Widget
+class AttachmentTableWidgetByOwner extends Widget
 {
     public $attachments;
-    public $refno;
+    public $cby;
 
     public function run()
     {
         $this->registerJs(); // Register JavaScript for AJAX
-        $this->attachments = Attachment::find()->where(['refno' => $this->refno])->all();
+        $this->attachments = Attachment::find()->where(['created_by' => $this->cby])->all();
         if (!empty($this->attachments)) {
             echo '<div class="group2">';
             echo '<div class="table-responsive">';
@@ -46,7 +46,7 @@ class AttachmentTableWidget extends Widget
                 // echo "<td>" . Html::encode($attachment->owner_id) . "</td>";
                 // echo "<td>" . Html::encode($attachment->module) . "</td>";
                 // echo "<td>" . Html::encode($attachment->status == 1 ? 'Active' : 'Inactive') . "</td>";
-                echo "<td width='20%'>" . Html::encode(CustomHelper::getFullName($attachment->created_by)) . "</td>";
+                echo "<td width='20%'>" . Html::encode(CustomHelper::getFullNames($attachment->created_by)) . "</td>";
                 echo "<td width='20%'>" . Html::encode($attachment->created_at) . "</td>";
                 echo "<td width='20%'>";
                 echo Html::a(' <i class="fas fa-file-pdf"></i> View document', '#', [
@@ -55,11 +55,11 @@ class AttachmentTableWidget extends Widget
                     'data-bs-target' => '#attachmentModal-' . $attachment->id,
                 ]);
                 echo " ";
-                echo Html::a('<i class="fas fa-times"></i> remove', '#', [
-                    'class' => 'btn btn-secondary btn-sm delete-attachment',
-                    'data-id' => $attachment->id,
-                    'data-url' => Url::to(['attachment/ajax-delete', 'id' => $attachment->id]),
-                ]);
+                // echo Html::a('<i class="fas fa-times"></i> remove', '#', [
+                //     'class' => 'btn btn-secondary btn-sm delete-attachment',
+                //     'data-id' => $attachment->id,
+                //     'data-url' => Url::to(['attachment/ajax-delete', 'id' => $attachment->id]),
+                // ]);
 
                 echo "</td>";
                 echo "</tr>";
@@ -90,7 +90,7 @@ class AttachmentTableWidget extends Widget
                         </button>
                     </div>
                     <div class='modal-body'>
-                     <embed src='" .$attachment->attachment. "' type='application/pdf' width='100%' height='500px'/>
+                     <embed src='" .  $attachment->attachment . "' type='application/pdf' width='100%' height='500px'/>
                     </div>
                     <div class='modal-footer'>
                         <button type='button' class='btn btn-secondary' data-dismiss='modal'>Close</button>
