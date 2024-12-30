@@ -129,7 +129,7 @@ class EmployeeController extends Controller
             }
         } else {
             $emailtemplate = '<p>Hello ' . $employee->getFullName() . ',</strong></p>
-            <p>You have been successfully registered to  <strong>' . 'Railway Children Africa(RCA) Management System' . '</strong> </p>
+            <p>You have been successfully registered to  <strong>' . 'Sepesha Backend System' . '</strong> </p>
             <p>. Please click the following link to confirm your email: ' . Yii::$app->urlManager->createAbsoluteUrl(['site/confirmemail', 'token' => $userexists->confirmation_token]) . '</p>';
             $subject = "Employee Registration at RCAMS";
             Notification::sendConfirmationEmailRepeat($employee, $userexists->confirmation_token, $userexists->email);
