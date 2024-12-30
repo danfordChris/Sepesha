@@ -48,6 +48,7 @@ class m240531_203224_create_system_sidemenus_data extends Migration
                 ['', null, 'Service Types', 'gmt_service_types_sub', 'workflow-tools', 1, 0, '/services/index', 0, 2],
                 ['', null, 'Documents Settings', 'gmt_case_tools_sub', 'case tools/forms', 1, 0, '/case-tools/index', 0, 2],
                 ['', null, 'Workflow Documents', 'gmt_workflow_docs_sub', 'workflow documents', 1, 0, '/workflow-documents/index', 0, 2],
+                ['', null, 'App Images', 'gmt_app_images_sub', 'applications images', 1, 0, '/splash-screens/index', 0, 2],
 
                 //authorization
                 [31, null, 'Users', 'gmt_users_sub', 'system users', 1, 0, '/auth/signup', 0, 3],
@@ -88,10 +89,7 @@ class m240531_203224_create_system_sidemenus_data extends Migration
                 [NULL, 'gmt_jobtitles_sub', 1, 1],
                 [NULL, 'gmt_banks_sub', 1, 1],
                 [NULL, 'gmt_fee_category_sub', 1, 1],
-
-
-
-
+                [NULL, 'gmt_app_images_sub', 1, 1],
             ]
 
         );
