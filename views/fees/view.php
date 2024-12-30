@@ -31,6 +31,26 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'id',
             'name',
+            [
+                'attribute' => 'photo',
+                'format' => 'raw',
+                'value' => function ($model) {
+                    if (!empty($model->photo)) {
+                        return Html::img($model->photo, ['class' => 'img-responsive', 'height' => 40, 'width' => 40, 'onclick' => 'window.open(this.src)']);
+                    }
+                    return 'No Image';
+                },
+            ],
+            [
+                'attribute' => 'icon',
+                'format' => 'raw',
+                'value' => function ($model) {
+                    if (!empty($model->icon)) {
+                        return Html::img($model->icon, ['class' => 'img-responsive', 'height' => 40, 'width' => 40, 'onclick' => 'window.open(this.src)']);
+                    }
+                    return 'Not Set';
+                },
+            ],
             'description',
             'vehicle_multiplier',
             'base_price',

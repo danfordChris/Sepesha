@@ -39,11 +39,11 @@ class FeeCategory extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'description', 'vehicle_multiplier', 'base_price', 'price_per_km'], 'required'],
+            [['name', 'description', 'vehicle_multiplier', 'base_price', 'price_per_km','capacity'], 'required'],
             [['created_by', 'updated_by'], 'integer'],
             [['deleted_at', 'created_at', 'updated_at'], 'safe'],
             [['id'], 'string', 'max' => 40],
-            [['name', 'description', 'vehicle_multiplier', 'base_price', 'price_per_km', 'status'], 'string', 'max' => 191],
+            [['name', 'description', 'vehicle_multiplier', 'base_price', 'price_per_km', 'status','photo','icon','capacity'], 'string', 'max' => 191],
             [['id'], 'unique'],
         ];
     }
