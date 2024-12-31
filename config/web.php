@@ -27,8 +27,12 @@ $config = [
             'class' => 'app\components\SettingsComponent',
         ],
 
-        'beneficiary' => [
-            'class' => 'app\components\BeneficiaryInfoComponent',
+        'driver' => [
+            'class' => 'app\components\DriverInfoComponent',
+        ],
+
+        'vendor' => [
+            'class' => 'app\components\VendorInfoComponent',
         ],
 
         'approvals' => [

@@ -11,7 +11,7 @@ use app\widgets\AttachmentWidget;
 <div class="mains">
     <div class="card">
         <div class="card-body">
-            <?php //= Yii::$app->beneficiary->getView($mainModel->id) ?>
+            <?= Yii::$app->vendor->getView($mainModel->id) ?>
         </div>
     </div>
 

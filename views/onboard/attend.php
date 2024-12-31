@@ -13,7 +13,8 @@ use app\widgets\AttachmentTableWidgetByOwner;
 <div class="mains">
     <div class="card">
         <div class="card-body">
-            <?php //= Yii::$app->beneficiary->getView($mainModel->id) ?>
+
+            <?= Yii::$app->driver->getView($mainModel->id) ?>
         </div>
     </div>
 

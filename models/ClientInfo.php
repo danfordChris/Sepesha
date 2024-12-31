@@ -38,8 +38,6 @@ class ClientInfo extends \yii\db\ActiveRecord
      * @inheritdoc
      */
 
-
-
     public function attributeLabels()
     {
         return [
@@ -49,10 +47,46 @@ class ClientInfo extends \yii\db\ActiveRecord
         ];
     }
 
-
     public  function getFullName()
     {
       return $this->name .' '.$this->mname .' ' .$this->sname;
+
+    }
+
+    public  function getFirstName()
+    {
+      return $this->name ??"";
+
+    }
+
+    public  function getMiddleName()
+    {
+      return $this->mname ??"";
+
+    }
+
+    public  function getLastame()
+    {
+      return $this->sname ??"";
+
+    }
+
+
+    public  function getReferenceNumber()
+    {
+      return $this->reference_number ??"";
+
+    }
+
+
+    public  function getEmail()
+    {
+      return $this->email ??"";
+
+    }
+    public  function getVendorphoto()
+    {
+      return $this->profile_photo ??"";
 
     }
 
@@ -61,7 +95,6 @@ class ClientInfo extends \yii\db\ActiveRecord
       return '+'. $this->phonecode .$this->phone;
 
     }
-
 
     public function getWorkFlowStage()
     {

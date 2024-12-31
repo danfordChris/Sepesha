@@ -15,5 +15,9 @@ return [
     'supportEmail' => 'support@gomot.co.tz',
     'notificationEmail' => 'salesjames96@gnmail.com',
     'homeURL' => '127.0.0.1',
+    // 'frontURL' => function () {
+    //     return Yii::$app->request->hostInfo . '/sepesha/sepesha_portal';
+    // },
+    'frontURL' => '/sepesha/sepesha_portal'
 
 ];
