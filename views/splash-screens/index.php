@@ -25,9 +25,11 @@ $this->params['breadcrumbs'][] = $this->title;
 
             </div>
             <div class="col-md-6">
-                <button type="button" class="btn mb-2 float-end  btn-outline-info" data-bs-toggle="modal"
+                <!-- <button type="button" class="btn mb-2 float-end  btn-outline-info" data-bs-toggle="modal"
                     data-bs-target="#rcamodal">
-                    <i class="fa fa-plus"></i>Create Splash Screens</button>
+                    <i class="fa fa-plus"></i>Create Splash Screens</button> -->
+
+                <?= Html::a('Add ', ['create'], ['class' => 'btn btn-info text-white']) ?>
             </div>
         </div>
 
@@ -37,7 +39,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'tableOptions' => ['class' => ' table table-responsive bordered table-sm'],
             'columns' => [
                 ['class' => 'yii\grid\SerialColumn'],
-                'name',
+                'name:raw',
                 [
                     'attribute' => 'photo',
                     'format' => 'raw',
@@ -93,7 +95,8 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="modal-dialog modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header bg-success">
-                <h4 class="modal-title mb-2 font-weight-bold text-white" id="formModal"><strong>Enter Splash Screens Details</strong></h4>
+                <h4 class="modal-title mb-2 font-weight-bold text-white" id="formModal"><strong>Enter Splash Screens
+                        Details</strong></h4>
             </div>
             <div class="modal-body">
                 <?= $this->render('create', ['model' => $model]); ?>

@@ -24,7 +24,7 @@ $this->params['breadcrumbs'][] = $this->title='Details for: '.$model->name;
             'options' => ['class' => ' table table-responsive bordered table-sm'],
             'attributes' => [
                 // 'id',
-                'name',
+                'name:raw',
               [
                     'attribute' => 'photo',
                     'format' => 'raw',
@@ -41,14 +41,14 @@ $this->params['breadcrumbs'][] = $this->title='Details for: '.$model->name;
                 'category',
                 'app',
                 [
-             
+
                     'attribute' => 'status',
                     'format' => 'html',
                     'value' => function($model) {
                         $options = $model::getStatusOptions();
                         $status = $options[$model->status] ?? '';
                         Yii::info('Status value: ' . $model->status);
-                        $badgeColor = ($model->status == 'active' || $model->status == 1) ? 'success' : 'danger'; 
+                        $badgeColor = ($model->status == 'active' || $model->status == 1) ? 'success' : 'danger';
                         $badge = Html::tag('span', $status, ['class' => 'badge badge-' . $badgeColor]);
                         return $badge;
                     },
@@ -68,9 +68,9 @@ $this->params['breadcrumbs'][] = $this->title='Details for: '.$model->name;
                         return CustomHelper::getUpdatedBy($model->updated_by);
                     }
                 ],
-              
+
             ],
         ]) ?>
- <?php echo Html::a('<i class="fa fa-arrow-left"></i> Back', ['index'], ['class' => 'btn btn-secondary']); ?>
+        <?php echo Html::a('<i class="fa fa-arrow-left"></i> Back', ['index'], ['class' => 'btn btn-secondary']); ?>
     </div>
 </div>
