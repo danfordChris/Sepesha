@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\FeeCategoryController;
 use App\Http\Controllers\VehicleController;
+use App\Http\Controllers\WelcomeController;
 
 // Route::get('/user', function (Request $request) {
 //     return $request->user();
@@ -30,7 +31,7 @@ Route::post('login', [AuthController::class, 'login']);
 Route::post('register', [AuthController::class, 'register']);
 Route::post('refresh', [AuthController::class, 'refresh']);
 Route::post('logout', [AuthController::class, 'logout']);
-
+Route::get('get-started', [WelcomeController::class, 'index']);
 // Protected Routes
 Route::middleware(['auth.jwt:driver,vendor,agent,customer'])->group(function () {
 
@@ -38,7 +39,6 @@ Route::middleware(['auth.jwt:driver,vendor,agent,customer'])->group(function () 
     Route::get('/vehicles', [VehicleController::class, 'index']);
     Route::get('/category/{id}', [FeeCategoryController::class, 'view']);
     Route::get('/categories', [FeeCategoryController::class, 'index']);
-
     Route::get('/dashboard', function (Request $request) {
         return response()->json([
             'message' => 'Welcome to your dashboard',
