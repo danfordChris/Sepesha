@@ -45,16 +45,15 @@ if (!empty($photo)) {
                     </td>
                 </tr>
                 <tr>
-                    <td><b>&nbsp;Gender</b></td>
-                    <td><?= $data->createdUser->gender ?? "" ?></td>
+                <td><b>&nbsp;Reference Number</b></td>
+                <td><?= $data->createdUser->reference_number ?? "" ?></td>
                     <td><b>Age</b></td>
                     <td><?= $data->createdUser->age ?? "" ?></td>
                     <td><b>Mobile</b></td>
                     <td><?= $data->createdUser->phone ?? "" ?></td>
                 </tr>
                 <tr>
-                    <td><b>&nbsp;Reference Number</b></td>
-                    <td><?= $data->createdUser->reference_number ?? "" ?></td>
+              
                     <td><b>Driver License Number </b></td>
                     <td><?= $data->createdUser->driver_license_number ?? "" ?></td>
                     <td><b>Email</b></td>
