@@ -63,9 +63,9 @@ class SplashScreens extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'name' => 'Name',
+            'name' => 'Title',
             'photo' => 'Photo',
-            'type' => 'Type',
+            'type' => 'reference_id',
             'order' => 'Order',
             'description' => 'Description',
             'category' => 'Category',
@@ -109,7 +109,7 @@ class SplashScreens extends \yii\db\ActiveRecord
         return [
             '1' => 'active',
             '0' => 'Inactive',
-    
+
         ];
     }
 }
