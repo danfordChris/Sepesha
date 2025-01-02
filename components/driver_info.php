@@ -6,13 +6,6 @@ use yii\helpers\Html;
  
 $data = DriverVehicleAssignment::findOne(['id' => $id]);
 $photo = $data->createdUser->profile_photo ?? '';
-if (!empty($photo)) {
-    $frontURL = Yii::$app->params['frontURL'];
-    $photoPath = $frontURL . '/uploads/profile_photos/' . $photo;
-    $photo = $photoPath;
-} else {
-    //$photo = 'No image available';
-}
 ?>
 
 <div class="group">
