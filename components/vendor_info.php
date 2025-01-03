@@ -41,7 +41,19 @@ $photo = $data->getVendorphoto();
                 <td><b>&nbsp;Reference Number</b></td>
                 <td><?= $data->getReferenceNumber() ?></td>
                     <td><b>Age</b></td>
-                    <td><?= $data->createdUser->age ?? "" ?></td>
+                    <td>
+    <?php 
+    if (!empty($data->getDob())) {
+        $dobDate = new DateTime($data->getDob());
+        $currentDate = new DateTime();
+        $age = $dobDate->diff($currentDate)->y;
+        echo $age . " years old";
+    } else {
+        echo "";
+    }
+    ?>
+</td>
+
                     <td><b>Mobile</b></td>
                     <td><?= $data->getPhoneNumber()?></td>
                 </tr>

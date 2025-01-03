@@ -41,7 +41,19 @@ $photo = $data->createdUser->profile_photo ?? '';
                 <td><b>&nbsp;Reference Number</b></td>
                 <td><?= $data->createdUser->reference_number ?? "" ?></td>
                     <td><b>Age</b></td>
-                    <td><?= $data->createdUser->age ?? "" ?></td>
+                    <td>
+    <?php 
+    if (!empty($data->createdUser->dob)) {
+        $dobDate = new DateTime($data->createdUser->dob);
+        $currentDate = new DateTime();
+        $age = $dobDate->diff($currentDate)->y;
+        echo $age . " years old";
+    } else {
+        echo "";
+    }
+    ?>
+</td>
+
                     <td><b>Mobile</b></td>
                     <td><?= "+".$data->createdUser->phonecode . "". ($data->createdUser->phone ?? "") ?>
                     </td>
