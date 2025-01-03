@@ -43,8 +43,12 @@ $photo = $data->createdUser->profile_photo ?? '';
                     <td><b>Age</b></td>
                     <td><?= $data->createdUser->age ?? "" ?></td>
                     <td><b>Mobile</b></td>
-                    <td><?= $data->createdUser->phone ?? "" ?></td>
+                    <td><?= "+".$data->createdUser->phonecode . "". ($data->createdUser->phone ?? "") ?>
+                    </td>
                 </tr>
+
+
+
                 <tr>
               
                     <td><b>Driver License Number </b></td>
