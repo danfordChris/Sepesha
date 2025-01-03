@@ -515,9 +515,9 @@ class User extends ActiveRecord implements IdentityInterface
             $user->password_expiry = Settings::PasswordExpiry();
             if ($user->save()) {
                 $emailtemplate = '<p>Hello ' . $employee->getFullName() . ',</strong></p>
-                <p>You have been successfully registered to  <strong>' . 'Railway Children Africa(RCA) Management System' . '</strong> </p>
+                <p>You have been successfully registered to  <strong>' . 'SEPESHA SYSTEM' . '</strong> </p>
                 <p>. Please click the following link to confirm your email: ' . Yii::$app->urlManager->createAbsoluteUrl(['../site/confirmemail', 'token' => $user->confirmation_token]) . '</p>';
-                $subject = "Employee Registration at RCAMS";
+                $subject = "New User Registration";
                 Notification::sendConfirmationEmail($employee, $user->confirmation_token);
                 Notification::emailnotificationaddeduser($emailtemplate, $subject, $employee, $employee_email);
 

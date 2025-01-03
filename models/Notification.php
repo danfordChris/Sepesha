@@ -96,7 +96,7 @@ class Notification extends \yii\db\ActiveRecord
         $notification->email_notice = $emailtemplate;
         $notification->subject = $subject;
         $notification->notification_status = 0;
-        $notification->appl = 'eCMRS';
+        $notification->appl = 'sepesha';
         $notification->esent = 'N';
         $notification->edatesent = null;
         return $notification->save(false) ? $notification : null;
@@ -111,7 +111,7 @@ class Notification extends \yii\db\ActiveRecord
         $notification->email_notice = $emailtemplate;
         $notification->subject = $subject;
         $notification->notification_status = 0;
-        $notification->appl = 'eCMRS';
+        $notification->appl = 'sepesha';
         $notification->esent = 'N';
         $notification->edatesent = null;
         return $notification->save(false) ? $notification : null;
@@ -129,10 +129,10 @@ class Notification extends \yii\db\ActiveRecord
                 ],
                 ['user' => $user, 'token' => $token]
             )
-            ->setFrom([Yii::$app->params['notificationEmail'] =>  'Railway Children Africa (RCA)'])
+            ->setFrom([Yii::$app->params['notificationEmail'] =>  'SEPESHA SYSTEM'])
 
             ->setTo($user->email)
-            ->setSubject('Confirm your registration at Railway Children Africa (RCA)')
+            ->setSubject('Confirm your registration  with SEPESHA SYSTEM')
 
             ->send();
     }
@@ -149,10 +149,10 @@ class Notification extends \yii\db\ActiveRecord
                 ],
                 ['user' => $user, 'token' => $token]
             )
-            ->setFrom([Yii::$app->params['notificationEmail'] =>  'Railway Children Africa (RCA)'])
+            ->setFrom([Yii::$app->params['notificationEmail'] =>  'SEPESHA SYSTEM'])
 
             ->setTo($email)
-            ->setSubject('Confirm your registration at Railway Children Africa (RCA)')
+            ->setSubject('Confirm your registration with SEPESHA SYSTEM')
 
             ->send();
     }

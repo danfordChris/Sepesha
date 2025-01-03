@@ -7,8 +7,8 @@ $params = require __DIR__ . '/params.php';
 $db = require __DIR__ . '/db.php';
 
 $config = [
-    'id' => 'RCASYSTEM',
-    'name' => 'RCA SYSTEM',
+    'id' => 'SEPESHA',
+    'name' => 'SEPESHA',
     'timeZone' => 'Africa/Dar_es_Salaam',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],

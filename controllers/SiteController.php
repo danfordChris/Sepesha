@@ -327,9 +327,9 @@ class SiteController extends Controller
         $user->save(false);
 
         $emailtemplate = '<p>Hello ' . $employee->getFullName() . ',</strong></p>
-        <p>You have been successfully registered to  <strong>' . 'Railway Children Africa(RCA) Management System' . '</strong> </p>
+        <p>You have been successfully registered to  <strong>' . 'SEPESHA SYSTEM' . '</strong> </p>
         <p>. Please click the following link to confirm your email: ' . Yii::$app->urlManager->createAbsoluteUrl(['site/confirmemail', 'token' => $user->confirmation_token]) . '</p>';
-        $subject = "Employee Registration at RCAMS";
+        $subject = "SEPESHA User Registration";
         Notification::sendConfirmationEmailRepeat($employee, $user->confirmation_token, $user->email);
         Notification::emailnotificationaddeduser($emailtemplate, $subject, $employee, $user->email);
 
@@ -816,15 +816,4 @@ class SiteController extends Controller
         return $result;
     }
 
-    public function actionGetOptionScore($optionId)
-    {
-        $result = WellbeingSubdomainsOption::find()->where(['id' => $optionId])->one();
-        $score = $result['score'];
-        $many = $result['is_many_data'];
-        $idetails = $result['is_details'];
-
-
-        Yii::$app->response->format = Response::FORMAT_JSON;
-        return ['score' => $score, 'many' => $many, 'idetails' => $idetails];
-    }
 }
