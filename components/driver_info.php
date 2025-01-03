@@ -6,13 +6,6 @@ use yii\helpers\Html;
  
 $data = DriverVehicleAssignment::findOne(['id' => $id]);
 $photo = $data->createdUser->profile_photo ?? '';
-if (!empty($photo)) {
-    $frontURL = Yii::$app->params['frontURL'];
-    $photoPath = $frontURL . '/uploads/profile_photos/' . $photo;
-    $photo = $photoPath;
-} else {
-    //$photo = 'No image available';
-}
 ?>
 
 <div class="group">
@@ -48,10 +41,26 @@ if (!empty($photo)) {
                 <td><b>&nbsp;Reference Number</b></td>
                 <td><?= $data->createdUser->reference_number ?? "" ?></td>
                     <td><b>Age</b></td>
-                    <td><?= $data->createdUser->age ?? "" ?></td>
+                    <td>
+    <?php 
+    if (!empty($data->createdUser->dob)) {
+        $dobDate = new DateTime($data->createdUser->dob);
+        $currentDate = new DateTime();
+        $age = $dobDate->diff($currentDate)->y;
+        echo $age . " years old";
+    } else {
+        echo "";
+    }
+    ?>
+</td>
+
                     <td><b>Mobile</b></td>
-                    <td><?= $data->createdUser->phone ?? "" ?></td>
+                    <td><?= "+".$data->createdUser->phonecode . "". ($data->createdUser->phone ?? "") ?>
+                    </td>
                 </tr>
+
+
+
                 <tr>
               
                     <td><b>Driver License Number </b></td>

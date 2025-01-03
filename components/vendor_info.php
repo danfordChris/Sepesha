@@ -6,13 +6,6 @@ use yii\helpers\Html;
 
 $data = ClientInfo::findOne(['id' => $id]);
 $photo = $data->getVendorphoto();
-if (!empty($photo)) {
-    $frontURL = Yii::$app->params['frontURL'];
-    $photoPath = $frontURL . '/uploads/profile_photos/' . $photo;
-    $photo = $photoPath;
-} else {
-    //$photo = 'No image available';
-}
 ?>
 
 <div class="group">
@@ -48,7 +41,19 @@ if (!empty($photo)) {
                 <td><b>&nbsp;Reference Number</b></td>
                 <td><?= $data->getReferenceNumber() ?></td>
                     <td><b>Age</b></td>
-                    <td><?= $data->createdUser->age ?? "" ?></td>
+                    <td>
+    <?php 
+    if (!empty($data->getDob())) {
+        $dobDate = new DateTime($data->getDob());
+        $currentDate = new DateTime();
+        $age = $dobDate->diff($currentDate)->y;
+        echo $age . " years old";
+    } else {
+        echo "";
+    }
+    ?>
+</td>
+
                     <td><b>Mobile</b></td>
                     <td><?= $data->getPhoneNumber()?></td>
                 </tr>

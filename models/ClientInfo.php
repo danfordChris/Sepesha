@@ -70,6 +70,11 @@ class ClientInfo extends \yii\db\ActiveRecord
       return $this->sname ??"";
 
     }
+    public  function getDob()
+    {
+      return $this->dob ??"";
+
+    }
 
 
     public  function getReferenceNumber()
