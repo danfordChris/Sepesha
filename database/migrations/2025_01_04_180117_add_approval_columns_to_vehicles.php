@@ -12,13 +12,16 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('vehicles', function (Blueprint $table) {
-            $table->foreignId('approved_by')->nullable()->constrained('clients_info');
+            $table->char('driver_id', 36)->nullable();
+            $table->foreign('driver_id')->references('auth_key')->on('clients_info');
+            $table->foreignId('approved_by')->nullable()->constrained('user');
             $table->timestamp('approved_at')->nullable();
             $table->decimal('latitude', 10, 8)->nullable();
             $table->decimal('longitude', 11, 8)->nullable();
             $table->timestamp('location_updated_at')->nullable();
             $table->dateTime('assignment_start')->nullable();
             $table->dateTime('assignment_end')->nullable();
+
         });
     }
 
