@@ -107,7 +107,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
                 [
                     'contentOptions' => function ($model) {
-                        return SystemRoles::isOnWorkflow($model->wid, $model->stid) ? [] : ['style' => 'display:none'];
+                        return SystemRoles::isOnWorkflow($model->wid, $model->stid) && $model->requserinput=='N' ? [] : ['style' => 'display:none'];
                     },
                     'content' => function ($m) {
                         if (CustomHelper::stageEnded($m->wid, $m->stid)) {
