@@ -90,6 +90,8 @@ class m240531_203224_create_system_sidemenus_data extends Migration
                 [NULL, 'gmt_banks_sub', 1, 1],
                 [NULL, 'gmt_fee_category_sub', 1, 1],
                 [NULL, 'gmt_app_images_sub', 1, 1],
+                [NULL, 'gmt_offices_sub', 1, 1],
+
             ]
 
         );

@@ -13,7 +13,6 @@ use app\widgets\AttachmentTableWidgetByOwner;
 <div class="mains">
     <div class="card">
         <div class="card-body">
-
             <?= Yii::$app->driver->getView($mainModel->id) ?>
         </div>
     </div>
@@ -28,10 +27,10 @@ use app\widgets\AttachmentTableWidgetByOwner;
 
                     <?= Yii::$app->approvals->getView($mainModel,$mainModel->id) ?>
 
-                     
- 
-        <?= AttachmentTableWidgetByOwner::widget(['cby' => $mainModel->created_by]); ?>
-    
+
+
+                    <?= AttachmentTableWidgetByOwner::widget(['cby' => $mainModel->created_by]); ?>
+
                     <?= $this->render('_form_approvals', [
                             'mainModel' => $mainModel,
                             'modelApproval' => $modelApproval,

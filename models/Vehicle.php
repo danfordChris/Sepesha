@@ -43,15 +43,24 @@ class Vehicle extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['plate_number', 'make', 'model', 'owner_id'], 'required'],
+            [['plate_number', 'make', 'model', 'owner_id', 'fee_category_id','driver_id'], 'required'],
             [['id'], 'string'],
             [['year', 'deleted_at', 'created_at', 'updated_at'], 'safe'],
             [['weight'], 'number'],
-            [['capacity', 'owner_id', 'created_by', 'updated_by'], 'integer'],
-            [['plate_number', 'make', 'model', 'color', 'status'], 'string', 'max' => 191],
+            [['capacity', 'created_by', 'updated_by'], 'integer'],
+            [['color', 'status'], 'string', 'max' => 191],
             [['fee_category_id'], 'string', 'max' => 50],
             [['plate_number'], 'unique'],
             [['id'], 'unique'],
+            [['year'], 'string', 'max' => 4, 'min' => 4],
+            [
+                'plate_number',
+                'match',
+                'pattern' => '/^(T\d{3}[A-Z]{3}|MC\d{3}[A-Z]{3})$/',
+                'message' => 'The number must match the format for vehicle or motorcycle plate number.'
+            ],
+            [['plate_number'], 'string', 'max' => 8, 'min' => 7],
+            [['model'], 'string', 'max' => 15, 'min' => 2]
         ];
     }
 
@@ -67,7 +76,7 @@ class Vehicle extends \yii\db\ActiveRecord
             'model' => Yii::t('app', 'Model'),
             'year' => Yii::t('app', 'Year'),
             'weight' => Yii::t('app', 'Weight'),
-            'fee_category_id' => Yii::t('app', 'Fee Category'),
+            'fee_category_id' => Yii::t('app', 'Category'),
             'color' => Yii::t('app', 'Color'),
             'capacity' => Yii::t('app', 'Capacity'),
             'owner_id' => Yii::t('app', 'Owner'),
@@ -98,7 +107,7 @@ class Vehicle extends \yii\db\ActiveRecord
 
     public function beforeSave($insert)
     {
-        if ($this->isNewRecord){
+        if ($this->isNewRecord) {
             $this->id = CustomHelper::getUuid();
         }
 
@@ -111,4 +120,10 @@ class Vehicle extends \yii\db\ActiveRecord
     {
         return $this->hasOne(FeeCategory::class, ['id' => 'fee_category_id']);
     }
+
+    public function getDriver()
+    {
+        return $this->hasOne(User::class, ['auth_key' => 'driver_id']);
+    }
+
 }

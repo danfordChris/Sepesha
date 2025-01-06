@@ -246,15 +246,8 @@ class CustomHelper extends Model
     {
         $query = Vehicle::find()->all();
         $result = ArrayHelper::map($query, 'id', 'plate_number');
-        return $result; 
+        return $result;
     }
-    
-
-    
-
-    
-
-    
 
 
 
@@ -345,19 +338,7 @@ class CustomHelper extends Model
 
 
 
-    public static function getSystemWorkflows()
-    {
-        return [
 
-            self::CASE_INTAKE_WORKFLOW => 'CLWS Enrollment',
-            self::YLWS_ASSOCIATION_WORKFLOW => 'YLWS Enrollment (Link With Youth Association)',
-            self::YLWS_NO_ASSOCIATION_WORKFLOW => 'YLWS Enrollment(No Link With Youth Association)',
-            self::ACT_PARENT_WORKFLOW => 'Act Parent',
-            self::REMAIN_ON_STREET => 'Remain on Street',
-            self::CASE_TRANSFER_WORKFLOW => 'Transfer to Other Service Provider',
-
-        ];
-    }
 
     public static function getWorkflows()
     {
@@ -367,7 +348,7 @@ class CustomHelper extends Model
     }
 
 
-    public static function getWorkflowStage($wid, $stid)
+    public static function getWorkflowStage($wid, $stid, $userinput = 'N')
     {
 
         $wf = Workflow::findOne($wid)->stages ?? '';
@@ -376,9 +357,21 @@ class CustomHelper extends Model
 
         if ($stid > $wf) {
             return '<b class="badge bg-green">Approved</b>';
+        } elseif ($userinput == 'Y') {
+            return "<b class='badge bg-dark'>Pending Submission</b>";
         }
         return "<b class='badge bg-dark'>$stname</b>" ?? 'no workflow configure !';
     }
+
+    public static function getVehicleStatus($status)
+    {
+
+        if ($status == 'A') {
+            return '<div class="badge badge-success">Active</div>';
+        }
+        return '<div class="badge badge-danger">Inactive</div>';
+    }
+
 
 
     public static function getWorkflowName($wid)
