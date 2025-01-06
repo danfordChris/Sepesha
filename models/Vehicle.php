@@ -43,7 +43,7 @@ class Vehicle extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['plate_number', 'make', 'model', 'owner_id', 'fee_category_id','driver_id'], 'required'],
+            [['plate_number', 'make', 'model', 'owner_id', 'fee_category_id', 'driver_id'], 'required'],
             [['id'], 'string'],
             [['year', 'deleted_at', 'created_at', 'updated_at'], 'safe'],
             [['weight'], 'number'],
@@ -123,7 +123,18 @@ class Vehicle extends \yii\db\ActiveRecord
 
     public function getDriver()
     {
-        return $this->hasOne(User::class, ['auth_key' => 'driver_id']);
+        return $this->hasOne(ClientInfo::class, ['auth_key' => 'driver_id']);
+    }
+
+
+    public function getWf()
+    {
+        return $this->hasOne(Workflow::class, ['wid' => 'wid']);
+    }
+
+    public function getWorkFlowStage()
+    {
+        return $this->hasOne(WfStages::class, ['sno' => 'stid', 'wid' => 'wid']);
     }
 
 }

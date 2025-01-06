@@ -10,11 +10,12 @@ $photo = $data->getVendorphoto();
 
 <div class="group">
 
-<h6 class="bg-success card-header card-title " style="background-color:#1B5E20;height:2em;">Vendor Information
+    <h6 class="bg-danger text-white card-header card-title"> <i class="material-icons">person_outline</i> Vendor
+        Information
 
     </h6>
 
-    <div class="table-responsive">
+    <div class=" table-responsive">
         <table class="table table-bordered table-sm table-hover">
             <tbody>
                 <tr ">
@@ -38,11 +39,11 @@ $photo = $data->getVendorphoto();
                     </td>
                 </tr>
                 <tr>
-                <td><b>&nbsp;Reference Number</b></td>
-                <td><?= $data->getReferenceNumber() ?></td>
+                    <td><b>&nbsp;Reference Number</b></td>
+                    <td><?= $data->getReferenceNumber() ?></td>
                     <td><b>Age</b></td>
                     <td>
-    <?php 
+                        <?php
     if (!empty($data->getDob())) {
         $dobDate = new DateTime($data->getDob());
         $currentDate = new DateTime();
@@ -52,7 +53,7 @@ $photo = $data->getVendorphoto();
         echo "";
     }
     ?>
-</td>
+                    </td>
 
                     <td><b>Mobile</b></td>
                     <td><?= $data->getPhoneNumber()?></td>

@@ -21,6 +21,8 @@ use yii\web\NotFoundHttpException;
 use yii\web\ForbiddenHttpException;
 use app\models\DriverVehicleAssignment;
 use app\models\DriverVehicleAssignmentSearch;
+use app\models\Vehicle;
+use app\models\VehicleSearch;
 
 /**
  * DriverVehicleAssignmentsController implements the CRUD actions for DriverVehicleAssignment model.
@@ -55,16 +57,14 @@ class OnboardController extends Controller
     public function actionIndex()
     {
         $model = new DriverVehicleAssignment();
-        $searchModel = new DriverVehicleAssignmentSearch();
+        $searchModel = new VehicleSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
-
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
             'model' => $model
         ]);
     }
-
 
 
     public function actionVendor()
@@ -97,7 +97,6 @@ class OnboardController extends Controller
             throw new ForbiddenHttpException(Yii::t('app', 'You are not authorized to perform this action. If you believe you should have access, please contact your system administrator.'));
         }
         $attachmentModel = Attachment::populateAttachmentFields($mainModel);
-        $attachments = Attachment::find()->where(['wid' => $mainModel->wid, 'owner_id' => $mainModel->auth_key])->all();
         $this->addAttachementFunction($attachmentModel);
 
 
@@ -139,7 +138,7 @@ class OnboardController extends Controller
              $modelApproval->stid = $mainModel->stid;
             if ($modelApproval->save()) {
                 $mainModel->save(false);
-                Yii::$app->session->setFlash('success', "Action is Successfully !");
+                Yii::$app->session->setFlash('success', "Action submitted  Successfully !");
                 return $this->redirect(['vendor']);
             }
 
@@ -159,7 +158,7 @@ class OnboardController extends Controller
 
     public function actionAttend($ref)
     {
-        $mainModel = $this->findModel($ref);
+        $mainModel = $this->loadVehicle($ref);
         $modelApproval = new Approval;
         $modelApproval->reqid = $mainModel->id;
         $modelApproval->wid = $mainModel->wid;
@@ -172,7 +171,6 @@ class OnboardController extends Controller
             throw new ForbiddenHttpException(Yii::t('app', 'You are not authorized to perform this action. If you believe you should have access, please contact your system administrator.'));
         }
         $attachmentModel = Attachment::populateAttachmentFields($mainModel);
-        $attachments = Attachment::find()->where(['wid' => $mainModel->wid, 'owner_id' => $mainModel->id])->all();
         $this->addAttachementFunction($attachmentModel);
 
 
@@ -215,7 +213,7 @@ class OnboardController extends Controller
 
             if ($modelApproval->save()) {
                 $mainModel->save(false);
-                Yii::$app->session->setFlash('success', "Action is Successfully !");
+                Yii::$app->session->setFlash('success', "Action submitted Successfully !");
                 return $this->redirect(['index']);
             }
 
@@ -239,7 +237,7 @@ class OnboardController extends Controller
     public function actionView($id)
     {
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $this->loadVehicle($id),
         ]);
     }
 
@@ -307,6 +305,17 @@ class OnboardController extends Controller
     {
 
         if (($model = DriverVehicleAssignment::findOne(['id' => $id])) !== null) {
+            return $model;
+        }
+
+        throw new NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
+    }
+
+
+    protected function loadVehicle($id)
+    {
+
+        if (($model = Vehicle::findOne(['id' => $id])) !== null) {
             return $model;
         }
 

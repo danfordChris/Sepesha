@@ -14,21 +14,23 @@ use reine\datatables\DataTables;
 /** @var app\models\RegionsSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'Driver and Vehicle onboarding requests';
+$this->title = 'Driver and Vehicle Assignment onbording requests';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="vehicle-index card">
+<div class="driver-vehicle-assignment-index card">
 
     <div class="card-body">
 
         <div class="row">
             <div class="col-md-6">
-                <h5> <i class="fa fa-user"></i> <?= Html::encode($this->title) ?></h5>
+                <h5><?= Html::encode($this->title) ?></h5>
+
             </div>
-
-
-
-            <hr>
+            <!-- <div class="col-md-6">
+                <button type="button" class="btn mb-2 float-end  btn-outline-info" data-bs-toggle="modal"
+                    data-bs-target="#rcamodal">
+                    <i class="fa fa-plus"></i>Create Driver Assignment</button>
+            </div> -->
         </div>
 
         <?= DataTables::widget([
@@ -38,46 +40,38 @@ $this->params['breadcrumbs'][] = $this->title;
             'columns' => [
                 ['class' => 'yii\grid\SerialColumn'],
 
-                'plate_number',
-                [
-                    'attribute' => 'status',
-                    'format' => 'raw',
-                    'content' => function ($m) {
-                        return CustomHelper::getVehicleStatus($m->status) ?? '';
-                    }
-                ],
-                'make',
-                'model',
-                'year',
-                // 'weight',
-                'fee.name:ntext:Category',
-                'color',
-
                 [
                     'label' => 'Driver',
                     'value' => function ($model) {
-                        return  $model->driver->getFullName() ?? '';
+                        return  $model->createdUser->getFullName()??'';
                     }
                 ],
 
-                // [
-                //     'attribute' => 'email',
-                //     'content' => function ($m) {
-                //         return $m->driver->email ?? '';
-                //     }
+                [
+                    'attribute' => 'vehicle',
+                    'content' => function ($m) {
+                        return $m->vehicle->plate_number??'';
+                    }
 
-                // ],
+                ],
+
+                [
+                    'attribute' => 'email',
+                    'content' => function ($m) {
+                        return $m->createdUser->email??'';
+                    }
+
+                ],
 
 
 
                 [
                     'label' => 'Phone',
                     'content' => function ($m) {
-                        return $m->driver->getPhoneNumber() ?? '';
+                        return $m->createdUser->getPhoneNumber()??'';
                     }
 
                 ],
-
 
                 [
                     'attribute' => 'created_at',
@@ -85,25 +79,21 @@ $this->params['breadcrumbs'][] = $this->title;
                     'label' => 'Added On'
                 ],
 
-
-                // [
-                //     'attribute' => 'created_by',
-                //     'label' => 'Added By',
-                //     'value' => function ($model) {
-                //         return CustomHelper::getClientName($model->created_by);
-                //     }
-                // ],
-
-
-
                 [
-                    'label' => 'Approval Status',
-                    'content' => function ($m) {
-                        return CustomHelper::getWorkflowStage($m->wid, $m->stid, $m->requserinput) ?? '';
+                    'attribute' => 'created_by',
+                    'label' => 'Added By',
+                    'value' => function ($model) {
+                        return CustomHelper::getFullName($model->created_by);
                     }
                 ],
 
+                [
+                    'label' => 'Status',
+                    'content' => function ($m) {
+                        return CustomHelper::getWorkflowStage($m->wid, $m->stid);
+                    }
 
+                ],
 
                 [
                     'contentOptions' => function ($model) {
@@ -128,6 +118,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'template' => '{view}',
                     'buttons' => [
                         'update' => function ($url, $model) {
+
                             return User::auth('admin') ? Html::a(
                                 '<button type="button" class="btn btn-sm btn-dark mx-2 button-icon mb-1 "><i class="fa fa-edit me-1"></i>Edit</button>',
                                 Yii::$app->urlManager->createUrl(['onboard/update', 'id' => $model->id]),
@@ -147,5 +138,21 @@ $this->params['breadcrumbs'][] = $this->title;
         ]); ?>
 
 
+    </div>
+</div>
+
+
+
+<div class="modal fade" id="rcamodal" tabindex="-1" role="dialog" aria-labelledby="formModal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-success">
+                <h4 class="modal-title mb-2 font-weight-bold text-white" id="formModal"><strong>Enter Driver Vehicle
+                        Assignments Details</strong></h4>
+            </div>
+            <div class="modal-body">
+                <?= $this->render('create', ['model' => $model]); ?>
+            </div>
+        </div>
     </div>
 </div>

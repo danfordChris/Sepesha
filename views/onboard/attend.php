@@ -11,11 +11,7 @@ use app\widgets\AttachmentTableWidgetByOwner;
 
 ?>
 <div class="mains">
-    <div class="card">
-        <div class="card-body">
-            <?= Yii::$app->driver->getView($mainModel->id) ?>
-        </div>
-    </div>
+
 
     <div class="row">
 
@@ -24,12 +20,10 @@ use app\widgets\AttachmentTableWidgetByOwner;
             <div class="card">
                 <div class="card-body">
                     <!-- <h5 style="font-weight:bold;" class="text-decoration-italic">YLWS with no Link Association</h5> -->
-
+                    <?= Yii::$app->driver->getView($mainModel->id) ?>
                     <?= Yii::$app->approvals->getView($mainModel,$mainModel->id) ?>
 
-
-
-                    <?= AttachmentTableWidgetByOwner::widget(['cby' => $mainModel->created_by]); ?>
+                    <?= AttachmentTableWidget::widget(['refno' => $mainModel->id]); ?>
 
                     <?= $this->render('_form_approvals', [
                             'mainModel' => $mainModel,
