@@ -152,6 +152,7 @@ class AuthController extends Controller
         try {
             $request->validate([
                 'phone' => 'required|integer',
+                // 'password' => 'required|string',
                 'user_type' => 'required|in:driver,vendor,agent,customer',
             ]);
         } catch (ValidationException $e) {
@@ -162,14 +163,36 @@ class AuthController extends Controller
 
         $user = User::where('phone', $request->phone)
             ->where('role', $request->user_type)
+           // ->where('status', 10)
             ->first();
 
+        // if (!$user || !Hash::check($request->password, $user->password_hash)) {
+        //     return CustomHelper::response(false, 'Invalid credentials', 442);
+        // }
+
+        //$accessToken = $this->jwtService->createAccessToken($user, $request->user_type);
+        //$refreshToken = $this->jwtService->createRefreshToken();
         $otp = $this->jwtService->generateOtp();
-        $optExpires   = date('Y-m-d H:i:s', strtotime('+180 seconds'));;
+        $optExpires   = date('Y-m-d H:i:s', strtotime('+240 seconds'));;
+
+
+        // Save the refresh token in the database
+
+        // UserToken::updateOrCreate(
+        //     ['user_id' => $user->id, 'user_type' => $request->user_type],
+        //     [
+        //         'refresh_token' => $refreshToken,
+        //         'refresh_expires_at' => Carbon::now()->addDays(30),
+        //         'opt' => $otp,
+        //         'otp_expires_at' => Carbon::now()->addSeconds(60)
+
+        //     ]
+        // );
 
         if (!$user) {
             return CustomHelper::response(false, 'Invalid credentials', 404);
         }
+
 
         $user->update([
             'otp' => $otp,
@@ -179,56 +202,11 @@ class AuthController extends Controller
         return response()->json([
             'status' => true,
             'message' => "OPT Created successfully",
-            'data' => [
-                'phone_number' => $user->phone,
-                'user_type' => $user->role,
-                'opt' => $otp,
-                'otp_expires_at' => $optExpires
-            ]
-        ]);
-    }
-
-
-    public function resendOtp(Request $request)
-    {
-        try {
-            $request->validate([
-                'phone' => 'required|integer',
-                'user_type' => 'required|in:driver,vendor,agent,customer',
-            ]);
-        } catch (ValidationException $e) {
-            foreach ($e->errors() as $error) {
-                return CustomHelper::response(false, $error[0], 442);
-            }
-        }
-
-        $user = User::where('phone', $request->phone)
-            ->where('role', $request->user_type)
-            ->first();
-
-        $otp = $this->jwtService->generateOtp();
-        $optExpires   = date('Y-m-d H:i:s', strtotime('+180 seconds'));;
-
-        if (!$user) {
-            return CustomHelper::response(false, 'Invalid credentials', 404);
-        }
-
-        $user->update([
-            'otp' => $otp,
+            'opt' => $otp,
             'otp_expires_at' => $optExpires
         ]);
-
-        return response()->json([
-            'status' => true,
-            'message' => "OPT Created successfully",
-            'data'=>[
-                'phone_number' => $user->phone,
-                'user_type' => $user->role,
-                'opt' => $otp,
-                'otp_expires_at' => $optExpires
-            ]
-        ]);
     }
+
 
 
 
@@ -253,7 +231,7 @@ class AuthController extends Controller
 
         $user = User::where('phone', $request->phone)
             ->where('role', $request->user_type)
-            //  ->where('status', 10)
+          //  ->where('status', 10)
             ->first();
 
 
@@ -267,11 +245,11 @@ class AuthController extends Controller
         //     return CustomHelper::response(false, 'Invalid or expired OTP', 400);
         // }
 
-        if (!$otp || (strtotime($user->otp_expires_at) < time())) {
+         if (!$otp || (strtotime($user->otp_expires_at) < time())) {
             return CustomHelper::response(false, 'Invalid or expired OTP', 400);
         }
 
-        $user->update(['status' => 10]);
+        $user->update(['status'=>10]);
 
         $accessToken = $this->jwtService->createAccessToken($user, $request->user_type);
         $refreshToken = $this->jwtService->createRefreshToken();
@@ -290,8 +268,8 @@ class AuthController extends Controller
             'message' => "OTP verified successfully",
             'access_token' => $accessToken,
             'refresh_token' => $refreshToken,
-            // 'opt' => $user->otp,
-            // 'otp_expires_at' => $user->otp_expires_at
+           // 'opt' => $user->otp,
+           // 'otp_expires_at' => $user->otp_expires_at
         ]);
     }
 

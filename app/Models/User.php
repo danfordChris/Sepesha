@@ -47,7 +47,9 @@ class User extends Authenticatable
         'wid',
         'privacy_checked',
         'entity_type',
-        'status'
+        'status',
+        'otp',
+        'otp_expires_at'
 
 
 

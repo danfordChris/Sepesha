@@ -16,19 +16,29 @@ class JWTService
 
     public function __construct()
     {
-        $this->key = env('JWT_SECRET');
+        $this->key = env('JWT_SECRET')??'6tVxA17jaFKQd3bFB5UIzLz/s24xdZpjX2V0y3uncoY=';
     }
 
     public function createAccessToken(User $user, $user_type)
     {
         $payload = [
-            'iss' => 'http://example.org',
+            'iss' => 'https://kiungo.sepesha.com',
             // 'aud' => 'http://example.com',
             // 'nbf' => 1357000000,
             'sub' => $user->id,
-            'user_type' => $user_type,
             'iat' => Carbon::now()->timestamp,
             'exp' => Carbon::now()->addMinutes(60)->timestamp, // 1 hour expiration
+            'user_type' => $user_type,
+            'data' => [
+                'first_name' => $user->name,
+                'middle_name' => $user->mname,
+                'last_name' => $user->sname,
+                'phone_number' => $user->phone,
+                'phonecode' => $user->phonecode,
+                'email' => $user->email,
+                'privacy_checked' => $user->privacy_checked,
+                'uid'=>$user->auth_key
+            ]
         ];
 
         return JWT::encode($payload, $this->key, 'HS256');
@@ -48,7 +58,6 @@ class JWTService
     {
         try {
             return JWT::decode($token, new Key($this->key, 'HS256'));
-
         } catch (\Exception $e) {
             return false;
             //return CustomHelper::response(false, $e->getMessage(), Response::HTTP_UNAUTHORIZED);
@@ -64,5 +73,13 @@ class JWTService
         } catch (\Exception $e) {
             return CustomHelper::response(false, $e->getMessage(), Response::HTTP_UNAUTHORIZED);
         }
+    }
+
+
+
+    public static function generateOTP()
+    {
+        // random_int(100000, 999999);
+        return random_int(1000, 9999);
     }
 }

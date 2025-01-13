@@ -28,7 +28,6 @@ class AuthenticateJWT
 
         $decoded = $this->jwtService->decode($token);
        //  return $decoded->user_type;
-
         if (!empty($decoded->user_type)) {
             if (!in_array($decoded->user_type, $allowedUserTypes)) {
                 return CustomHelper::response(false, 'Unauthorized', Response::HTTP_FORBIDDEN);

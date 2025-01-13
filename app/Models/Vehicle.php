@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\User;
 
 class Vehicle extends Model
 {
@@ -16,4 +17,11 @@ class Vehicle extends Model
 {
     return $this->hasOne(FeeCategory::class,'id','fee_category_id');
 }
+
+public function driver()
+{
+    return $this->hasOne(User::class,'auth_key','driver_id');
+}
+
+
 }
