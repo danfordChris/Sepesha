@@ -182,7 +182,7 @@ class AuthController extends Controller
             'data' => [
                 'phone_number' => $user->phone,
                 'user_type' => $user->role,
-                'opt' => $otp,
+                'otp' => $otp,
                 'otp_expires_at' => $optExpires
             ]
         ]);
@@ -221,10 +221,10 @@ class AuthController extends Controller
         return response()->json([
             'status' => true,
             'message' => "OPT Created successfully",
-            'data'=>[
+            'data' => [
                 'phone_number' => $user->phone,
                 'user_type' => $user->role,
-                'opt' => $otp,
+                'otp' => $otp,
                 'otp_expires_at' => $optExpires
             ]
         ]);

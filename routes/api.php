@@ -1,12 +1,16 @@
 <?php
 
 use app\controllers\FeesController;
+use App\Http\Controllers\AttachmentController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\FeeCategoryController;
+use App\Http\Controllers\RideController;
 use App\Http\Controllers\VehicleController;
 use App\Http\Controllers\WelcomeController;
+use Pusher\Pusher;
+
 
 // Route::get('/user', function (Request $request) {
 //     return $request->user();
@@ -22,6 +26,46 @@ Route::middleware('jwt.auth')->get('/user', function (Request $request) {
 });
 
 
+
+Route::get('/send-message', function () {
+    broadcast(new \App\Events\MessageSent('Hello, this is a test message!'));
+    return 'Message broadcasted!';
+});
+
+
+Route::get('/realtime-example', function () {
+    return view('realtime-example'); // Create a Blade view
+});
+
+
+
+// Route::post('/send-message', function (Request $request) {
+//     $options = array(
+//         'cluster' => 'mt1', // Your Soketi cluster (if applicable)
+//         'encrypted' => true
+//     );
+
+//     $pusher = new Pusher(
+//         env('SOKETI_KEY'), // Your Soketi key
+//         env('SOKETI_SECRET'), // Your Soketi secret
+//         env('SOKETI_APP_ID'), // Your Soketi app ID
+//         $options
+//     );
+
+//     $data['message'] = $request->input('message');
+//     $pusher->trigger('my-channel', 'my-event', $data); // Trigger the event
+
+//     return response()->json(['message' => 'Message sent']);
+// });
+
+
+Route::post('/request-ride', [RideController::class, 'requestRide']);
+Route::post('/accept-ride', [RideController::class, 'acceptRide']);
+
+Route::post('/book-ride', [RideController::class, 'bookRide']);
+
+
+
 // routes/api.php
 
 
@@ -34,13 +78,23 @@ Route::post('resend-otp', [AuthController::class, 'resendOtp']);
 Route::post('refresh', [AuthController::class, 'refresh']);
 Route::post('logout', [AuthController::class, 'logout']);
 Route::get('get-started', [WelcomeController::class, 'index']);
+
+Route::post('socket', [RideController::class, 'triggerSocketEvent']);
+
 // Protected Routes
 Route::middleware(['auth.jwt:driver,vendor,agent,customer'])->group(function () {
 
     Route::get('/vehicle/{id}', [VehicleController::class, 'view']);
     Route::get('/vehicles', [VehicleController::class, 'index']);
+    Route::get('/vehicle/driver/{id}', [VehicleController::class, 'viewByDriver']);
+    Route::post('/vehicle', [VehicleController::class, 'create']);
+    Route::put('/vehicle/{id}', [VehicleController::class, 'update']);
+
+    Route::get('/attachment-categories', [AttachmentController::class, 'index']);
+
     Route::get('/category/{id}', [FeeCategoryController::class, 'view']);
     Route::get('/categories', [FeeCategoryController::class, 'index']);
+
     Route::get('/dashboard', function (Request $request) {
         return response()->json([
             'message' => 'Welcome to your dashboard',

@@ -15,3 +15,8 @@ use Illuminate\Support\Facades\Route;
 //         return view('dashboard');
 //     })->name('dashboard');
 // });
+
+Route::get('/send-message', function () {
+    broadcast(new \App\Events\MessageSent('Hello, this is a test message!'));
+    return 'Message broadcasted!';
+});

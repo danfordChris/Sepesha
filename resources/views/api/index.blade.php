@@ -10,4 +10,10 @@
             @livewire('api.api-token-manager')
         </div>
     </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+    const socket = io();
+    </script>
+
 </x-app-layout>
