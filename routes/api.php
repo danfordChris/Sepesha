@@ -83,7 +83,7 @@ Route::post('socket', [RideController::class, 'triggerSocketEvent']);
 
 // Protected Routes
 Route::middleware(['auth.jwt:driver,vendor,agent,customer'])->group(function () {
-
+    Route::get('/user/{id}', [AuthController::class, 'index']);
     Route::get('/vehicle/{id}', [VehicleController::class, 'view']);
     Route::get('/vehicles', [VehicleController::class, 'index']);
     Route::get('/vehicle/driver/{id}', [VehicleController::class, 'viewByDriver']);

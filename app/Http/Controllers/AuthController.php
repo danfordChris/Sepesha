@@ -27,9 +27,22 @@ class AuthController extends Controller
         $this->jwtService = $jwtService;
     }
 
-    public function index()
+
+
+    public function index($id)
     {
-        return response()->json(['success' => 'data found'], 200);
+        try {
+            $data = User::where('auth_key',$id)->get()->makeHidden(['id','otp','otp_expires_at','attachment','password_expiry','auth_key','password_reset_token','userid','confirmation_token']);
+            if ($data) {
+                return CustomHelper::response(true, 'data found', 200, $data);
+            } else {
+                return CustomHelper::response(false, 'no data found', 442, $data);
+            }
+        } catch (ValidationException $e) {
+            foreach ($e->errors() as $error) {
+                return CustomHelper::response(false, $error[0], 442);
+            }
+        }
     }
 
 

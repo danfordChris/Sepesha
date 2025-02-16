@@ -27,7 +27,8 @@ class JWTService
             // 'nbf' => 1357000000,
             'sub' => $user->id,
             'iat' => Carbon::now()->timestamp,
-            'exp' => Carbon::now()->addMinutes(60)->timestamp, // 1 hour expiration
+            //'exp' => Carbon::now()->addMinutes(60)->timestamp, // 1 hour expiration
+            'exp' => Carbon::now()->addDays(2)->timestamp, // 1 hour expiration
             'user_type' => $user_type,
             'data' => [
                 'first_name' => $user->name,
