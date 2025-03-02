@@ -32,7 +32,7 @@ class AuthController extends Controller
     public function index($id)
     {
         try {
-            $data = User::where('auth_key',$id)->get()->makeHidden(['id','otp','otp_expires_at','attachment','password_expiry','auth_key','password_reset_token','userid','confirmation_token']);
+            $data = User::where('auth_key', $id)->get()->makeHidden(['id', 'otp', 'otp_expires_at', 'attachment', 'password_expiry', 'auth_key', 'password_reset_token', 'userid', 'confirmation_token']);
             if ($data) {
                 return CustomHelper::response(true, 'data found', 200, $data);
             } else {
@@ -303,6 +303,7 @@ class AuthController extends Controller
             'message' => "OTP verified successfully",
             'access_token' => $accessToken,
             'refresh_token' => $refreshToken,
+            'uid' => $user->auth_key,
             // 'opt' => $user->otp,
             // 'otp_expires_at' => $user->otp_expires_at
         ]);
