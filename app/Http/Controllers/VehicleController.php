@@ -73,20 +73,17 @@ class VehicleController extends Controller
                 try {
                     foreach ($validated['attachments'] as $index => $attachmentData) {
                         $fileField = "attachments.{$index}.attachment";
-
                         if ($request->hasFile($fileField)) {
                             $file = $request->file($fileField);
-                            $extension = $file->getClientOriginalExtension(); // Get file extension
-                            $fileName = time() . '_' . uniqid() . '.' . $extension; // Generate unique name
-
-                            // Store the file in the `public/attachments` directory
-                            $filePath = $file->storeAs('attachments', $fileName, 'public');
-                            $fileUrl = Storage::disk('public')->url($filePath); // Generate accessible URL
-
+                            $extension = $file->getClientOriginalExtension(); // Get the file extension
+                            $fileName = time() . '_' . uniqid() . '.' . $extension; // Append extension
+                            $filePath = $file->storeAs('/public/attachments', $fileName);
+                            $fileUrl = Storage::url($filePath);
+                            $fullUrl = url($fileUrl);
                             $id = $attachmentData['id'];
 
                             $attachments = Attachment::create([
-                                'attachment' => $fileUrl, // Store public URL
+                                'attachment' => $fullUrl,
                                 'refno' => $vid,
                                 'name' => Attachment::documentType($wid, $id)->name ?? 'NO DOC',
                                 'type' => $id,
@@ -97,14 +94,12 @@ class VehicleController extends Controller
                                 'table_name' => $vehicle->getTable(),
                                 'model_name' => Vehicle::class,
                             ]);
-                        } else {
-                            return CustomHelper::response(false, "File not found: {$fileField}", 442);
                         }
                     }
                 } catch (ValidationException $e) {
-                    return CustomHelper::response(false, $e->getMessage(), 442);
-                } catch (\Exception $e) {
-                    return CustomHelper::response(false, "Error uploading file: " . $e->getMessage(), 500);
+                    foreach ($e->errors() as $error) {
+                        return CustomHelper::response(false, $error[0], 442);
+                    }
                 }
                 $data = [];
                 $data[] = $vehicle;
