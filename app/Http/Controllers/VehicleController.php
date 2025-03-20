@@ -106,7 +106,7 @@ class VehicleController extends Controller
                 return response()->json([
                     'status' => true,
                     'message' => 'Vehicle created successfully.',
-                    'data'  => $data
+                    'data'  =>  Vehicle::with('category')->with('attachments')->where('id', $vid)->first()
                 ], 201);
             }
         } catch (ValidationException $e) {
