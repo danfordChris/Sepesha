@@ -112,7 +112,8 @@ class VehicleController extends Controller
                             $fileName = time() . '_' . uniqid() . '.' . $extension;
 
                             // Store file in the public directory (ensure 'public' is set in config/filesystems.php)
-                            $filePath = $file->storeAs('/storage/attachments', $fileName);
+                           // $filePath = $file->storeAs('/storage/attachments', $fileName);
+                            $filePath = $file->storeAs('/attachments', $fileName);
 
                             // Generate full URL with /public/
                             $fullUrl = url("/storage/attachments/{$fileName}");
