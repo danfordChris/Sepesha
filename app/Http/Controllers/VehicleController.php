@@ -81,7 +81,7 @@ class VehicleController extends Controller
                             $fullUrl = url($fileUrl);
                             $id = $attachmentData['id'];
 
-                            Attachment::create([
+                          $attachments=  Attachment::create([
                                 'attachment' => $fullUrl,
                                 'refno' => $vid,
                                 'name' => Attachment::documentType($wid, $id)->name ?? 'NO DOC',
@@ -103,7 +103,7 @@ class VehicleController extends Controller
                 return response()->json([
                     'status' => true,
                     'message' => 'Vehicle created successfully.',
-                    'data'  => $vehicle,
+                    'data'  => [$vehicle,'attachments'=>$attachments],
                 ], 201);
             }
         } catch (ValidationException $e) {
