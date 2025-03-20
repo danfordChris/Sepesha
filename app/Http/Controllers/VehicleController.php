@@ -100,7 +100,8 @@ class VehicleController extends Controller
                         return CustomHelper::response(false, $error[0], 442);
                     }
                 }
-                $data = $vehicle;
+                $data=[];
+                $data[] = $vehicle;
                 $data[] = ['attachments' => $attachments];
                 return response()->json([
                     'status' => true,
