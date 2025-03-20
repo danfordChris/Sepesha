@@ -59,6 +59,7 @@ class VehicleController extends Controller
             );
 
             $validated['id'] = Str::uuid();
+            $validated['status'] = 'N';
             $alreadyAssigned = Vehicle::where('driver_id', $request->driver_id)
                 ->where('plate_number', $request->plate_number)
                 ->first();
