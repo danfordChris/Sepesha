@@ -32,7 +32,6 @@ class VehicleController extends Controller
                         'unique:vehicles,plate_number',
                     ],
                     'make' => 'required|string|max:50',
-                    'name' => 'string|max:50',
                     'model' => 'required|string|max:15|min:2',
                     'year' => 'required|string|size:4',
                     'color' => 'nullable|string|max:191',
@@ -120,12 +119,12 @@ class VehicleController extends Controller
                             $fullUrl = url("/storage/attachments/{$fileName}");
 
                             $id = $attachmentData['id'];
-                            $name = $attachmentData['name'];
+                            //$name = $attachmentData['name'];
 
                             $attachments = Attachment::create([
                                 'attachment' => $fullUrl, // Store full URL
                                 'refno' => $vid,
-                                'name' => Attachment::documentType($wid, $id)->name ?? $name,
+                                'name' => Attachment::documentType($wid, $id)->name ?? 'NOTSET',
                                 'type' => $id,
                                 'module' => Vehicle::class,
                                 'wid' => $vehicle->wid,
