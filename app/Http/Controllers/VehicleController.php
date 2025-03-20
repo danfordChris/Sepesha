@@ -73,19 +73,20 @@ class VehicleController extends Controller
                 try {
                     foreach ($validated['attachments'] as $index => $attachmentData) {
                         $fileField = "attachments.{$index}.attachment";
-                        if ($fileField) {
+                        if ($request->hasFile($fileField)) {
                             $file = $request->file($fileField);
-                            $fileName = time() . '_' . uniqid();
+                            $extension = $file->getClientOriginalExtension(); // Get the file extension
+                            $fileName = time() . '_' . uniqid() . '.' . $extension; // Append extension
                             $filePath = $file->storeAs('public/attachments', $fileName);
                             $fileUrl = Storage::url($filePath);
                             $fullUrl = url($fileUrl);
                             $id = $attachmentData['id'];
 
-                            $attachments =  Attachment::create([
+                            $attachments = Attachment::create([
                                 'attachment' => $fullUrl,
                                 'refno' => $vid,
                                 'name' => Attachment::documentType($wid, $id)->name ?? 'NO DOC',
-                                'type' =>  $id,
+                                'type' => $id,
                                 'module' => Vehicle::class,
                                 'wid' => $vehicle->wid,
                                 'stid' => $vehicle->stid,
@@ -100,7 +101,7 @@ class VehicleController extends Controller
                         return CustomHelper::response(false, $error[0], 442);
                     }
                 }
-                $data=[];
+                $data = [];
                 $data[] = $vehicle;
                 $data[] = ['attachments' => $attachments];
                 return response()->json([
