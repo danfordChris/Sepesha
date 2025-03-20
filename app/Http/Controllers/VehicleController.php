@@ -77,7 +77,7 @@ class VehicleController extends Controller
                             $file = $request->file($fileField);
                             $extension = $file->getClientOriginalExtension(); // Get the file extension
                             $fileName = time() . '_' . uniqid() . '.' . $extension; // Append extension
-                            $filePath = $file->storeAs('public/attachments', $fileName);
+                            $filePath = $file->storeAs('attachments', $fileName);
                             $fileUrl = Storage::url($filePath);
                             $fullUrl = url($fileUrl);
                             $id = $attachmentData['id'];
