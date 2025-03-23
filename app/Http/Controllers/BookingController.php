@@ -57,8 +57,8 @@ class BookingController extends Controller
             // }
 
 
-            $vehicle = Booking::create($validated);
-            if ($vehicle) {
+            $booking = Booking::create($validated);
+            if ($booking) {
                 try {
                     $fileField = "pickup_photo";
                     if ($request->hasFile($fileField)) {
@@ -67,7 +67,7 @@ class BookingController extends Controller
                         $fileName = time() . '_' . uniqid() . '.' . $extension;
                         $filePath = $file->storeAs('/attachments', $fileName);
                         $fullUrl = url("/storage/attachments/{$fileName}");
-                        $vehicle->pickup_photo = $fullUrl;
+                        $booking->pickup_photo = $fullUrl;
                     } else {
                         return CustomHelper::response(false, "File not found: {$fileField}", 442);
                     }
@@ -80,7 +80,7 @@ class BookingController extends Controller
                 return response()->json([
                     'status' => true,
                     'message' => 'Booking created successfully.',
-                    'data'  =>  Booking::with('category')->where('id', $vid)->first()
+                    'data'  =>  Booking::with('category')->where('id', $booking->id)->first()
                 ], 201);
             }
         } catch (ValidationException $e) {
