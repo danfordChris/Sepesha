@@ -1,12 +1,12 @@
 <?php
 // app/Http/Middleware/AuthenticateJWT.php
-
 namespace App\Http\Middleware;
 
 use Closure;
 use App\Models\CustomHelper;
 use App\Services\JWTService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpFoundation\Response;
 
 class AuthenticateJWT
@@ -21,18 +21,20 @@ class AuthenticateJWT
     public function handle(Request $request, Closure $next, ...$allowedUserTypes)
     {
         $token = $request->bearerToken();
-      //  return $token;
+        //  return $token;
         if (!$token || !$this->jwtService->validateToken($token)) {
+            Log::error("JWT Error: Invalid or missing token");
             return CustomHelper::response(false, 'Unauthorized', Response::HTTP_UNAUTHORIZED);
-        }
-
+        }   
         $decoded = $this->jwtService->decode($token);
-       //  return $decoded->user_type;
+        //  return $decoded->user_type;
         if (!empty($decoded->user_type)) {
             if (!in_array($decoded->user_type, $allowedUserTypes)) {
+                Log::error("JWT Error: Forbidden user type - " . $decoded->user_type);
                 return CustomHelper::response(false, 'Unauthorized', Response::HTTP_FORBIDDEN);
             }
         } else {
+            Log::error("JWT Error: Missing user type in token");
             return CustomHelper::response(false, 'Unauthorized', Response::HTTP_FORBIDDEN);
         }
 

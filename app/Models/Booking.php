@@ -10,7 +10,12 @@ class Booking extends Model
 {
     use HasFactory, SoftDeletes;
 
+
+    protected $keyType = 'string';
+    // Disable auto-incrementing for the UUID field
+    public $incrementing = false;
     protected $fillable = [
+        'id',
         'customer_id',
         'agent_id',
         'driver_id',
@@ -38,6 +43,7 @@ class Booking extends Model
         'driver_comission_rate',
         'vendor_comission_rate',
         'office_comission_rate',
+        'agent_comission_rate',
         'driver_bonus',
         'vendor_bonus',
         'customer_bonus',
@@ -63,6 +69,12 @@ class Booking extends Model
         'updated_by'
     ];
 
+    protected $casts = [
+        'pickup_latitude' => 'decimal:2',
+        'pickup_longitude' => 'decimal:2',
+        'delivery_latitude' => 'decimal:2',
+        'delivery_longitude' => 'decimal:2',
+    ];
 
     public function category()
     {

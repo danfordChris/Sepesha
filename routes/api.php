@@ -5,10 +5,12 @@ use App\Http\Controllers\AttachmentController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BookingController;
 use App\Http\Controllers\FeeCategoryController;
 use App\Http\Controllers\RideController;
 use App\Http\Controllers\VehicleController;
 use App\Http\Controllers\WelcomeController;
+use App\Models\Booking;
 use Pusher\Pusher;
 
 
@@ -59,10 +61,10 @@ Route::get('/realtime-example', function () {
 // });
 
 
-Route::post('/request-ride', [RideController::class, 'requestRide']);
-Route::post('/accept-ride', [RideController::class, 'acceptRide']);
+//Route::post('/request-ride', [RideController::class, 'requestRide']);
+//Route::post('/accept-ride', [RideController::class, 'acceptRide']);
 
-Route::post('/book-ride', [RideController::class, 'bookRide']);
+//Route::post('/book-ride', [RideController::class, 'bookRide']);
 
 
 
@@ -89,6 +91,8 @@ Route::middleware(['auth.jwt:driver,vendor,agent,customer'])->group(function () 
     Route::get('/vehicle/driver/{id}', [VehicleController::class, 'viewByDriver']);
     Route::post('/vehicle', [VehicleController::class, 'create']);
     Route::put('/vehicle/{id}', [VehicleController::class, 'update']);
+
+    Route::post('/request-ride', [BookingController::class, 'create']);
 
     Route::get('/attachment-categories', [AttachmentController::class, 'index']);
 
