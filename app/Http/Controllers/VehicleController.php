@@ -53,18 +53,18 @@ class VehicleController extends Controller
                     'fee_category_id' => 'required|uuid|exists:fee_categories,id',
                     'owner_id' => 'required|uuid|exists:clients_info,auth_key',
                     'created_by' => 'required|integer|exists:clients_info,id',
-                    'attachments' => ['required', 'array', 'min:1'],
-                    'attachments.*.id' => ['required', 'exists:workflow_documents,id', 'integer'],
-                    'attachments.*.attachment' => ['required', 'file', 'mimes:jpg,jpeg,png,pdf', 'max:2048'],
+                    // 'attachments' => ['required', 'array', 'min:1'],
+                    // 'attachments.*.id' => ['required', 'exists:workflow_documents,id', 'integer'],
+                    // 'attachments.*.attachment' => ['required', 'file', 'mimes:jpg,jpeg,png,pdf', 'max:2048'],
                 ],
-                [
-                    'attachments.required' => 'Attachments are required.',
-                    'attachments.array' => 'Attachments must be an array.',
-                    'attachments.*.id.required' => 'Each attachment must have an ID.',
-                    'attachments.*.attachment.required' => 'Each attachment must have a file.',
-                    'attachments.*.attachment.mimes' => 'Each attachment must be a file of type: jpg, jpeg, png, pdf.',
-                    'attachments.*.attachment.max' => 'Each attachment must not exceed 2MB in size.',
-                ]
+                // [
+                //     'attachments.required' => 'Attachments are required.',
+                //     'attachments.array' => 'Attachments must be an array.',
+                //     'attachments.*.id.required' => 'Each attachment must have an ID.',
+                //     'attachments.*.attachment.required' => 'Each attachment must have a file.',
+                //     'attachments.*.attachment.mimes' => 'Each attachment must be a file of type: jpg, jpeg, png, pdf.',
+                //     'attachments.*.attachment.max' => 'Each attachment must not exceed 2MB in size.',
+                // ]
             );
 
             $validated['id'] = Str::uuid();
