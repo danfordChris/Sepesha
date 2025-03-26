@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 
+use Exception;
 use App\Models\Vehicle;
 use App\Models\Attachment;
 use Illuminate\Support\Str;
@@ -75,16 +76,24 @@ class VehicleController extends Controller
                 $msg = 'This driver is already assigned to the same vehicle.';
                 return CustomHelper::response(false, $msg, 442);
             }
-            $vehicle = Vehicle::create($validated);
-            $vid = $vehicle->id;
-            $wid = $vehicle->wid;
-            if ($vehicle) {
 
+            try {
+                $vehicle = Vehicle::create($validated);
+                $vid = $vehicle->id;
+                $wid = $vehicle->wid;
                 return response()->json([
                     'status' => true,
                     'message' => 'vehicle data saved in DB',
                     'data'  => $vehicle
                 ], 201);
+            } catch (Exception $e) {
+                return CustomHelper::response(false, $e, 442);
+            }
+
+
+            if ($vehicle) {
+
+
 
 
                 // try {
