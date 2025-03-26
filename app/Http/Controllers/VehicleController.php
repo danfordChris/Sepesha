@@ -21,11 +21,11 @@ class VehicleController extends Controller
     {
 
 
-        return response()->json([
-            'status' => true,
-            'message' => 'vehicle data in request',
-            'data'  => $request->all()
-        ], 201);
+        // return response()->json([
+        //     'status' => true,
+        //     'message' => 'vehicle data in request',
+        //     'data'  => $request->all()
+        // ], 201);
 
 
         try {
@@ -79,6 +79,14 @@ class VehicleController extends Controller
             $vid = $vehicle->id;
             $wid = $vehicle->wid;
             if ($vehicle) {
+
+                return response()->json([
+                    'status' => true,
+                    'message' => 'vehicle data saved in DB',
+                    'data'  => $vehicle
+                ], 201);
+
+
                 // try {
                 //     foreach ($validated['attachments'] as $index => $attachmentData) {
                 //         $fileField = "attachments.{$index}.attachment";
