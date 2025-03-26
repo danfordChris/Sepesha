@@ -23,7 +23,7 @@ class VehicleController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Vehicle created successfully.',
+            'message' => 'vehicle data in request',
             'data'  => $request->all()
         ], 201);
 
