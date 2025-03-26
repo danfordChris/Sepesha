@@ -20,6 +20,14 @@ class VehicleController extends Controller
     public function create(Request $request)
     {
 
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Vehicle created successfully.',
+            'data'  => $request->all()
+        ], 201);
+
+
         try {
             $validated = $request->validate(
                 [
