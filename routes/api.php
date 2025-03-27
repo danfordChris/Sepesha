@@ -82,14 +82,14 @@ Route::post('logout', [AuthController::class, 'logout']);
 Route::get('get-started', [WelcomeController::class, 'index']);
 
 Route::post('socket', [RideController::class, 'triggerSocketEvent']);
-
+Route::post('/vehicle', [VehicleController::class, 'create']);
 // Protected Routes
 Route::middleware(['auth.jwt:driver,vendor,agent,customer'])->group(function () {
     Route::get('/user/{id}', [AuthController::class, 'index']);
     Route::get('/vehicle/{id}', [VehicleController::class, 'view']);
     Route::get('/vehicles', [VehicleController::class, 'index']);
     Route::get('/vehicle/driver/{id}', [VehicleController::class, 'viewByDriver']);
-    Route::post('/vehicle', [VehicleController::class, 'create']);
+
     Route::put('/vehicle/{id}', [VehicleController::class, 'update']);
 
     Route::post('/request-ride', [BookingController::class, 'create']);
