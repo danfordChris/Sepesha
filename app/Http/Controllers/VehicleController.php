@@ -15,16 +15,9 @@ use Illuminate\Validation\ValidationException;
 class VehicleController extends Controller
 {
 
-
-
-
     public function create(Request $request)
     {
-        // return response()->json([
-        //     'status' => true,
-        //     'message' => 'vehicle data in request',
-        //     'data'  => $request->all()
-        // ], 201);
+
 
         try {
             $validated = $request->validate(
@@ -73,20 +66,9 @@ class VehicleController extends Controller
                 $msg = 'This driver is already assigned to the same vehicle.';
                 return CustomHelper::response(false, $msg, 442);
             }
-
-            //try {
                 $vehicle = Vehicle::create($validated);
                 $vid = $vehicle->id;
                 $wid = $vehicle->wid;
-            //     return response()->json([
-            //         'status' => true,
-            //         'message' => 'vehicle data saved in DB',
-            //         'data'  => $vehicle
-            //     ], 201);
-            // } catch (Exception $e) {
-            //     return CustomHelper::response(false, $e, 442);
-            // }
-
             if ($vehicle) {
                 try {
                     foreach ($validated['attachments'] as $index => $attachmentData) {
@@ -97,8 +79,6 @@ class VehicleController extends Controller
                             $extension = $file->getClientOriginalExtension();
                             $fileName = time() . '_' . uniqid() . '.' . $extension;
 
-                            // Store file in the public directory (ensure 'public' is set in config/filesystems.php)
-                            // $filePath = $file->storeAs('/storage/attachments', $fileName);
                             $filePath = $file->storeAs('/attachments', $fileName);
 
                             // Generate full URL with /public/
@@ -143,7 +123,7 @@ class VehicleController extends Controller
             }
         }
     }
-    
+
 
     public function update(Request $request, $id)
     {

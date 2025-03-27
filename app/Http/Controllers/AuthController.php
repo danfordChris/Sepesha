@@ -46,6 +46,62 @@ class AuthController extends Controller
     }
 
 
+    public function updateProfile(Request $request, $id)
+    {
+
+         try {
+
+            $user = User::where('auth_key', $id)->first()->makeHidden(['id', 'otp', 'otp_expires_at', 'attachment', 'password_expiry', 'auth_key', 'password_reset_token', 'userid', 'confirmation_token']);
+
+            if (!$user) {
+                return CustomHelper::response(false, 'User is not found', 404);
+            }
+
+
+            $request->validate(
+                [
+                    'profile_photo' => ['required', 'image', 'mimes:jpg,jpeg,png', 'max:2048'],
+                ],
+                [
+                    'profile_photo.required' => 'Photo is required.',
+                    'profile_photo.mimes' => 'Photo must be a image of type: jpg, jpeg, png.',
+                    'profile_photo.max' => 'Photo must not exceed 2MB in size.',
+                ]
+            );
+        } catch (ValidationException $e) {
+            foreach ($e->errors() as $error) {
+                return CustomHelper::response(false, $error[0], 442);
+            }
+        }
+
+
+        try {
+            $fileField = "profile_photo";
+            if ($request->hasFile($fileField)) {
+                $file = $request->file($fileField);
+                $extension = $file->getClientOriginalExtension();
+                $fileName = time() . '_' . uniqid() . '.' . $extension;
+                $filePath = $file->storeAs('/profile_photos', $fileName);
+                $fullUrl = url("/storage/profile_photos/{$fileName}");
+                $user->update([
+                    'profile_photo' => $fullUrl,
+
+                ]);
+            }
+        } catch (ValidationException $e) {
+            return CustomHelper::response(false, $e->getMessage(), 442);
+        } catch (\Exception $e) {
+            return CustomHelper::response(false, "Error uploading file: " . $e->getMessage(), 500);
+        }
+
+        return response()->json([
+            'status' => true,
+            'message' => "User profile updated successfully",
+            'data' => $user
+        ]);
+    }
+
+
     public function register(Request $request)
     {
 
@@ -163,10 +219,15 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         try {
-            $request->validate([
-                'phone' => 'required|integer',
-                'user_type' => 'required|in:driver,vendor,agent,customer',
-            ]);
+            $request->validate(
+                [
+                    'phone' => 'required|integer',
+                    'user_type' => 'required|in:driver,vendor,agent,customer',
+                ],
+
+
+
+            );
         } catch (ValidationException $e) {
             foreach ($e->errors() as $error) {
                 return CustomHelper::response(false, $error[0], 442);
@@ -248,8 +309,6 @@ class AuthController extends Controller
 
     public function verifyOtp(Request $request)
     {
-
-
 
         try {
             $request->validate([

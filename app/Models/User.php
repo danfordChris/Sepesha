@@ -49,7 +49,8 @@ class User extends Authenticatable
         'entity_type',
         'status',
         'otp',
-        'otp_expires_at'
+        'otp_expires_at',
+        'profile_photo'
 
 
 

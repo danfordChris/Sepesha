@@ -23,7 +23,7 @@ class BookingController extends Controller
                 [
                     'customer_id' => 'required|uuid|exists:clients_info,auth_key',
                     'fee_category_id' => 'required|uuid|exists:fee_categories,id',
-                    'pickup_photo' => ['file', 'mimes:jpg,jpeg,png', 'max:2048'],
+                    'pickup_photo' => ['image', 'mimes:jpg,jpeg,png', 'max:2048'],
                     'discount_code' => 'string',
                     "referal_code" => 'string',
                     "recepient_name" => "string|required",
@@ -41,8 +41,8 @@ class BookingController extends Controller
 
                 ],
                 [
-                    'pickup_photo.required' => 'Photo are required.',
-                    'pickup_photo.mimes' => 'Photo must be a file of type: jpg, jpeg, png.',
+                    //'pickup_photo.required' => 'Photo are required.',
+                    'pickup_photo.mimes' => 'Photo must be a image of type: jpg, jpeg, png.',
                     'pickup_photo.max' => 'Photo must not exceed 2MB in size.',
                 ]
             );
@@ -94,12 +94,10 @@ class BookingController extends Controller
                         $file = $request->file($fileField);
                         $extension = $file->getClientOriginalExtension();
                         $fileName = time() . '_' . uniqid() . '.' . $extension;
-                        $filePath = $file->storeAs('/attachments', $fileName);
-                        $fullUrl = url("/storage/attachments/{$fileName}");
+                        $filePath = $file->storeAs('/cargo', $fileName);
+                        $fullUrl = url("/storage/cargo/{$fileName}");
                         $booking->pickup_photo = $fullUrl;
                         $booking->save();
-                    } else {
-                        return CustomHelper::response(false, "File not found: {$fileField}", 442);
                     }
                 } catch (ValidationException $e) {
                     return CustomHelper::response(false, $e->getMessage(), 442);

@@ -25,7 +25,7 @@ class AuthenticateJWT
         if (!$token || !$this->jwtService->validateToken($token)) {
             Log::error("JWT Error: Invalid or missing token");
             return CustomHelper::response(false, 'Unauthorized', Response::HTTP_UNAUTHORIZED);
-        }   
+        }
         $decoded = $this->jwtService->decode($token);
         //  return $decoded->user_type;
         if (!empty($decoded->user_type)) {
@@ -40,10 +40,10 @@ class AuthenticateJWT
 
 
         // Attach user_id and use_type to the request
-        $request->merge([
-            'user_id' => $decoded->sub,
-            'user_type' => $decoded->user_type,
-        ]);
+        // $request->merge([
+        //     'user_id' => $decoded->sub,
+        //     'user_type' => $decoded->user_type,
+        // ]);
 
         return $next($request);
     }
