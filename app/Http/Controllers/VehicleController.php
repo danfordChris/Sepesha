@@ -20,14 +20,11 @@ class VehicleController extends Controller
 
     public function create(Request $request)
     {
-
-
         // return response()->json([
         //     'status' => true,
         //     'message' => 'vehicle data in request',
         //     'data'  => $request->all()
         // ], 201);
-
 
         try {
             $validated = $request->validate(
@@ -53,18 +50,18 @@ class VehicleController extends Controller
                     'fee_category_id' => 'required|uuid|exists:fee_categories,id',
                     'owner_id' => 'required|uuid|exists:clients_info,auth_key',
                     'created_by' => 'required|integer|exists:clients_info,id',
-                    // 'attachments' => ['required', 'array', 'min:1'],
-                    // 'attachments.*.id' => ['required', 'exists:workflow_documents,id', 'integer'],
-                    // 'attachments.*.attachment' => ['required', 'file', 'mimes:jpg,jpeg,png,pdf', 'max:2048'],
+                    'attachments' => ['required', 'array', 'min:1'],
+                    'attachments.*.id' => ['required', 'exists:workflow_documents,id', 'integer'],
+                    'attachments.*.attachment' => ['required', 'file', 'mimes:jpg,jpeg,png,pdf', 'max:2048'],
                 ],
-                // [
-                //     'attachments.required' => 'Attachments are required.',
-                //     'attachments.array' => 'Attachments must be an array.',
-                //     'attachments.*.id.required' => 'Each attachment must have an ID.',
-                //     'attachments.*.attachment.required' => 'Each attachment must have a file.',
-                //     'attachments.*.attachment.mimes' => 'Each attachment must be a file of type: jpg, jpeg, png, pdf.',
-                //     'attachments.*.attachment.max' => 'Each attachment must not exceed 2MB in size.',
-                // ]
+                [
+                    'attachments.required' => 'Attachments are required.',
+                    'attachments.array' => 'Attachments must be an array.',
+                    'attachments.*.id.required' => 'Each attachment must have an ID.',
+                    'attachments.*.attachment.required' => 'Each attachment must have a file.',
+                    'attachments.*.attachment.mimes' => 'Each attachment must be a file of type: jpg, jpeg, png, pdf.',
+                    'attachments.*.attachment.max' => 'Each attachment must not exceed 2MB in size.',
+                ]
             );
 
             $validated['id'] = Str::uuid();
@@ -77,57 +74,20 @@ class VehicleController extends Controller
                 return CustomHelper::response(false, $msg, 442);
             }
 
-            try {
+            //try {
                 $vehicle = Vehicle::create($validated);
                 $vid = $vehicle->id;
                 $wid = $vehicle->wid;
-                return response()->json([
-                    'status' => true,
-                    'message' => 'vehicle data saved in DB',
-                    'data'  => $vehicle
-                ], 201);
-            } catch (Exception $e) {
-                return CustomHelper::response(false, $e, 442);
-            }
-
+            //     return response()->json([
+            //         'status' => true,
+            //         'message' => 'vehicle data saved in DB',
+            //         'data'  => $vehicle
+            //     ], 201);
+            // } catch (Exception $e) {
+            //     return CustomHelper::response(false, $e, 442);
+            // }
 
             if ($vehicle) {
-
-
-
-
-                // try {
-                //     foreach ($validated['attachments'] as $index => $attachmentData) {
-                //         $fileField = "attachments.{$index}.attachment";
-                //         if ($request->hasFile($fileField)) {
-                //             $file = $request->file($fileField);
-                //             $extension = $file->getClientOriginalExtension(); // Get the file extension
-                //             $fileName = time() . '_' . uniqid() . '.' . $extension; // Append extension
-                //             $filePath = $file->storeAs('/attachments', $fileName);
-                //             $fileUrl =Storage::url($filePath);
-                //             $fullUrl = url($fileUrl);
-                //             $id = $attachmentData['id'];
-
-                //             $attachments = Attachment::create([
-                //                 'attachment' => $fullUrl,
-                //                 'refno' => $vid,
-                //                 'name' => Attachment::documentType($wid, $id)->name ?? 'NO DOC',
-                //                 'type' => $id,
-                //                 'module' => Vehicle::class,
-                //                 'wid' => $vehicle->wid,
-                //                 'stid' => $vehicle->stid,
-                //                 'moduleId' => null,
-                //                 'table_name' => $vehicle->getTable(),
-                //                 'model_name' => Vehicle::class,
-                //             ]);
-                //         }
-                //     }
-                // } catch (ValidationException $e) {
-                //     foreach ($e->errors() as $error) {
-                //         return CustomHelper::response(false, $error[0], 442);
-                //     }
-                // }
-
                 try {
                     foreach ($validated['attachments'] as $index => $attachmentData) {
                         $fileField = "attachments.{$index}.attachment";
@@ -183,6 +143,7 @@ class VehicleController extends Controller
             }
         }
     }
+    
 
     public function update(Request $request, $id)
     {
