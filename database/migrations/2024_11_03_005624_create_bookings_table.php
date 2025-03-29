@@ -71,7 +71,7 @@ return new class extends Migration
             $table->dateTime('scheduled_time')->nullable();
             $table->string('pickup_photo', 200)->nullable();
             $table->string('delivery_photo', 200)->nullable();
-            $table->enum('status', ['pending', 'assigned', 'intransit', 'completed', 'canceled'])->default('pending');
+            $table->enum('status', ['pending', 'assigned', 'intransit', 'completed', 'cancelled'])->default('pending');
             $table->foreignIdFor(User::class, 'created_by')->nullable();
             $table->foreignIdFor(User::class, 'updated_by')->nullable();
             $table->softDeletes();

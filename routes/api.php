@@ -95,6 +95,8 @@ Route::middleware(['auth.jwt:driver,vendor,agent,customer'])->group(function () 
     Route::post('/user/update-profile/{id}', [AuthController::class, 'updateProfile']);
 
     Route::post('/request-ride', [BookingController::class, 'create']);
+    Route::get('/update-ride/{id}', [BookingController::class, 'updateBooking']);
+    Route::get('/bookings', [BookingController::class, 'index']);
 
     Route::get('/attachment-categories', [AttachmentController::class, 'index']);
 

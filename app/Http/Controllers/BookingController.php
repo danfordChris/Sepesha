@@ -14,6 +14,24 @@ class BookingController extends Controller
 {
     //
 
+
+    public function index(Request $request)
+    {
+        try {
+            $data = Booking::with('category')->with('customer')->get();
+            if ($data) {
+                return CustomHelper::response(true, 'data found', 200, $data);
+            } else {
+                return CustomHelper::response(false, 'no data found', 442, $data);
+            }
+        } catch (ValidationException $e) {
+            foreach ($e->errors() as $error) {
+                return CustomHelper::response(false, $error[0], 442);
+            }
+        }
+    }
+
+
     public function create(Request $request)
     {
 
@@ -111,6 +129,31 @@ class BookingController extends Controller
                     'data'  =>  Booking::with('category')->where('id', $booking->id)->first()
                 ], 201);
             }
+        } catch (ValidationException $e) {
+            foreach ($e->errors() as $error) {
+                return CustomHelper::response(false, $error[0], 442);
+            }
+        }
+    }
+
+
+
+
+
+    public function updateBooking(Request $request, $id)
+    {
+        try {
+            $vehicle = Booking::findOrFail($id);
+            $validated = $request->validate([
+                'status' => 'required|in:pending,assigned,intransit,completed,cancelled',
+            ]);
+
+            $vehicle->update($validated);
+            return response()->json([
+                'status' => true,
+                'message' => 'Booking updated successfully.',
+                'data' => $vehicle,
+            ], 201);
         } catch (ValidationException $e) {
             foreach ($e->errors() as $error) {
                 return CustomHelper::response(false, $error[0], 442);
