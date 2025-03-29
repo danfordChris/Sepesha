@@ -152,7 +152,8 @@ class BookingController extends Controller
             $basePrice = (float)$fee->base_price;
             $multipplier = (float)$fee->vehicle_multiplier;
             $distance = (float)$request->distance_km;
-            $total_fleet_amount = $priceKm * $basePrice * $multipplier * $distance;
+            $total_fleet_amount = ($priceKm * $multipplier * $distance) + $basePrice;
+
             $validated['id'] = Str::uuid();
             $validated['vendor_id'] =  $request->customer_id;
             $validated['pickup_latitude'] =  $picklat;
@@ -171,7 +172,7 @@ class BookingController extends Controller
             $validated['vendor_bonus'] = 0;
             $validated['customer_bonus'] = 0;
             $validated['discount'] = 0;
-            $validated['amount'] = $total_fleet_amount??0;
+            $validated['amount'] = $total_fleet_amount ?? 0;
             $validated['booking_reference'] = "SPS" . time() . mt_rand(100, 999999);
             $validated['pyment_mode'] = 'cash';
             $validated['pickup_latitude'] = (float) $validated['pickup_latitude'];
