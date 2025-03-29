@@ -142,7 +142,7 @@ class BookingController extends Controller
             $setting = Setting::findOrFail(1);
 
             if ($request->user_type == 'vendor') {
-                $vendorComission = $setting->driver_commission;
+                $vendorComission = $setting->vendor_commission;
             } else {
                 $vendorComission = 0;
             }
