@@ -16,7 +16,7 @@ class FeeCategoryController extends Controller
 
     public function index(Request $request){
         try {
-            $data= FeeCategory::get();
+            $data= FeeCategory::where('status','active')->get();
             if($data){
                 return CustomHelper::response(true, 'data found',200,$data);
             }else{
