@@ -18,7 +18,7 @@ class BookingController extends Controller
     public function index(Request $request)
     {
         try {
-            $data = Booking::with('category')->with('customer')->get();
+            $data = Booking::with('category')->with('customer')->where('status', 'pending')->get();
             if ($data) {
                 return CustomHelper::response(true, 'data found', 200, $data);
             } else {
