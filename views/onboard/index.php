@@ -69,7 +69,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 // ],
 
 
-
                 [
                     'label' => 'Phone',
                     'content' => function ($m) {
@@ -94,16 +93,12 @@ $this->params['breadcrumbs'][] = $this->title;
                 //     }
                 // ],
 
-
-
                 [
                     'label' => 'Approval Status',
                     'content' => function ($m) {
                         return CustomHelper::getWorkflowStage($m->wid, $m->stid, $m->requserinput) ?? '';
                     }
                 ],
-
-
 
                 [
                     'contentOptions' => function ($model) {
@@ -119,7 +114,6 @@ $this->params['breadcrumbs'][] = $this->title;
                         }
                     },
                 ],
-
 
                 [
                     'class' => 'yii\grid\ActionColumn',

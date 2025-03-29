@@ -70,7 +70,7 @@ class User extends ActiveRecord implements IdentityInterface
         return [
             ['status', 'default', 'value' => self::STATUS_ACTIVE],
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_DELETED]],
-            [['company_name', 'employee'], 'safe'],
+            [['company_name', 'employee', 'password_expiry'], 'safe'],
             [['userid'], 'unique']
         ];
     }

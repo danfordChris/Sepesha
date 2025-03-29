@@ -404,7 +404,7 @@ class SiteController extends Controller
                 return ActiveForm::validate($model);
             }
         }
-
+        $model->password_expiry = Settings::PasswordExpiry();
         if ($model->load(Yii::$app->request->post()) && $model->changeExpiredPassword() && $model->validate()) {
 
             Yii::$app->session->setFlash('info', " Password changed successfully !");
@@ -815,5 +815,4 @@ class SiteController extends Controller
 
         return $result;
     }
-
 }

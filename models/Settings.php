@@ -26,21 +26,32 @@ class Settings extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['settingid','password_template','login_attempts','mail_username','mail_port'], 'required'],
+            [['settingid', 'password_template', 'login_attempts', 'mail_username', 'mail_port'], 'required'],
             [['settingid'], 'integer'],
-            [[ 'password_change'  ,
-            'login_attempts' , 
-            'timezone' ,
-            'appname' ,
-            'mail_host',
-            'mail_username',
-            'mail_password' ,
-            'mail_port' ,
-            'mail_encryption',
-            'mail_dns',
-            'mail_senderEmail',
-            'mail_senderNamE',
-            'admin_email','age_limit'],'safe']
+            [[
+                'password_change',
+                'login_attempts',
+                'timezone',
+                'appname',
+                'mail_host',
+                'mail_username',
+                'mail_password',
+                'mail_port',
+                'mail_encryption',
+                'mail_dns',
+                'mail_senderEmail',
+                'mail_senderNamE',
+                'driver_commission',
+                'agent_commission',
+                'vendor_commission',
+                'admin_email',
+                'age_limit',
+                'system1_url',
+                'system2_url',
+                'system3_url',
+                'system4_url',
+
+            ], 'safe']
         ];
     }
 
@@ -70,6 +81,7 @@ class Settings extends \yii\db\ActiveRecord
             'updated_at' => 'Updated At',
             'updated_by' => 'Updated By',
             'password_template' => 'Password Template',
+
         ];
     }
 
@@ -77,33 +89,35 @@ class Settings extends \yii\db\ActiveRecord
     {
         return $this->hasOne(User::class, ['id' => 'created_by']);
     }
-    
+
     public function getUpdatedUser()
     {
         return $this->hasOne(User::class, ['id' => 'updated_by']);
     }
 
 
-    public static function config(){
-       return  self::findOne(['settingid'=>1]);
+    public static function config()
+    {
+        return  self::findOne(['settingid' => 1]);
     }
-    
-    public static function PasswordExpiry(){
-        $numberOfDays = self::findOne(['settingid'=>1])->password_change ?? 90;
-        $currentDate = date('Y-m-d'); 
+
+    public static function PasswordExpiry()
+    {
+        $numberOfDays = self::findOne(['settingid' => 1])->password_change ?? 90;
+        $currentDate = date('Y-m-d');
         $newDate = date('Y-m-d', strtotime($currentDate . ' +' . $numberOfDays . ' days'));
         return $newDate;
     }
 
 
-    public static function PassTemplates(){
+    public static function PassTemplates()
+    {
         return [
-           'simple'=>'simple',
-           'normal'=>'normal',
-           'fair'=>'fair',
-           'medium'=>'medium',
-           'strong'=>'strong'
+            'simple' => 'simple',
+            'normal' => 'normal',
+            'fair' => 'fair',
+            'medium' => 'medium',
+            'strong' => 'strong'
         ];
     }
-    
 }
