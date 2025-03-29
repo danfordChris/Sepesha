@@ -73,7 +73,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 <div class="row">
                                     <div class="">
                                         <div class="text-center">
-                                            <?= Html::submitButton('Login', ['class' => 'btn  w-100 btn-success ', 'name' => 'login-button']) ?>
+                                            <?= Html::submitButton('Login', ['class' => 'btn  w-100 btn-danger ', 'name' => 'login-button']) ?>
                                             <a href="<?= Url::toRoute(['request-password-reset']) ?>"
                                                 class="text-small">
                                                 Forgot Password ?

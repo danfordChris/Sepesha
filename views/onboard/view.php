@@ -18,24 +18,27 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h4><?= Html::encode($this->title) ?></h4>
 
+    <?= Yii::$app->driver->getView($model->id) ?>
 
 
-    <?= DetailView::widget([
+
+    <div class="group1">
+        <h6 class="card-header bg-danger text-white">
+            <i class="fa fa-truck "></i> &nbsp;Vehicle Details
+        </h6>
+        <div class="row">
+
+
+            <div class="col">
+                <?= DetailView::widget([
             'model' => $model,
             'options' => ['class' => ' table table-responsive bordered table-sm'],
             'attributes' => [
 
-            'latitude',
-            'longitude',
-            'location_updated_at',
-            'assignment_start',
-            'assignment_end',
-
-
             [
                 'attribute' => 'vehicle',
                 'value' => function ($model) {
-                    return $model->vehicle->plate_number??'';
+                    return $model->plate_number??'';
                 }
 
             ],
@@ -43,7 +46,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'email',
                 'value' => function ($model) {
-                    return $model->createdUser->email??'';
+                    return $model->make??'';
                 }
 
             ],
@@ -51,10 +54,41 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'Phone',
                 'value' => function ($model) {
-                    return $model->createdUser->getPhoneNumber()??'';
+                    return $model->model;
                 }
 
             ],
+
+            [
+                'attribute' => 'Color',
+                'value' => function ($model) {
+                    return $model->color;
+                }
+
+            ],
+
+            [
+                'attribute' => 'Category',
+                'value' => function ($model) {
+                    return $model->fee->name;
+                }
+
+            ],
+
+
+
+            ],
+        ]) ?>
+            </div>
+
+            <div class="col">
+
+                <?= DetailView::widget([
+            'model' => $model,
+            'options' => ['class' => ' table table-responsive bordered table-sm'],
+            'attributes' => [
+
+
 
             [
                 'attribute' => 'created_at',
@@ -66,10 +100,21 @@ $this->params['breadcrumbs'][] = $this->title;
 
             [
 
-                'attribute' => 'Status',
+                'attribute' => 'Approval Status',
                 'format'=>'raw',
                 'value' => function ($m) {
-                    return CustomHelper::getWorkflowStage($m->wid, $m->stid)??'';
+                    return CustomHelper::getWorkflowStage($m->wid, $m->stid,$m->requserinput)??'';
+                }
+
+            ],
+
+
+            [
+
+                'attribute' => 'Vehicle Status',
+                'format'=>'raw',
+                'value' => function ($m) {
+                    return CustomHelper::getVehicleStatus($m->status)??'';
                 }
 
             ],
@@ -83,10 +128,16 @@ $this->params['breadcrumbs'][] = $this->title;
 
             ],
         ]) ?>
+            </div>
+        </div>
+    </div>
+
+
+
 
     <?= Yii::$app->approvals->getView($model,$model->id) ?>
-    
-        <?= AttachmentTableWidgetByOwner::widget(['cby' => $model->created_by]); ?>
-   
+
+    <?= AttachmentTableWidget::widget(['refno' => $model->id]); ?>
+
 
 </div>

@@ -8,11 +8,11 @@ $URL = Yii::getAlias('@app')
 <div class="group1">
     <!-- <h6 style="font-weight:bold;" class="text-decoration-italic">Approvals</h6> -->
 
-    <div class="card-header bg-dark text-white" style="height:2em;font-weight:bold;">
-        Approvals
-    </div>
+    <h6 class="card-header bg-danger text-white">
+        <i class="far fa-comment "></i> &nbsp;Approvals
+    </h6>
 
-    <div class="table-responsive">
+    <div class=" table-responsive">
         <table id=" " class="table table-sm table-bordered table-stripped table-condensed" style="font-size: small;">
             <thead class="thead-light">
                 <tr>
@@ -26,29 +26,29 @@ $URL = Yii::getAlias('@app')
             </thead>
             <tbody>
                 <?php foreach ($approvalsWf as $y => $appV) : ?>
-                    <tr>
-                        <!-- <td><?= $y + 1 . '.'; ?></td> -->
-                        <td><?= $appV->wfsname; ?></td>
-                        <td><?= $appV->wfstatus ?></td>
-                        <td><?= $appV->comments; ?>
-                            <?php if ($appV->attachment) : ?>
-                                <p>
-                                    <a class="badge badge-secondary text-white bx bx-download" style="font-size: 10px;"
-                                        target="_blank" title="<?= $appV->wfsname ?>" href="<?= $appV['attachment'] ?>">
-                                        <span class="material-icons" style="font-size: 10px;">
-                                            attach_file
-                                        </span>
-                                        View attachment</a>
-                                </p>
-                            <?php endif ?>
-                        </td>
-                        <td><?= $appV->created->full_name  ?>
-                        </td>
-                        <td><?= $appV->created_at ?>
+                <tr>
+                    <!-- <td><?= $y + 1 . '.'; ?></td> -->
+                    <td><?= $appV->wfsname; ?></td>
+                    <td><?= $appV->wfstatus ?></td>
+                    <td><?= $appV->comments; ?>
+                        <?php if ($appV->attachment) : ?>
+                        <p>
+                            <a class="badge badge-secondary text-white bx bx-download" style="font-size: 10px;"
+                                target="_blank" title="<?= $appV->wfsname ?>" href="<?= $appV['attachment'] ?>">
+                                <span class="material-icons" style="font-size: 10px;">
+                                    attach_file
+                                </span>
+                                View attachment</a>
+                        </p>
+                        <?php endif ?>
+                    </td>
+                    <td><?= $appV->created->full_name  ?>
+                    </td>
+                    <td><?= $appV->created_at ?>
 
-                        </td>
+                    </td>
 
-                    </tr>
+                </tr>
                 <?php endforeach ?>
             </tbody>
         </table>
