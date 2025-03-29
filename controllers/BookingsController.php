@@ -53,7 +53,7 @@ class BookingsController extends Controller
     {
         $searchModel = new BookingSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
-        $dataProvider->query->andWhere(['status' => 'intransit']);
+        $dataProvider->query->andWhere(['status' => ['assigned', 'intransit']]);
         return $this->render('intransit', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
