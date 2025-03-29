@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use app\models\Booking;
 use app\models\BookingSearch;
+use Yii;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -36,12 +37,49 @@ class BookingsController extends Controller
      *
      * @return string
      */
-    public function actionIndex()
+    public function actionPending()
     {
         $searchModel = new BookingSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
+        $dataProvider->query->andWhere(['status' => 'pending']);
+        return $this->render('pending', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+    public function actionIntransit()
+    {
+        $searchModel = new BookingSearch();
+        $dataProvider = $searchModel->search($this->request->queryParams);
+        $dataProvider->query->andWhere(['status' => 'intransit']);
+        return $this->render('intransit', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
 
-        return $this->render('index', [
+
+    public function actionCancelled()
+    {
+        $searchModel = new BookingSearch();
+        $dataProvider = $searchModel->search($this->request->queryParams);
+        $dataProvider->query->andWhere(['status' => 'cancelled']);
+        return $this->render('cancelled', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
+
+
+
+
+    public function actionCompleted()
+    {
+        $searchModel = new BookingSearch();
+        $dataProvider = $searchModel->search($this->request->queryParams);
+        $dataProvider->query->andWhere(['status' => 'completed']);
+        return $this->render('completed', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);

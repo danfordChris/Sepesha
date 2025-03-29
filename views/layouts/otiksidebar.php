@@ -72,8 +72,21 @@ use yii\helpers\Url;
                         <?= CustomHelper::ICON_USER_CHECK ?>
                         <span>Bookings </span></a>
                     <ul class="dropdown-menu">
-                        <li class="nav-link"><a href="<?= Url::toRoute(['/bookings/index']) ?>">
+                        <li class="nav-link"><a href="<?= Url::toRoute(['/bookings/pending']) ?>">
                                 Pending
+                            </a>
+                        </li>
+
+                        <li class="nav-link"><a href="<?= Url::toRoute(['/bookings/intransit']) ?>">
+                                Intransit
+                            </a>
+                        </li>
+                        <li class="nav-link"><a href="<?= Url::toRoute(['/bookings/completed']) ?>">
+                                Completed
+                            </a>
+                        </li>
+                        <li class="nav-link"><a href="<?= Url::toRoute(['/bookings/cancelled']) ?>">
+                                Cancelled
                             </a>
                         </li>
                     </ul>
