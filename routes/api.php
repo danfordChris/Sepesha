@@ -97,7 +97,9 @@ Route::middleware(['auth.jwt:driver,vendor,agent,customer'])->group(function () 
     Route::post('/request-ride', [BookingController::class, 'create']);
     Route::get('/update-ride/{id}', [BookingController::class, 'updateBooking']);
     Route::get('/bookings', [BookingController::class, 'index']);
-
+    Route::get('/booking/get-customer-vendor-bookings', [BookingController::class, 'bookingByCustomerVendorAndStatus']);
+    Route::get('/booking/get-driver-bookings', [BookingController::class, 'bookingByDriverAndStatus']);
+    Route::get('/booking/{id}', [BookingController::class, 'bookingById']);
     Route::get('/attachment-categories', [AttachmentController::class, 'index']);
 
     Route::get('/category/{id}', [FeeCategoryController::class, 'view']);

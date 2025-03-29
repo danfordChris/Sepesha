@@ -31,6 +31,78 @@ class BookingController extends Controller
         }
     }
 
+    public function bookingById(Request $request, $id)
+    {
+        try {
+            $data = Booking::with('category')->with('customer')->where('id', $id)->first();
+            if ($data !== null) {
+                return CustomHelper::response(true, 'data found', 200, $data);
+            } else {
+                return CustomHelper::response(false, 'no data found', 442, $data);
+            }
+        } catch (ValidationException $e) {
+            foreach ($e->errors() as $error) {
+                return CustomHelper::response(false, $error[0], 442);
+            }
+        }
+    }
+
+
+    public function bookingByCustomerVendorAndStatus(Request $request)
+    {
+
+        try {
+
+            $validated = $request->validate(
+                [
+                    'customer_id' => 'required|uuid|exists:clients_info,auth_key',
+                    'status' => 'required|in:pending,assigned,intransit,completed,cancelled',
+                ],
+
+            );
+
+
+            $data = Booking::with('category')->with('customer')->where('customer_id', $request->customer_id)->where('status', $request->status)->get();
+            if ($data) {
+                return CustomHelper::response(true, 'data found', 200, $data);
+            } else {
+                return CustomHelper::response(false, 'no data found', 442, $data);
+            }
+        } catch (ValidationException $e) {
+            foreach ($e->errors() as $error) {
+                return CustomHelper::response(false, $error[0], 442);
+            }
+        }
+    }
+
+
+    public function bookingByDriverAndStatus(Request $request)
+    {
+
+
+        try {
+
+            $validated = $request->validate(
+                [
+                    'driver_id' => 'required|uuid|exists:clients_info,auth_key',
+                    'status' => 'required|in:pending,assigned,intransit,completed,cancelled',
+                ],
+
+            );
+
+            $data = Booking::with('category')->with('customer')->where('driver_id', $request->driver_id)->where('status', $request->status)->get();
+            if ($data) {
+                return CustomHelper::response(true, 'data found', 200, $data);
+            } else {
+                return CustomHelper::response(false, 'no data found', 442, $data);
+            }
+        } catch (ValidationException $e) {
+            foreach ($e->errors() as $error) {
+                return CustomHelper::response(false, $error[0], 442);
+            }
+        }
+    }
+
 
     public function create(Request $request)
     {
@@ -70,13 +142,11 @@ class BookingController extends Controller
             $validated['id'] = Str::uuid();
 
 
+            $validated['vendor_id'] =  $request->customer_id;
             $validated['pickup_latitude'] =  $picklat;
             $validated['base_rate_km'] = $fee->price_per_km;
             $validated['base_price'] = $fee->base_price;
             $validated['vehicle_multipplier'] = $fee->vehicle_multipplier ?? 1;
-
-
-
             $validated['vat'] = 0.18;
             $validated['weight'] = 0;
             $validated['other_charge'] = 0;
@@ -145,9 +215,11 @@ class BookingController extends Controller
         try {
             $vehicle = Booking::findOrFail($id);
             $validated = $request->validate([
+                'driver_id' => 'required|uuid|exists:clients_info,auth_key',
+                'vehicle_id' => 'required|uuid|exists:vehicles,id',
                 'status' => 'required|in:pending,assigned,intransit,completed,cancelled',
             ]);
-
+            $validated['driver_assignment_id']=$request->vehicle_id;
             $vehicle->update($validated);
             return response()->json([
                 'status' => true,
