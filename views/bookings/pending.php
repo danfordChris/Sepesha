@@ -8,6 +8,7 @@ use app\models\Regions;
 use yii\grid\ActionColumn;
 use app\models\SystemRoles;
 use app\models\CustomHelper;
+use kartik\grid\GridView as GridGridView;
 use reine\datatables\DataTables;
 
 /** @var yii\web\View $this */
@@ -33,21 +34,53 @@ $this->params['breadcrumbs'][] = $this->title;
             </div> -->
         </div>
 
-        <?= DataTables::widget([
+        <?= GridGridView::widget([
             'dataProvider' => $dataProvider,
             'filterModel' => $searchModel,
             'tableOptions' => ['class' => ' table table-responsive bordered table-sm'],
+            'showPageSummary' => true,
             'columns' => [
                 ['class' => 'yii\grid\SerialColumn'],
+                'pickup_date',
+                [
+                    'attribute' => 'customer_id',
+                    'value' => function ($model) {
+                        return $model->customer->fullName ?? '';
+                    },
+                ],
 
-                'id',
-                'customer_id',
-                'agent_id',
-                'driver_id',
-                'vehicle_id',
+                [
+                    'attribute' => 'driver_id',
+                    'value' => function ($model) {
+                        return $model->driver->fullName ?? '';
+                    },
+                ],
+
+                [
+                    'attribute' => 'vehicle_id',
+                    'value' => function ($model) {
+                        return $model->vehicle->plate_number ?? '';
+                    },
+                ],
+
+                [
+                    'attribute' => 'vehicle_id',
+                    'label' => 'Model',
+                    'value' => function ($model) {
+                        return $model->vehicle->model ?? '';
+                    },
+                ],
+
+
+
+                //'id',
+                //'customer_id',
+                // 'agent_id',
+                //'driver_id',
+                // 'vehicle_id',
                 //'vendor_id',
                 //'driver_assignment_id',
-                //'booking_reference',
+                'booking_reference',
                 //'fee_category_id',
                 //'discount_code',
                 //'discount_code_value',
@@ -56,18 +89,18 @@ $this->params['breadcrumbs'][] = $this->title;
                 //'recepient_name',
                 //'recepient_phone',
                 //'recepient_address',
-                //'type',
+                'type',
                 //'pyment_mode',
                 //'description:ntext',
                 //'weight',
-                //'base_rate_km',
-                //'base_price',
-                //'vehicle_multipplier',
+                'base_rate_km',
+                'base_price',
+                'vehicle_multipplier',
                 //'vat',
                 //'other_charge',
-                //'driver_comission_rate',
-                //'vendor_comission_rate',
-                //'office_comission_rate',
+                'driver_comission_rate',
+                'vendor_comission_rate',
+                'office_comission_rate',
                 //'agent_comission_rate',
                 //'driver_bonus',
                 //'vendor_bonus',
@@ -75,11 +108,30 @@ $this->params['breadcrumbs'][] = $this->title;
                 //'volume',
                 //'price',
                 //'discount',
-                //'distance_km',
-                //'amount',
-                //'currency',
-                //'pickup_location',
-                //'delivery_location',
+                'distance_km',
+
+
+                'pickup_location',
+                'delivery_location',
+
+
+                [
+                    'attribute' => 'currency',
+                    'pageSummary' => 'Total',
+
+                ],
+
+
+                [
+                    'attribute' => 'amount',
+                    'pageSummary' => true,
+                    'format' => ['decimal', 2]
+                ],
+
+
+
+
+
                 //'pickup_latitude',
                 //'pickup_longitude',
                 //'delivery_latitude',
@@ -89,7 +141,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 //'scheduled_time',
                 //'pickup_photo',
                 //'delivery_photo',
-                //'status',
+                'status',
                 //'created_by',
                 //'updated_by',
                 //'deleted_at',
@@ -97,7 +149,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 //'updated_at',
 
                 [
-                    'class' => 'yii\grid\ActionColumn',
+                    'class' => 'kartik\grid\ActionColumn',
                     //'visible' => User::auth('admin'),
                     // 'noWrap' => true,
                     'template' => '{view}',

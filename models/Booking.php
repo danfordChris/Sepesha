@@ -103,14 +103,14 @@ class Booking extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'customer_id' => 'Customer ID',
-            'agent_id' => 'Agent ID',
-            'driver_id' => 'Driver ID',
-            'vehicle_id' => 'Vehicle ID',
-            'vendor_id' => 'Vendor ID',
-            'driver_assignment_id' => 'Driver Assignment ID',
+            'customer_id' => 'Client',
+            'agent_id' => 'Agent ',
+            'driver_id' => 'Driver',
+            'vehicle_id' => 'Vehicle',
+            'vendor_id' => 'Vendor',
+            'driver_assignment_id' => 'Driver Assignment ',
             'booking_reference' => 'Booking Reference',
-            'fee_category_id' => 'Fee Category ID',
+            'fee_category_id' => 'Fee Category',
             'discount_code' => 'Discount Code',
             'discount_code_value' => 'Discount Code Value',
             'referal_code' => 'Referal Code',
@@ -118,7 +118,7 @@ class Booking extends \yii\db\ActiveRecord
             'recepient_name' => 'Recepient Name',
             'recepient_phone' => 'Recepient Phone',
             'recepient_address' => 'Recepient Address',
-            'type' => 'Type',
+            'type' => 'Client Type',
             'pyment_mode' => 'Pyment Mode',
             'description' => 'Description',
             'weight' => 'Weight',
@@ -158,5 +158,25 @@ class Booking extends \yii\db\ActiveRecord
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         ];
+    }
+
+    public function getFee()
+    {
+        return $this->hasOne(FeeCategory::class, ['id' => 'fee_category_id']);
+    }
+
+    public function getDriver()
+    {
+        return $this->hasOne(ClientInfo::class, ['auth_key' => 'driver_id']);
+    }
+
+    public function getCustomer()
+    {
+        return $this->hasOne(ClientInfo::class, ['auth_key' => 'customer_id']);
+    }
+
+    public function getVehicle()
+    {
+        return $this->hasOne(Vehicle::class, ['id' => 'vehicle_id']);
     }
 }

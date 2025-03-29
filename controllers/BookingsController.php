@@ -2,12 +2,13 @@
 
 namespace app\controllers;
 
-use app\models\Booking;
-use app\models\BookingSearch;
 use Yii;
+use app\models\Booking;
 use yii\web\Controller;
-use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use app\models\BookingSearch;
+use yii\filters\AccessControl;
+use yii\web\NotFoundHttpException;
 
 /**
  * BookingsController implements the CRUD actions for Booking model.
@@ -19,17 +20,17 @@ class BookingsController extends Controller
      */
     public function behaviors()
     {
-        return array_merge(
-            parent::behaviors(),
-            [
-                'verbs' => [
-                    'class' => VerbFilter::className(),
-                    'actions' => [
-                        'delete' => ['POST'],
+        return [
+            'access' => [
+                'class' => AccessControl::class,
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
                     ],
                 ],
-            ]
-        );
+            ],
+        ];
     }
 
     /**
@@ -47,6 +48,7 @@ class BookingsController extends Controller
             'dataProvider' => $dataProvider,
         ]);
     }
+
     public function actionIntransit()
     {
         $searchModel = new BookingSearch();
@@ -58,7 +60,6 @@ class BookingsController extends Controller
         ]);
     }
 
-
     public function actionCancelled()
     {
         $searchModel = new BookingSearch();
@@ -69,9 +70,6 @@ class BookingsController extends Controller
             'dataProvider' => $dataProvider,
         ]);
     }
-
-
-
 
 
     public function actionCompleted()

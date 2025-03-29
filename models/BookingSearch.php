@@ -41,10 +41,8 @@ class BookingSearch extends Booking
      */
     public function search($params)
     {
-        $query = Booking::find();
-
+        $query = Booking::find()->orderBy('created_at desc');
         // add conditions that should always apply here
-
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
