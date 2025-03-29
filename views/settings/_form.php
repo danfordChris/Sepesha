@@ -21,7 +21,8 @@ use yii\widgets\ActiveForm;
             <?php //= $form->field($model, 'appname') ?>
             <?= $form->field($model, 'mail_host') ?>
             <?= $form->field($model, 'password_template')->dropDownList($model::PassTemplates()) ?>
-            <?= $form->field($model, 'age_limit') ?>
+            <?php //= $form->field($model, 'age_limit') ?>
+            <?= $form->field($model, 'vendor_commission') ?>
 
         </div>
 
@@ -33,7 +34,11 @@ use yii\widgets\ActiveForm;
             <?= $form->field($model, 'mail_senderEmail') ?>
             <?= $form->field($model, 'mail_senderNamE') ?>
             <?= $form->field($model, 'admin_email') ?>
+            <?= $form->field($model, 'driver_commission') ?>
         </div>
+
+
+
     </div>
 
     <div class="form-group">

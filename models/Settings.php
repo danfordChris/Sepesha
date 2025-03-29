@@ -81,6 +81,9 @@ class Settings extends \yii\db\ActiveRecord
             'updated_at' => 'Updated At',
             'updated_by' => 'Updated By',
             'password_template' => 'Password Template',
+            'driver_commission'=>'Driver Comission(%)',
+            'vendor_commission'=>'Vendor Comission(%)'
+
 
         ];
     }

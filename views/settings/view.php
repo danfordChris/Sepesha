@@ -43,10 +43,11 @@ $this->params['breadcrumbs'][] = $this->title;
                 'mail_senderEmail',
                 'mail_senderNamE',
                 'password_template',
-                'admin_email',  
-                'age_limit' 
+                'admin_email',
+                 'driver_commission',
+                 'vendor_commission'
         ],
-    ]) ?>
+        ]) ?>
 
     </div>
 </div>

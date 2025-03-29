@@ -26,13 +26,15 @@ $this->params['breadcrumbs'][] = $this->title;
 
         <?= GridView::widget([
             'dataProvider' => $dataProvider,
-            'headerRowOptions'=>['class' => 'text-nowrap'],
+            'headerRowOptions' => ['class' => 'text-nowrap'],
             // 'rowOptions'=>['style' => 'display:flex;flex-direction:column;'],
             'tableOptions' => ['class' => 'table table-sm table-responsive'],
             'summary' => '',
             'export' => false,
             'columns' => [
 
+                'driver_commission',
+                'vendor_commission',
                 'password_change',
                 'login_attempts',
                 'timezone',
@@ -45,7 +47,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'mail_senderEmail',
                 'mail_senderNamE',
                 'password_template',
-                'admin_email',                
+                'admin_email',
                 [
                     'class' => 'kartik\grid\ActionColumn',
                     'noWrap' => true,
