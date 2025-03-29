@@ -47,6 +47,8 @@ $this->params['breadcrumbs'][] = $this->title;
                     },
                 ],
 
+                'type',
+
                 [
                     'attribute' => 'driver_id',
                     'value' => function ($model) {
@@ -69,8 +71,6 @@ $this->params['breadcrumbs'][] = $this->title;
                     },
                 ],
 
-
-
                 //'id',
                 //'customer_id',
                 // 'agent_id',
@@ -87,18 +87,18 @@ $this->params['breadcrumbs'][] = $this->title;
                 //'recepient_name',
                 //'recepient_phone',
                 //'recepient_address',
-                'type',
+
                 //'pyment_mode',
                 //'description:ntext',
                 //'weight',
-                'base_rate_km',
-                'base_price',
-                'vehicle_multipplier',
+                //'base_rate_km',
+                //'base_price',
+                //'vehicle_multipplier',
                 //'vat',
                 //'other_charge',
-                'driver_comission_rate',
-                'vendor_comission_rate',
-                'office_comission_rate',
+                //'driver_comission_rate',
+                //'vendor_comission_rate',
+                //'office_comission_rate',
                 //'agent_comission_rate',
                 //'driver_bonus',
                 //'vendor_bonus',
@@ -106,29 +106,19 @@ $this->params['breadcrumbs'][] = $this->title;
                 //'volume',
                 //'price',
                 //'discount',
-                'distance_km',
-
-
+                //'distance_km',
                 'pickup_location',
                 'delivery_location',
-
-
                 [
                     'attribute' => 'currency',
                     'pageSummary' => 'Total',
-
                 ],
-
 
                 [
                     'attribute' => 'amount',
                     'pageSummary' => true,
                     'format' => ['decimal', 2]
                 ],
-
-
-
-
 
                 //'pickup_latitude',
                 //'pickup_longitude',
