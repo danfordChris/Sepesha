@@ -109,7 +109,7 @@ class BookingController extends Controller
     {
 
         try {
-            $picklat = (float)$request->pickup_latitude;
+
             $validated = $request->validate(
                 [
                     'customer_id' => 'required|uuid|exists:clients_info,auth_key',
@@ -129,7 +129,7 @@ class BookingController extends Controller
                     'pickup_longitude' => ['required', 'numeric', 'between:-180,180'],
                     'delivery_latitude' => ['required', 'numeric', 'between:-90,90'],
                     'delivery_longitude' => ['required', 'numeric', 'between:-180,180'],
-                    'distance_km' => 'required|numeric',
+                    'distance_km' => 'nullable|numeric',
                 ],
                 [
                     //'pickup_photo.required' => 'Photo are required.',
@@ -137,6 +137,12 @@ class BookingController extends Controller
                     'pickup_photo.max' => 'Photo must not exceed 2MB in size.',
                 ]
             );
+
+            $picklat = (float)$request->pickup_latitude;
+            $picklon = (float)$request->pickup_longitude;
+            $dellat = (float)$request->delivery_latitude;
+            $dellon = (float)$request->delivery_longitude;
+
 
             $fee = FeeCategory::where('id', $request->fee_category_id)->first();
             $setting = Setting::findOrFail(1);
@@ -147,13 +153,13 @@ class BookingController extends Controller
                 $vendorComission = 0;
             }
 
+            $validated['distance_km']= ($validated['distance_km']=='')?$this->calculateDistance($picklat, $picklon, $dellat, $dellon):$validated['distance_km'];
             $officeComission = 100 - ($setting->driver_commission + $vendorComission);
-            $priceKm = (float)$fee->price_per_km;
-            $basePrice = (float)$fee->base_price;
-            $multipplier = (float)$fee->vehicle_multiplier;
-            $distance = (float)$request->distance_km;
+            $priceKm = (float)trim($fee->price_per_km);
+            $basePrice = (float)trim($fee->base_price);
+            $multipplier = (float)trim($fee->vehicle_multiplier);
+            $distance = (float)$validated['distance_km'];
             $total_fleet_amount = ($priceKm * $multipplier * $distance) + $basePrice;
-
             $validated['id'] = Str::uuid();
             $validated['vendor_id'] =  $request->customer_id;
             $validated['pickup_latitude'] =  $picklat;
@@ -177,7 +183,7 @@ class BookingController extends Controller
             $validated['pyment_mode'] = 'cash';
             $validated['pickup_latitude'] = (float) $validated['pickup_latitude'];
             $validated['type'] = $validated['user_type'];
-
+            
             // $alreadyAssigned = Booking::where('customer_id', $request->customer_id)
             //     ->where('status', 'pending')
             //     ->first();
@@ -185,7 +191,6 @@ class BookingController extends Controller
             //     $msg = 'This driver is already assigned to the same vehicle.';
             //     return CustomHelper::response(false, $msg, 442);
             // }
-
             $booking = Booking::create($validated);
             if ($booking) {
                 try {
@@ -219,6 +224,29 @@ class BookingController extends Controller
     }
 
 
+
+    public function calculateDistance($lat1, $lon1, $lat2, $lon2)
+    {
+        // Radius of the Earth in kilometers
+        $earthRadius = 6371;
+        // Convert degrees to radians
+        $lat1 = deg2rad($lat1);
+        $lon1 = deg2rad($lon1);
+        $lat2 = deg2rad($lat2);
+        $lon2 = deg2rad($lon2);
+
+        // Haversine formula
+        $dlat = $lat2 - $lat1;
+        $dlon = $lon2 - $lon1;
+
+        $a = sin($dlat / 2) * sin($dlat / 2) +
+             cos($lat1) * cos($lat2) *
+             sin($dlon / 2) * sin($dlon / 2);
+        $c = 2 * atan2(sqrt($a), sqrt(1 - $a));
+        // Distance in kilometers
+        $distance = $earthRadius * $c;
+        return $distance;
+    }
 
 
 
