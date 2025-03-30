@@ -45,6 +45,7 @@ class AuthenticateJWT
         //     'user_type' => $decoded->user_type,
         // ]);
 
+        app()->instance('jwt_user_id', $decoded->sub);
         return $next($request);
     }
 }

@@ -153,7 +153,7 @@ class BookingController extends Controller
                 $vendorComission = 0;
             }
 
-            $validated['distance_km']= ($validated['distance_km']=='')?$this->calculateDistance($picklat, $picklon, $dellat, $dellon):$validated['distance_km'];
+            $validated['distance_km'] = ($validated['distance_km'] == '') ? $this->calculateDistance($picklat, $picklon, $dellat, $dellon) : $validated['distance_km'];
             $officeComission = 100 - ($setting->driver_commission + $vendorComission);
             $priceKm = (float)trim($fee->price_per_km);
             $basePrice = (float)trim($fee->base_price);
@@ -183,7 +183,7 @@ class BookingController extends Controller
             $validated['pyment_mode'] = 'cash';
             $validated['pickup_latitude'] = (float) $validated['pickup_latitude'];
             $validated['type'] = $validated['user_type'];
-            
+
             // $alreadyAssigned = Booking::where('customer_id', $request->customer_id)
             //     ->where('status', 'pending')
             //     ->first();
@@ -240,8 +240,8 @@ class BookingController extends Controller
         $dlon = $lon2 - $lon1;
 
         $a = sin($dlat / 2) * sin($dlat / 2) +
-             cos($lat1) * cos($lat2) *
-             sin($dlon / 2) * sin($dlon / 2);
+            cos($lat1) * cos($lat2) *
+            sin($dlon / 2) * sin($dlon / 2);
         $c = 2 * atan2(sqrt($a), sqrt(1 - $a));
         // Distance in kilometers
         $distance = $earthRadius * $c;
@@ -257,13 +257,36 @@ class BookingController extends Controller
             $validated = $request->validate([
                 'driver_id' => 'required|uuid|exists:clients_info,auth_key',
                 'vehicle_id' => 'required|uuid|exists:vehicles,id',
-                'status' => 'required|in:pending,assigned,intransit,completed,cancelled',
+                'status' => 'required|in:pending,assigned,intransit,completed',
             ]);
             $validated['driver_assignment_id'] = $request->vehicle_id;
             $vehicle->update($validated);
             return response()->json([
                 'status' => true,
                 'message' => 'Booking updated successfully.',
+                'data' => $vehicle,
+            ], 201);
+        } catch (ValidationException $e) {
+            foreach ($e->errors() as $error) {
+                return CustomHelper::response(false, $error[0], 442);
+            }
+        }
+    }
+
+    public function cancelBooking(Request $request, $id)
+    {
+        try {
+
+            $vehicle = Booking::findOrFail($id);
+            $validated = $request->validate([
+                'cancel_by' => 'required|uuid|exists:clients_info,auth_key',
+                'cancel_reason' => 'required|string',
+            ]);
+            $validated['status'] = 'cancelled';
+            $vehicle->update($validated);
+            return response()->json([
+                'status' => true,
+                'message' => 'Booking cancelled successfully.',
                 'data' => $vehicle,
             ], 201);
         } catch (ValidationException $e) {

@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Traits\CreatedUpdatedBy;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Booking extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, CreatedUpdatedBy;
 
 
     protected $keyType = 'string';
@@ -66,7 +67,12 @@ class Booking extends Model
         'delivery_photo',
         'status',
         'created_by',
-        'updated_by'
+        'updated_by',
+        'cancel_by',
+        'cancel_reason',
+        'driver_commnet',
+        'client_commnet',
+        'rating'
     ];
 
     protected $casts = [
