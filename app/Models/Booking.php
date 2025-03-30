@@ -72,7 +72,9 @@ class Booking extends Model
         'cancel_reason',
         'driver_commnet',
         'client_commnet',
-        'rating'
+        'rating',
+        'commissioned',
+        'commissioned_at'
     ];
 
     protected $casts = [

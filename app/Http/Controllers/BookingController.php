@@ -258,18 +258,21 @@ class BookingController extends Controller
     public function updateBooking(Request $request, $id)
     {
         try {
-            $vehicle = Booking::findOrFail($id);
+            $booking = Booking::where('id', $id)
+                ->whereNotIn('status', ['completed', 'cancelled'])
+                ->firstOrFail();
+
             $validated = $request->validate([
                 'driver_id' => 'required|uuid|exists:clients_info,auth_key',
                 'vehicle_id' => 'required|uuid|exists:vehicles,id',
                 'status' => 'required|in:pending,assigned,intransit,completed',
             ]);
             $validated['driver_assignment_id'] = $request->vehicle_id;
-            $vehicle->update($validated);
+            $booking->update($validated);
             return response()->json([
                 'status' => true,
                 'message' => 'Booking updated successfully.',
-                'data' => $vehicle,
+                'data' => $booking,
             ], 201);
         } catch (ValidationException $e) {
             foreach ($e->errors() as $error) {
@@ -281,18 +284,19 @@ class BookingController extends Controller
     public function cancelBooking(Request $request, $id)
     {
         try {
-
-            $vehicle = Booking::findOrFail($id);
+            $booking = Booking::where('id', $id)
+                ->whereNotIn('status', ['completed', 'cancelled'])
+                ->firstOrFail();
             $validated = $request->validate([
                 'cancel_by' => 'required|uuid|exists:clients_info,auth_key',
                 'cancel_reason' => 'required|string',
             ]);
             $validated['status'] = 'cancelled';
-            $vehicle->update($validated);
+            $booking->update($validated);
             return response()->json([
                 'status' => true,
                 'message' => 'Booking cancelled successfully.',
-                'data' => $vehicle,
+                'data' => $booking,
             ], 201);
         } catch (ValidationException $e) {
             foreach ($e->errors() as $error) {
