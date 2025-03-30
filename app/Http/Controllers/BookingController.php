@@ -19,7 +19,7 @@ class BookingController extends Controller
     public function index(Request $request)
     {
         try {
-            $data = Booking::with('category')->with('customer')->where('status', 'pending')->get();
+            $data = Booking::with('category')->with('customer')->where('status', 'pending')->orderBy('updated_at', 'desc')->get();
             if ($data) {
                 return CustomHelper::response(true, 'data found', 200, $data);
             } else {
@@ -58,12 +58,17 @@ class BookingController extends Controller
                 [
                     'customer_id' => 'required|uuid|exists:clients_info,auth_key',
                     'status' => 'required|in:pending,assigned,intransit,completed,cancelled',
+
                 ],
 
             );
 
+            if ($validated['status'] == 'pending') {
+                $data = Booking::with('category')->with('customer')->where('customer_id', $request->customer_id)->whereIn('status', ['pending', 'assigned'])->orderBy('updated_at', 'desc')->get();
+            } else {
+                $data = Booking::with('category')->with('customer')->where('customer_id', $request->customer_id)->where('status', $request->status)->orderBy('updated_at', 'desc')->get();
+            }
 
-            $data = Booking::with('category')->with('customer')->where('customer_id', $request->customer_id)->where('status', $request->status)->get();
             if ($data) {
                 return CustomHelper::response(true, 'data found', 200, $data);
             } else {
@@ -77,7 +82,7 @@ class BookingController extends Controller
     }
 
 
-    public function bookingByDriverAndStatus(Request $request)
+    public function bookingByDriver(Request $request)
     {
 
 
@@ -91,7 +96,7 @@ class BookingController extends Controller
 
             );
 
-            $data = Booking::with('category')->with('customer')->where('driver_id', $request->driver_id)->get();
+            $data = Booking::with('category')->with('customer')->where('driver_id', $request->driver_id)->orderBy('updated_at', 'desc')->get();
             if ($data) {
                 return CustomHelper::response(true, 'data found', 200, $data);
             } else {
