@@ -74,7 +74,8 @@ class Booking extends Model
         'client_commnet',
         'rating',
         'commissioned',
-        'commissioned_at'
+        'commissioned_at',
+        'pay_chanel'
     ];
 
     protected $casts = [

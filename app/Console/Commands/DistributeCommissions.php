@@ -20,9 +20,8 @@ class DistributeCommissions extends Command
 
     public function handle()
     {
-        $bookings = Booking::where('status', 'completed')->get();
+        $bookings = Booking::where('status', 'completed')->where('commissioned','N')->get();
         foreach ($bookings as $booking) {
-            // Call the service to distribute commissions
             $this->commissionService->distributeCommission($booking->id);
             $this->info("Commissions distributed for booking ID: " . $booking->id);
         }

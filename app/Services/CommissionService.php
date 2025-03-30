@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Booking;
 use App\Models\Commission;
+use Illuminate\Support\Facades\DB;
 
 class CommissionService
 {
@@ -185,5 +186,8 @@ class CommissionService
                 }
             }
         }
+ 
+        DB::statement("UPDATE bookings SET commissioned = 'Y', commissioned_at = NOW() WHERE id = '$bookingId'");
+
     }
 }
