@@ -86,12 +86,12 @@ class BookingController extends Controller
             $validated = $request->validate(
                 [
                     'driver_id' => 'required|uuid|exists:clients_info,auth_key',
-                    'status' => 'required|in:pending,assigned,intransit,completed,cancelled',
+                    //'status' => 'required|in:pending,assigned,intransit,completed,cancelled',
                 ],
 
             );
 
-            $data = Booking::with('category')->with('customer')->where('driver_id', $request->driver_id)->where('status', $request->status)->get();
+            $data = Booking::with('category')->with('customer')->where('driver_id', $request->driver_id)->get();
             if ($data) {
                 return CustomHelper::response(true, 'data found', 200, $data);
             } else {
