@@ -82,6 +82,33 @@ class Booking extends Model
         'delivery_longitude' => 'decimal:2',
     ];
 
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        // Log status when a new booking is created
+        static::created(function ($booking) {
+            BookingLog::create([
+                'booking_id' => $booking->id,
+                'status' => $booking->status,
+                'remarks' => 'Booking created with status ' . $booking->status,
+            ]);
+        });
+
+        // Log status when an existing booking is updated
+        static::updating(function ($booking) {
+            if ($booking->isDirty('status')) {
+                BookingLog::create([
+                    'booking_id' => $booking->id,
+                    'status' => $booking->status,
+                    'remarks' => 'Status changed to ' . $booking->status,
+                ]);
+            }
+        });
+    }
+
+
     public function category()
     {
         return $this->hasOne(FeeCategory::class, 'id', 'fee_category_id');
