@@ -134,7 +134,7 @@ class BookingController extends Controller
                     'pickup_longitude' => ['required', 'numeric', 'between:-180,180'],
                     'delivery_latitude' => ['required', 'numeric', 'between:-90,90'],
                     'delivery_longitude' => ['required', 'numeric', 'between:-180,180'],
-                    'distance_km' => 'nullable|numeric',
+                    'distance_km' => ['required', 'numeric', 'gt:0'],
                 ],
                 [
                     //'pickup_photo.required' => 'Photo are required.',
