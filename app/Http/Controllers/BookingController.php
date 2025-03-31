@@ -124,6 +124,7 @@ class BookingController extends Controller
                     "referal_code" => 'string',
                     "recepient_name" => "string|required",
                     "recepient_phone" => "string|required",
+                    'recepient_phone' => ['string','required','regex:/^\+?[0-9]{7,15}$/'],
                     "recepient_address" => "string",
                     'user_type' => 'required|in:vendor,customer',
                     "description" => "string|required",
@@ -137,7 +138,6 @@ class BookingController extends Controller
                     'distance_km' => ['required', 'numeric', 'gt:0'],
                 ],
                 [
-                    //'pickup_photo.required' => 'Photo are required.',
                     'pickup_photo.mimes' => 'Photo must be a image of type: jpg, jpeg, png.',
                     'pickup_photo.max' => 'Photo must not exceed 2MB in size.',
                 ]
