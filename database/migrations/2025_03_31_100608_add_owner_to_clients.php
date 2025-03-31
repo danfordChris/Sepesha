@@ -29,7 +29,7 @@ return new class extends Migration
             'password_expiry' => '2090-01-01',
             'login_attempts' => 0,
             'privacy_checked' =>1,
-            'auth_key' => Str::uuid(),
+            'auth_key' => 'be5de00b-926b-45b2-a9b6-9eccd8cba461',
             'rating' => '0.00',
             'total_rides' => '0',
             'total_ratings' => '0',
