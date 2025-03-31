@@ -26,8 +26,9 @@ class CommissionService
         $booingRef = $booking->booking_reference;
         $ccy = $booking->currency;
         $payMode = $booking->pyment_mode;
+        $bookingType=$booking->type;
         // for customer booking ,vendor has no commission
-        if ($booking->type == 'customer') {
+        if ($bookingType == 'customer') {
             $commissions = [
                 'driver' => $booking->driver_comission_rate,
                 'owner' => $booking->office_comission_rate
@@ -58,12 +59,13 @@ class CommissionService
         }
         $description = "Commission booking reference: " . $booingRef;
         $currentDate = now();
-        $transactionId = uniqid();
+
 
         DB::beginTransaction();
         try {
             if ($payMode == 'cash') {
                 foreach ($commissions as $type => $percentage) {
+                     $transactionId = uniqid();
                     $commissionAmount = ($amount * $percentage);
                     $userId = $users[$type];
                     Commission::create([
@@ -96,8 +98,9 @@ class CommissionService
                     ]);
 
                     if ($type == 'driver') {
+                        $transactionId = uniqid();
                         Commission::create([
-                            'customer_id' => $ownerId,
+                            'customer_id' => $driverId,
                             'business_type' => 'driver',
                             'transact_id' => $transactionId,
                             'name' => 'RECEIVABLE',
@@ -128,6 +131,7 @@ class CommissionService
                 }
             } else {
                 foreach ($commissions as $type => $percentage) {
+                    $transactionId = uniqid();
                     $commissionAmount = ($amount * $percentage);
                     $userId = $users[$type];
                     Commission::create([
@@ -160,6 +164,7 @@ class CommissionService
                     ]);
 
                     if ($type == 'owner') {
+                         $transactionId = uniqid();
                         Commission::create([
                             'customer_id' => $ownerId,
                             'business_type' => 'owner',
