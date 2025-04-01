@@ -18,8 +18,6 @@ class VehicleController extends Controller
 
     public function create(Request $request)
     {
-
-
         try {
             $validated = $request->validate(
                 [
@@ -47,7 +45,6 @@ class VehicleController extends Controller
                     'attachments' => ['required', 'array', 'min:1'],
                     'attachments.*.id' => ['required', 'exists:workflow_documents,id', 'integer'],
                     'attachments.*.attachment' => ['required', 'file', 'mimes:jpg,jpeg,png,pdf', 'max:2048'],
-
                 ],
                 [
                     'attachments.required' => 'Attachments are required.',
@@ -61,7 +58,6 @@ class VehicleController extends Controller
 
             $validated['id'] = Str::uuid();
             $validated['status'] = 'N';
-
             $alreadyAssigned = Vehicle::where('driver_id', $request->driver_id)
                 ->where('plate_number', $request->plate_number)
                 ->first();

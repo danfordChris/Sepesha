@@ -10,6 +10,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class User extends Authenticatable
 {
@@ -50,7 +51,16 @@ class User extends Authenticatable
         'status',
         'otp',
         'otp_expires_at',
-        'profile_photo'
+        'profile_photo',
+        'region_id',
+        'country_id',
+        'address',
+        'latitude',
+        'longitude',
+        'preferred_payment_method',
+        'license_expiry_date',
+        'driver_license_number',
+
 
 
 
@@ -89,7 +99,7 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
-            'password_hash'=>'hashed'
+            'password_hash' => 'hashed'
         ];
     }
 
@@ -109,5 +119,16 @@ class User extends Authenticatable
         $dob = new DateTime(Date('Y-m-d'));
         $keyvalue =  $pref . $dob->format('Ymd') . $no;
         return   $keyvalue;
+    }
+
+    public static function getAuth($key)
+    {
+
+        $user = User::where('uuid', $key)->first();
+        if (!$user) {
+            return false;
+        }
+
+        return $user;
     }
 }

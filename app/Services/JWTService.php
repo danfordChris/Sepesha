@@ -30,6 +30,7 @@ class JWTService
             //'exp' => Carbon::now()->addMinutes(60)->timestamp, // 1 hour expiration
             'exp' => Carbon::now()->addDays(2)->timestamp, // 1 hour expiration
             'user_type' => $user_type,
+            'auth_key'=>$user->auth_key,
             'data' => [
                 'first_name' => $user->name,
                 'middle_name' => $user->mname,

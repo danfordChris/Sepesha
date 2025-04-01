@@ -7,7 +7,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\FeeCategoryController;
+use App\Http\Controllers\RegionsController;
 use App\Http\Controllers\RideController;
+use App\Http\Controllers\SupportTicketController;
 use App\Http\Controllers\VehicleController;
 use App\Http\Controllers\WelcomeController;
 use App\Models\Booking;
@@ -93,6 +95,8 @@ Route::middleware(['auth.jwt:driver,vendor,agent,customer'])->group(function () 
     Route::put('/vehicle/{id}', [VehicleController::class, 'update']);
 
     Route::post('/user/update-profile/{id}', [AuthController::class, 'updateProfile']);
+
+
     Route::post('/request-ride', [BookingController::class, 'create']);
     Route::get('/update-ride/{id}', [BookingController::class, 'updateBooking']);
     Route::get('/cancel-ride/{id}', [BookingController::class, 'cancelBooking']);
@@ -100,10 +104,17 @@ Route::middleware(['auth.jwt:driver,vendor,agent,customer'])->group(function () 
     Route::get('/booking/get-customer-vendor-bookings', [BookingController::class, 'bookingByCustomerVendorAndStatus']);
     Route::get('/booking/get-driver-bookings', [BookingController::class, 'bookingByDriver']);
     Route::get('/booking/{id}', [BookingController::class, 'bookingById']);
-    Route::get('/attachment-categories', [AttachmentController::class, 'index']);
 
+
+    Route::post('/support-ticket/create', [SupportTicketController::class, 'store']);
+    Route::get('/support-tickets', [SupportTicketController::class, 'index']);
+    Route::get('/support-ticket/{id}', [SupportTicketController::class, 'view']);
+
+    Route::get('/attachment-categories', [AttachmentController::class, 'index']);
     Route::get('/category/{id}', [FeeCategoryController::class, 'view']);
     Route::get('/categories', [FeeCategoryController::class, 'index']);
+
+    Route::get('/regions', [RegionsController::class, 'index']);
 
     Route::get('/dashboard', function (Request $request) {
         return response()->json([

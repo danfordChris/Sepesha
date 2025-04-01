@@ -34,7 +34,9 @@ class Vehicle extends Model
         'updated_by',
         'latitude',
         'longitude',
-        'location_updated_at'
+        'location_updated_at',
+        'wid',
+        'stid',
     ];
 
 

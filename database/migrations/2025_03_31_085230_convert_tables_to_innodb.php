@@ -12,11 +12,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        
+
         DB::statement("ALTER TABLE bookings ENGINE=InnoDB");
         DB::statement("ALTER TABLE clients_info ENGINE=InnoDB");
         DB::statement("ALTER TABLE commissions ENGINE=InnoDB");
         DB::statement("ALTER TABLE vehicles ENGINE=InnoDB");
+       
     }
 
     /**

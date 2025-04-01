@@ -112,7 +112,7 @@ class AuthController extends Controller
                     'first_name' => 'required|string',
                     'middle_name' => 'nullable|string',
                     'last_name' => 'required|string',
-                    'last_name' => 'required|string',
+                    'region_id' => 'required|numeric',
                     'phonecode' => 'required|in:255',
                     'email' => 'required|email|unique:clients_info,email',
                     'referal_code' => 'nullable|string',
@@ -161,6 +161,7 @@ class AuthController extends Controller
             // Create the user
             $validatedData['password_hash'] = Hash::make($validatedData['password']);
             $validatedData['name'] = $validatedData['first_name'];
+            $validatedData['country_id'] =1;
             $validatedData['mname'] = $validatedData['middle_name'];
             $validatedData['sname'] = $validatedData['last_name'];
             $validatedData['reference_number'] = User::getRegistrationNumber($validatedData['user_type']);

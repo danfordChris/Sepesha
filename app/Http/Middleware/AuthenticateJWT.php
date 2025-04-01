@@ -38,12 +38,12 @@ class AuthenticateJWT
             return CustomHelper::response(false, 'Unauthorized', Response::HTTP_FORBIDDEN);
         }
 
-
         // Attach user_id and use_type to the request
-        // $request->merge([
-        //     'user_id' => $decoded->sub,
-        //     'user_type' => $decoded->user_type,
-        // ]);
+        $request->merge([
+            'user_id' => $decoded->sub,
+            'user_type' => $decoded->user_type,
+            'auth_key' => $decoded->auth_key
+        ]);
 
         app()->instance('jwt_user_id', $decoded->sub);
         return $next($request);
