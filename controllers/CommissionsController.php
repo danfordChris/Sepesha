@@ -48,17 +48,6 @@ class CommissionsController extends Controller
      *
      * @return string
      */
-    // public function actionIndex()
-    // {
-    //     $searchModel = new CommissionsSearch();
-    //     $dataProvider = $searchModel->search($this->request->queryParams);
-
-    //     return $this->render('index', [
-    //         'searchModel' => $searchModel,
-    //         'dataProvider' => $dataProvider,
-    //     ]);
-    // }
-
 
     public function actionDriver()
     {
