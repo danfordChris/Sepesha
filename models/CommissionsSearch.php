@@ -41,7 +41,7 @@ class CommissionsSearch extends Commissions
      */
     public function search($params)
     {
-        $query = Commissions::find();
+        $query = Commissions::find()->orderBy('created_at desc');
 
         // add conditions that should always apply here
 
