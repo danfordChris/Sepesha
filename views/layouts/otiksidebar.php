@@ -98,16 +98,16 @@ use yii\helpers\Url;
                     <?= CustomHelper::ICON_USER_CHECK ?>
                     <span>Transactions</span></a>
                 <ul class="dropdown-menu">
-                    <li class="nav-link"><a href="<?= Url::toRoute(['/bookings/pending']) ?>">
+                    <li class="nav-link"><a href="<?= Url::toRoute(['/commissions/driver']) ?>">
                             Driver Account
                         </a>
                     </li>
 
-                    <li class="nav-link"><a href="<?= Url::toRoute(['/bookings/intransit']) ?>">
+                    <li class="nav-link"><a href="<?= Url::toRoute(['/commissions/vendor']) ?>">
                             Vendor Account
                         </a>
                     </li>
-                    <li class="nav-link"><a href="<?= Url::toRoute(['/bookings/completed']) ?>">
+                    <li class="nav-link"><a href="<?= Url::toRoute(['/commissions/owner']) ?>">
                             Revenue Distribution
                         </a>
                     </li>

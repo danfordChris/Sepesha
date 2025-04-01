@@ -37,7 +37,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'dataProvider' => $dataProvider,
             'filterModel' => $searchModel,
             'tableOptions' => ['class' => ' table table-responsive bordered table-sm'],
-            'showPageSummary' => true,
+             'showPageSummary' => true,
             'columns' => [
                 ['class' => 'yii\grid\SerialColumn'],
                 'pickup_date',

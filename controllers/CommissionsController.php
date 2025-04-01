@@ -2,19 +2,19 @@
 
 namespace app\controllers;
 
-use Yii;
-use app\models\Booking;
-use yii\web\Controller;
-use yii\filters\VerbFilter;
-use app\models\BookingSearch;
+use app\models\Commissions;
+use app\models\CommissionsSearch;
 use app\models\User;
+use Yii;
 use yii\filters\AccessControl;
+use yii\web\Controller;
 use yii\web\NotFoundHttpException;
+use yii\filters\VerbFilter;
 
 /**
- * BookingsController implements the CRUD actions for Booking model.
+ * CommissionsController implements the CRUD actions for Commissions model.
  */
-class BookingsController extends Controller
+class CommissionsController extends Controller
 {
     /**
      * @inheritDoc
@@ -43,59 +43,61 @@ class BookingsController extends Controller
         ];
     }
 
-
     /**
-     * Lists all Booking models.
+     * Lists all Commissions models.
      *
      * @return string
      */
-    public function actionPending()
+    // public function actionIndex()
+    // {
+    //     $searchModel = new CommissionsSearch();
+    //     $dataProvider = $searchModel->search($this->request->queryParams);
+
+    //     return $this->render('index', [
+    //         'searchModel' => $searchModel,
+    //         'dataProvider' => $dataProvider,
+    //     ]);
+    // }
+
+
+    public function actionDriver()
     {
-        $searchModel = new BookingSearch();
+        $searchModel = new CommissionsSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
-        $dataProvider->query->andWhere(['status' => 'pending']);
-        return $this->render('pending', [
+        $dataProvider->query->andWhere(['business_type' => 'driver']);
+        return $this->render('driver', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
     }
 
-    public function actionIntransit()
+    public function actionVendor()
     {
-        $searchModel = new BookingSearch();
+        $searchModel = new CommissionsSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
-        $dataProvider->query->andWhere(['status' => ['assigned', 'intransit']]);
-        return $this->render('intransit', [
+        $dataProvider->query->andWhere(['business_type' => 'vendor']);
+        return $this->render('Vendor', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
     }
 
-    public function actionCancelled()
+    public function actionOwner()
     {
-        $searchModel = new BookingSearch();
+        $searchModel = new CommissionsSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
-        $dataProvider->query->andWhere(['status' => 'cancelled']);
-        return $this->render('cancelled', [
+        $dataProvider->query->andWhere(['business_type' => 'owner']);
+        return $this->render('Owner', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
     }
 
 
-    public function actionCompleted()
-    {
-        $searchModel = new BookingSearch();
-        $dataProvider = $searchModel->search($this->request->queryParams);
-        $dataProvider->query->andWhere(['status' => 'completed']);
-        return $this->render('completed', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
-    }
+
 
     /**
-     * Displays a single Booking model.
+     * Displays a single Commissions model.
      * @param string $id ID
      * @return string
      * @throws NotFoundHttpException if the model cannot be found
@@ -108,13 +110,13 @@ class BookingsController extends Controller
     }
 
     /**
-     * Creates a new Booking model.
+     * Creates a new Commissions model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return string|\yii\web\Response
      */
     public function actionCreate()
     {
-        $model = new Booking();
+        $model = new Commissions();
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post()) && $model->save()) {
@@ -130,7 +132,7 @@ class BookingsController extends Controller
     }
 
     /**
-     * Updates an existing Booking model.
+     * Updates an existing Commissions model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param string $id ID
      * @return string|\yii\web\Response
@@ -150,7 +152,7 @@ class BookingsController extends Controller
     }
 
     /**
-     * Deletes an existing Booking model.
+     * Deletes an existing Commissions model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param string $id ID
      * @return \yii\web\Response
@@ -164,15 +166,15 @@ class BookingsController extends Controller
     }
 
     /**
-     * Finds the Booking model based on its primary key value.
+     * Finds the Commissions model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param string $id ID
-     * @return Booking the loaded model
+     * @return Commissions the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Booking::findOne(['id' => $id])) !== null) {
+        if (($model = Commissions::findOne(['id' => $id])) !== null) {
             return $model;
         }
 

@@ -69,6 +69,7 @@ class CustomHelper extends Model
         ];
     }
 
+
     public static  function menuicons()
     {
         return [
@@ -600,4 +601,5 @@ class CustomHelper extends Model
 
         return  \Ramsey\Uuid\Uuid::uuid4()->toString();
     }
+    
 }
