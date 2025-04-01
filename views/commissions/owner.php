@@ -51,7 +51,7 @@ $this->params['breadcrumbs'][] = $this->title;
               'transact_date',
                
                 // 'business_type',
-                'transact_id',
+                'reference_no',
                 // 'name',
                 // 'entryid',
                 'category',

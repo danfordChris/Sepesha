@@ -49,7 +49,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     },
                 ],
                 'transact_date',
-                'transact_id',
+                'reference_no',
                 // 'name',
                 // 'entryid',
                 'category',
