@@ -76,7 +76,7 @@ class CommissionsController extends Controller
         $searchModel = new CommissionsSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
         $dataProvider->query->andWhere(['business_type' => 'vendor']);
-        return $this->render('Vendor', [
+        return $this->render('vendor', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
@@ -87,7 +87,7 @@ class CommissionsController extends Controller
         $searchModel = new CommissionsSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
         $dataProvider->query->andWhere(['business_type' => 'owner']);
-        return $this->render('Owner', [
+        return $this->render('owner', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
