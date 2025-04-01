@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Vehicle extends Model
 {
-    use HasFactory, SoftDeletes,HasUuids,CreatedUpdatedBy;
+    use HasFactory, SoftDeletes, HasUuids, CreatedUpdatedBy;
     protected $keyType = 'string';
     // Disable auto-incrementing for the UUID field
     public $incrementing = false;
@@ -37,6 +37,7 @@ class Vehicle extends Model
         'location_updated_at',
         'wid',
         'stid',
+        'requserinput'
     ];
 
 
@@ -53,7 +54,7 @@ class Vehicle extends Model
 
     public function attachments()
     {
-        return $this->hasMany(Attachment::class,'refno','id');
+        return $this->hasMany(Attachment::class, 'refno', 'id');
     }
 
     protected $casts = [

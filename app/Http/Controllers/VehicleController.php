@@ -58,6 +58,7 @@ class VehicleController extends Controller
 
             $validated['id'] = Str::uuid();
             $validated['status'] = 'N';
+            $validated['requserinput'] = 'N';
             $alreadyAssigned = Vehicle::where('driver_id', $request->driver_id)
                 ->where('plate_number', $request->plate_number)
                 ->first();
@@ -65,9 +66,9 @@ class VehicleController extends Controller
                 $msg = 'This driver is already assigned to the same vehicle.';
                 return CustomHelper::response(false, $msg, 442);
             }
-                $vehicle = Vehicle::create($validated);
-                $vid = $vehicle->id;
-                $wid = $vehicle->wid;
+            $vehicle = Vehicle::create($validated);
+            $vid = $vehicle->id;
+            $wid = $vehicle->wid;
             if ($vehicle) {
                 try {
                     foreach ($validated['attachments'] as $index => $attachmentData) {

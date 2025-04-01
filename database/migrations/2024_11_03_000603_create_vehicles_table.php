@@ -14,7 +14,7 @@ return new class extends Migration
      public function up(): void
 {
     Schema::create('vehicles', function (Blueprint $table) {
-        $table->char('id', 36)->primary();  
+        $table->char('id', 36)->primary();
         $table->string('plate_number')->unique();
         $table->string('make');
         $table->string('model');
@@ -26,7 +26,7 @@ return new class extends Migration
         $table->integer('capacity')->nullable();
         $table->char('owner_id', 36);
         $table->foreign('owner_id')->references('auth_key')->on('clients_info');
-        $table->string('status')->default('available');
+        $table->string('status')->default('N');
         $table->foreignIdFor(User::class, 'created_by')->nullable();
         $table->foreignIdFor(User::class, 'updated_by')->nullable();
         $table->softDeletes();
