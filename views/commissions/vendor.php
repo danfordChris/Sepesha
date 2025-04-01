@@ -59,7 +59,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
                 // 'business_type',
                 'transact_id',
-                'name',
+                // 'name',
                 // 'entryid',
                 'category',
                 // 'account_code',

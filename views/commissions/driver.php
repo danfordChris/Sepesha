@@ -50,7 +50,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 ],
                 'transact_date',
                 'transact_id',
-                'name',
+                // 'name',
                 // 'entryid',
                 'category',
                 // 'account_code',
