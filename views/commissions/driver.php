@@ -74,8 +74,8 @@ $this->params['breadcrumbs'][] = $this->title;
                     'pageSummary' => true,
                     'format' => ['decimal', 2]
                 ],
-                'descr:ntext',
-                'created_at',
+                // 'descr:ntext',
+                // 'created_at',
 
                 // 'erate',
                 // 'descr:ntext',
