@@ -101,4 +101,20 @@ class ClientInfo extends \yii\db\ActiveRecord
   {
     return $this->hasOne(Workflow::class, ['wid' => 'wid']);
   }
+
+
+  public static function getCustomerList()
+  {
+    $cust = self::find()->all();
+    $list = ArrayHelper::map($cust, 'auth_key', 'name');
+    return $list;
+  }
+
+
+  public static function getCustomerListActive()
+  {
+    $cust = self::find()->where(['status' => 1])->asArray()->all();
+    $list = ArrayHelper::map($cust, 'auth_key', 'name');
+    return $list;
+  }
 }

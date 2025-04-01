@@ -14,11 +14,13 @@ class CommissionsSearch extends Commissions
     /**
      * {@inheritdoc}
      */
+
+    public  $date_from, $date_to;
     public function rules()
     {
         return [
             [['id', 'quantity', 'fyid', 'wid', 'stid', 'created_by', 'updated_by'], 'integer'],
-            [['customer_id', 'transact_date', 'business_type', 'transact_id', 'name', 'entryid', 'entry_type', 'category', 'account_code', 'uom', 'currency', 'descr', 'reference_no', 'status', 'wfstatus', 'requserinput', 'created_at', 'updated_at'], 'safe'],
+            [['customer_id', 'transact_date', 'business_type', 'transact_id', 'name', 'entryid', 'entry_type', 'category', 'account_code', 'uom', 'currency', 'descr', 'reference_no', 'status', 'wfstatus', 'requserinput', 'created_at', 'updated_at', 'date_from', 'date_to'], 'safe'],
             [['vat', 'unit_price', 'dramount', 'cramount', 'erate'], 'number'],
         ];
     }
@@ -60,7 +62,7 @@ class CommissionsSearch extends Commissions
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'transact_date' => $this->transact_date,
+            // 'transact_date' => $this->transact_date,
             'quantity' => $this->quantity,
             'vat' => $this->vat,
             'unit_price' => $this->unit_price,
@@ -74,6 +76,7 @@ class CommissionsSearch extends Commissions
             'updated_by' => $this->updated_by,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
+            'customer_id' => $this->customer_id
         ]);
 
         $query->andFilterWhere(['like', 'customer_id', $this->customer_id])
@@ -90,7 +93,9 @@ class CommissionsSearch extends Commissions
             ->andFilterWhere(['like', 'reference_no', $this->reference_no])
             ->andFilterWhere(['like', 'status', $this->status])
             ->andFilterWhere(['like', 'wfstatus', $this->wfstatus])
-            ->andFilterWhere(['like', 'requserinput', $this->requserinput]);
+            ->andFilterWhere(['like', 'requserinput', $this->requserinput])
+            ->andFilterWhere(['>=', 'DATE_FORMAT(transact_date, "%Y-%m-%d")', $this->date_from])
+            ->andFilterWhere(['<=', 'DATE_FORMAT(transact_date, "%Y-%m-%d")', $this->date_to]);
 
         return $dataProvider;
     }

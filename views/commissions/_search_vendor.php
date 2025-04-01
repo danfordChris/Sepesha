@@ -20,7 +20,7 @@ use kartik\widgets\DatePicker;
                 <div class="">
                     <div class="">
                         <?php $form = ActiveForm::begin([
-                            'action' => ['driver'],
+                            'action' => ['vendor'],
                             'method' => 'get',
                         ]); ?>
                         <strong>
@@ -76,7 +76,7 @@ use kartik\widgets\DatePicker;
 
                     <div class="form-group">
                         <?= Html::submitButton('<i class="fa fa-search fa-1x me-2"></i>Search', ['class' => 'btn btn-sm btn-info']) ?>
-                        <?= Html::a('<i class="fa fa-times fa-1x me-2"></i>' . Yii::t('app', 'Reset'), ['driver'], ['class' => 'btn btn-sm btn-secondary text-dark']); ?>
+                        <?= Html::a('<i class="fa fa-times fa-1x me-2"></i>' . Yii::t('app', 'Reset'), ['vendor'], ['class' => 'btn btn-sm btn-secondary text-dark']); ?>
                     </div>
 
                     <?php ActiveForm::end(); ?>

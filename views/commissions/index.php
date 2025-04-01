@@ -21,17 +21,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <div class="card-body">
 
-        <div class="row">
-            <div class="col-md-6">
-                <h5><?= Html::encode($this->title) ?></h5>
 
-            </div>
-            <!-- <div class="col-md-6">
-                <button type="button" class="btn mb-2 float-end  btn-outline-info" data-bs-toggle="modal"
-                    data-bs-target="#rcamodal">
-                    <i class="fa fa-plus"></i>Create Driver Assignment</button>
-            </div> -->
-        </div>
+
+
 
         <?= GridView::widget([
             'dataProvider' => $dataProvider,
@@ -101,7 +93,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'buttons' => [
                         'view' => function ($url, $model) {
                             return Html::a(
-                                '<button type="button" class="btn btn-sm btn-warning mx-2 button-icon mb-1"><i class="fa fa-eye me-1"></i>View</button>',
+                                '<button type="button" class="btn btn-lg btn-warning mx-2 button-icon mb-1"><i class="fa fa-eye me-1"></i> View</button>',
                                 Yii::$app->urlManager->createUrl(['commissions/view', 'id' => $model->id]),
                                 ['title' => Yii::t('yii', 'View'),]
                             );
