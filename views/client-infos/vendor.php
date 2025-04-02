@@ -39,7 +39,7 @@ echo $this->render('/site/bs5tobs4');
             'exportConfig' => Yii::$app->kalaExport->getKalaExport($this->title),
             'export' => [
                 'options' => ['class' => 'btn btn-sm btn-warning'],
-                'menuOptions' => ['class' => 'dropdown-menu dropdown-menu-end fs-6'], // Align dropdown to right
+                'menuOptions' => ['class' => 'dropdown-menu dropdown-menu-end fs-6'],
             ],
 
             'toggleDataOptions' => [
@@ -51,7 +51,6 @@ echo $this->render('/site/bs5tobs4');
             'hover' => true,
             'summary' => 'Showing {begin} - {end} of {totalCount} items',
             'tableOptions' => ['class' => ' table table-responsive bordered table-sm'],
-
             'columns' => [
                 ['class' => 'kartik\grid\SerialColumn'],
 
@@ -60,30 +59,58 @@ echo $this->render('/site/bs5tobs4');
                     'attribute' => 'profile_photo',
                     'format' => 'raw',
                     'value' => function ($model) {
-                        return Html::img($model->profile_photo, ['alt' => 'Profile Photo', 'width' => '40px', 'height' => '40px']);
+
+                        if ($model->profile_photo) {
+                            return Html::img($model->profile_photo, [
+                                'alt' => 'Profile Photo',
+
+                                'width' => '50px',
+                                'height' => '50px',
+                                'style' => 'object-fit: cover;'
+                            ]);
+                        } else {
+
+                            return Html::tag('i', '', [
+                                'class' => 'fa fa-user fa-3x',
+                                'style' => 'width: 50px; height: 50px; display: inline-block; object-fit: cover;',
+                                'contentOptions' => ['class' => 'align-middle'],
+                            ]);
+                        }
                     },
+                    'contentOptions' => ['class' => 'align-middle'],
                 ],
-                'role',
+
+                [
+                    'attribute' => 'role',
+                    'contentOptions' => ['class' => 'align-middle'],
+                ],
                 // 'entity_type',
                 // 'reference_number',
                 [
-                    
+
                     'attribute' => 'name',
                     'value' => function ($model) {
                         return $model->name . '' . $model->sname;
                     },
+                    'contentOptions' => ['class' => 'align-middle'],
                 ],
                 // 'mname',
                 // 'sname',
-                'email:email',
+
+                [
+                    'attribute' => 'email',
+                    'contentOptions' => ['class' => 'align-middle'],
+
+                ],
                 // 'phonecode',
                 // 'phone',
                 // Concatenate phonecode and phone
                 [
                     'attribute' => 'phone',
                     'value' => function ($model) {
-                        return $model->phonecode . '' . $model->phone;
+                        return '+' . $model->phonecode . '' . $model->phone;
                     },
+                    'contentOptions' => ['class' => 'align-middle'],
                 ],
                 //'password',
                 //'password_hash',
@@ -119,7 +146,7 @@ echo $this->render('/site/bs5tobs4');
                 //'location_updated_at',
                 [
                     'attribute' => 'status',
-                    'format' => 'raw', // To allow rendering HTML
+                    'format' => 'raw',
                     'value' => function ($model) {
                         if ($model->status == 10) {
                             return Html::tag('span', 'Active', ['class' => 'badge bg-success']);
@@ -127,6 +154,7 @@ echo $this->render('/site/bs5tobs4');
                             return Html::tag('span', 'Inactive', ['class' => 'badge bg-danger']);
                         }
                     },
+                    'contentOptions' => ['class' => 'align-middle'],
                 ],
 
                 //'attachment',
@@ -140,16 +168,18 @@ echo $this->render('/site/bs5tobs4');
                 //'updated_by',
                 //'deleted_at',
                 //'created_at',
-                'updated_at',
+                [
+                    'attribute' => 'updated_at',
+                    'contentOptions' => ['class' => 'align-middle']
+                ],
                 //'otp',
                 //'otp_expires_at',
                 //'privacy_checked',
                 //'referal_code',
                 [
                     'class' => 'yii\grid\ActionColumn',
-                    //'visible' => User::auth('admin'),
-                    // 'noWrap' => true,
                     'template' => '{view}',
+                    'contentOptions' => ['class' => 'align-middle'],
                     'buttons' => [
                         'view' => function ($url, $model) {
                             return Html::a(
@@ -157,7 +187,8 @@ echo $this->render('/site/bs5tobs4');
                                 Yii::$app->urlManager->createUrl(['client-infos/view', 'id' => $model->id]),
                                 ['title' => Yii::t('yii', 'View'),]
                             );
-                        }
+                        },
+
                     ],
                 ],
             ],
