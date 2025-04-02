@@ -66,7 +66,13 @@ echo $this->render('/site/bs5tobs4');
                 'role',
                 // 'entity_type',
                 // 'reference_number',
-                'name',
+                [
+                    
+                    'attribute' => 'name',
+                    'value' => function ($model) {
+                        return $model->name . '' . $model->sname;
+                    },
+                ],
                 // 'mname',
                 // 'sname',
                 'email:email',
