@@ -111,7 +111,12 @@ echo $this->render('/site/bs5tobs4');
                 //'latitude',
                 //'longitude',
                 //'location_updated_at',
-                'status',
+                [
+                    'attribute' => 'status',
+                    'value' => function ($model) {
+                        return $model->status == 10 ? 'Active' : ($model->status == 0 ? 'Inactive' : 'Unknown');
+                    },
+                ],
                 //'attachment',
                 //'approved_by',
                 //'approved_date',
@@ -123,7 +128,7 @@ echo $this->render('/site/bs5tobs4');
                 //'updated_by',
                 //'deleted_at',
                 //'created_at',
-                 'updated_at',
+                'updated_at',
                 //'otp',
                 //'otp_expires_at',
                 //'privacy_checked',
