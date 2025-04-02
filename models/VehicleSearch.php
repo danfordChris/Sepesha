@@ -41,7 +41,7 @@ class VehicleSearch extends Vehicle
      */
     public function search($params)
     {
-        $query = Vehicle::find();
+        $query = Vehicle::find()->orderBy('created_at desc,status');
 
         // add conditions that should always apply here
 

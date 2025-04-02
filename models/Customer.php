@@ -157,6 +157,8 @@ class Customer extends \yii\db\ActiveRecord
         return $list;
     }
 
+    
+
     public static function getCustomerListActive()
     {
         $cust = self::find()->where(['status' => 1])->asArray()->all();
@@ -192,12 +194,12 @@ class Customer extends \yii\db\ActiveRecord
     {
         return $this->hasOne(User::class, ['id' => 'created_by']);
     }
-    
+
     public function getUpdatedUser()
     {
         return $this->hasOne(User::class, ['id' => 'updated_by']);
     }
-    
+
   public function getContact()
     {
         return $this->hasOne(Categories::class, ['id' => 'name']);

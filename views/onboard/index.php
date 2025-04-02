@@ -40,6 +40,12 @@ $this->params['breadcrumbs'][] = $this->title;
 
                 'plate_number',
                 [
+                    'label' => 'Driver',
+                    'value' => function ($model) {
+                        return  $model->driver->getFullName() ?? '';
+                    }
+                ],
+                [
                     'attribute' => 'status',
                     'format' => 'raw',
                     'content' => function ($m) {
@@ -53,12 +59,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'fee.name:ntext:Category',
                 'color',
 
-                [
-                    'label' => 'Driver',
-                    'value' => function ($model) {
-                        return  $model->driver->getFullName() ?? '';
-                    }
-                ],
+
 
                 // [
                 //     'attribute' => 'email',

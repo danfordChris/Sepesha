@@ -20,7 +20,7 @@ use kartik\widgets\DatePicker;
                 <div class="">
                     <div class="">
                         <?php $form = ActiveForm::begin([
-                            'action' => ['driver'],
+                            'action' => ['owner'],
                             'method' => 'get',
                         ]); ?>
                         <strong>
@@ -31,17 +31,8 @@ use kartik\widgets\DatePicker;
                             </div>
                             <div class="row">
 
-                                <div class="col-3">
-                                    <?= $form->field($model, 'customer_id')->widget(Select2::class, [
-                                        'data' => ClientInfo::getCustomerList(),
-                                        'options' => ['placeholder' => '-- select --'],
-                                        'pluginOptions' => [
-                                            'allowClear' => true,
-                                        ],
-                                    ]) ?>
-                                </div>
 
-                                <div class="col-3">
+                                <div class="col-6">
                                     <?= $form->field($model, 'date_from')->widget(DatePicker::class, [
                                         'options' => [
                                             'class' => 'form-control',
@@ -54,7 +45,7 @@ use kartik\widgets\DatePicker;
                                     ]) ?>
 
                                 </div>
-                                <div class="col-3">
+                                <div class="col-6">
                                     <?= $form->field($model, 'date_to')->widget(DatePicker::class, [
                                         'options' => [
                                             'class' => 'form-control',
@@ -76,7 +67,7 @@ use kartik\widgets\DatePicker;
 
                     <div class="form-group">
                         <?= Html::submitButton('<i class="fa fa-search fa-1x me-2"></i>Search', ['class' => 'btn btn-sm btn-info']) ?>
-                        <?= Html::a('<i class="fa fa-times fa-1x me-2"></i>' . Yii::t('app', 'Reset'), ['driver'], ['class' => 'btn btn-sm btn-secondary text-dark']); ?>
+                        <?= Html::a('<i class="fa fa-times fa-1x me-2"></i>' . Yii::t('app', 'Reset'), ['owner'], ['class' => 'btn btn-sm btn-secondary text-dark']); ?>
                     </div>
 
                     <?php ActiveForm::end(); ?>

@@ -16,32 +16,44 @@ use reine\datatables\DataTables;
 
 $this->title = 'Driver commissions';
 $this->params['breadcrumbs'][] = $this->title;
+echo $this->render('/site/bs5tobs4');
 ?>
-<div class="commissions-index card">
+<div class="commissions-index">
 
-    <div class="card-body">
-
+    <div class="">
         <div class="row">
-            <div class="col-md-6">
+            <div class="">
+
                 <h5><?= Html::encode($this->title) ?></h5>
+                <?php echo $this->render('_search', ['model' => $searchModel]); ?>
 
             </div>
-            <!-- <div class="col-md-6">
-                <button type="button" class="btn mb-2 float-end  btn-outline-info" data-bs-toggle="modal"
-                    data-bs-target="#rcamodal">
-                    <i class="fa fa-plus"></i>Create Driver Assignment</button>
-            </div> -->
-        </div>
 
+        </div>
         <?= GridView::widget([
             'dataProvider' => $dataProvider,
-            'filterModel' => $searchModel,
+            //'filterModel' => $searchModel,
             'tableOptions' => ['class' => ' table table-responsive bordered table-sm'],
             'showPageSummary' => true,
             'headerRowOptions' => ['style' => 'white-space: nowrap;'],
+            'exportConfig' => Yii::$app->kalaExport->getKalaExport($this->title),
+            'export' => [
+                'options' => ['class' => 'btn btn-sm btn-warning'],
+                'menuOptions' => ['class' => 'dropdown-menu dropdown-menu-end fs-6'], // Align dropdown to right
+            ],
+
+            'toggleDataOptions' => [
+                'all' => ['class' => 'btn btn-secondary text-dark mx-2 btn-sm'],
+                'page' => ['class' => 'btn btn-secondary text-dark mx-2 btn-sm'],
+            ],
+            'bsVersion' => '5.x',
+            'responsive' => true,
+            'hover' => true,
+            'summary' => 'Showing {begin} - {end} of {totalCount} items',
+            'tableOptions' => ['class' => ' table table-responsive bordered table-sm'],
 
             'columns' => [
-                ['class' => 'yii\grid\SerialColumn'],
+                ['class' => 'kartik\grid\SerialColumn'],
                 [
                     'attribute' => 'customer_id',
                     'value' => function ($model) {
@@ -106,7 +118,27 @@ $this->params['breadcrumbs'][] = $this->title;
                     ],
                 ],
 
+
+
             ],
+
+            'panel' => [
+                'type' => 'warning',
+                'headingOptions' => ['class' => 'card-header float-end float-right text-white bg-dark p-2', 'style' => 'height:3em;'],
+                'beforeOptions' => ['style' => 'height:4em;'],
+                'before' =>
+                Html::a(
+                    '<i class="fa fa-search fa-1x me-2"></i>Search',
+                    '#panel-body-1',
+                    [
+                        'class' => 'btn btn-sm btn-info text-white float-end accordion-bs-toggle',
+                        'data-bs-toggle' => 'collapse',
+                        'aria-expanded' => 'false',
+                        'data-bs-target' => '#panel-body-1',
+                    ]
+                ),
+            ],
+
         ]); ?>
 
 
