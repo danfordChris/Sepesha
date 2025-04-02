@@ -113,10 +113,16 @@ echo $this->render('/site/bs5tobs4');
                 //'location_updated_at',
                 [
                     'attribute' => 'status',
+                    'format' => 'raw', // To allow rendering HTML
                     'value' => function ($model) {
-                        return $model->status == 10 ? 'Active' : ($model->status == 0 ? 'Inactive' : 'Unknown');
+                        if ($model->status == 10) {
+                            return Html::tag('span', 'Active', ['class' => 'badge bg-success']);
+                        } elseif ($model->status == 0) {
+                            return Html::tag('span', 'Inactive', ['class' => 'badge bg-danger']);
+                        }
                     },
                 ],
+
                 //'attachment',
                 //'approved_by',
                 //'approved_date',
@@ -128,7 +134,7 @@ echo $this->render('/site/bs5tobs4');
                 //'updated_by',
                 //'deleted_at',
                 //'created_at',
-                 'updated_at',
+                'updated_at',
                 //'otp',
                 //'otp_expires_at',
                 //'privacy_checked',
