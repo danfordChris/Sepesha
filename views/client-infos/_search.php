@@ -40,8 +40,8 @@ use yii\helpers\ArrayHelper;
                                             <?php echo $form->field($model, 'email') ?>
                                         </div>
                                         <div class="col-6">
-                                            <?= $form->field($model, 'auth_key')->widget(Select2::class, [
-                                                'data' => ClientInfo::getCustomerList(),
+                                            <?= $form->field($model, 'id')->widget(Select2::class, [
+                                                'data' => ClientInfo::getCustomerListById(),
                                                 'options' => ['placeholder' => '-- select --'],
                                                 'pluginOptions' => [
                                                     'allowClear' => true,

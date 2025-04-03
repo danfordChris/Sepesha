@@ -23,7 +23,7 @@ use yii\helpers\ArrayHelper;
                         <div class="">
                             <div class="">
                                 <?php $form = ActiveForm::begin([
-                                    'action' => ['vendor'],
+                                    'action' => ['index'],
                                     'method' => 'get',
                                 ]); ?>
                                 <strong>
@@ -36,16 +36,16 @@ use yii\helpers\ArrayHelper;
 
 
                                         <div class="col-6">
-
-                                            <?php echo $form->field($model, 'email') ?> </div>
+                                            <?= $form->field($model, 'value')->textInput(['maxlength' => true]) ?>
+                                        </div>
                                         <div class="col-6">
-                                            <?= $form->field($model, 'id')->widget(Select2::class, [
-                                                'data' => ClientInfo::getCustomerListById(),
-                                                'options' => ['placeholder' => '-- select --'],
-                                                'pluginOptions' => [
-                                                    'allowClear' => true,
+                                            <?= $form->field($model, 'type')->dropDownList(
+                                                [
+                                                    'percent' => 'Percent',
+                                                    'amount' => 'Amount',
                                                 ],
-                                            ]) ?>
+                                                ['prompt' => 'Select Type']
+                                            ) ?>
                                         </div>
 
                                     </div>
@@ -53,38 +53,41 @@ use yii\helpers\ArrayHelper;
                                     <div class="row">
 
                                         <div class="col-md-2">
-                                            <?= $form->field($model, 'phonecode')->widget(Select2::classname(), [
-                                                'data' => ArrayHelper::map(Countries::find()->all(), 'phonecode', 'phonecode'),
-                                                'options' => [
-                                                    'placeholder' => 'Select phone code...',
-                                                    'value' => '255',
 
+                                            <?= $form->field($model, 'category')->dropDownList(
+                                                [
+                                                    'driver' => 'Driver',
+                                                    'customer' => 'Customer',
                                                 ],
-                                                'pluginOptions' => [
-                                                    'allowClear' => true,
-                                                ],
-                                            ])->label('Phone Code'); ?>
-
+                                                ['prompt' => 'Select Category']
+                                            ) ?>
                                         </div>
 
                                         <div class="col-4">
-                                            <?= $form->field($model, 'phone')->textInput(['maxlength' => true])->label('Phone') ?>
 
+                                            <?= $form->field($model, 'start_date')->widget(DatePicker::class, [
+                                                'options' => [
+                                                    'class' => 'form-control',
+                                                    'placeholder' => 'Start Date',
+                                                ],
+                                                'pluginOptions' => [
+                                                    'autoclose' => true,
+                                                    'format' => 'yyyy-mm-dd'
+                                                ]
+                                            ]) ?>
                                         </div>
 
                                         <div class="col-6">
-                                            <?= $form->field($model, 'status')->widget(Select2::classname(), [
-                                                'data' => [
-                                                    10 => 'Active', // Option for Active status
-                                                    0 => 'Inactive', // Option for Inactive status
-                                                ],
+                                            <?= $form->field($model, 'end_date')->widget(DatePicker::class, [
                                                 'options' => [
-                                                    'placeholder' => 'Select status...',
+                                                    'class' => 'form-control',
+                                                    'placeholder' => 'End Date',
                                                 ],
                                                 'pluginOptions' => [
-                                                    'allowClear' => true,
-                                                ],
-                                            ])->label('Status'); ?>
+                                                    'autoclose' => true,
+                                                    'format' => 'yyyy-mm-dd'
+                                                ]
+                                            ]) ?>
                                         </div>
                                     </div>
                             </div>
@@ -95,7 +98,7 @@ use yii\helpers\ArrayHelper;
 
                         <div class="form-group">
                             <?= Html::submitButton('<i class="fa fa-search fa-1x me-2"></i>Search', ['class' => 'btn btn-sm btn-info']) ?>
-                            <?= Html::a('<i class="fa fa-times fa-1x me-2"></i>' . Yii::t('app', 'Reset'), ['vendor'], ['class' => 'btn btn-sm btn-secondary text-dark']); ?>
+                            <?= Html::a('<i class="fa fa-times fa-1x me-2"></i>' . Yii::t('app', 'Reset'), ['index'], ['class' => 'btn btn-sm btn-secondary text-dark']); ?>
                         </div>
 
                         <?php ActiveForm::end(); ?>

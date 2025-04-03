@@ -104,7 +104,7 @@ class ClientsInfo extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
+            'id' => 'Name',
             'role' => 'Role',
             'entity_type' => 'Entity Type',
             'reference_number' => 'Reference Number',
