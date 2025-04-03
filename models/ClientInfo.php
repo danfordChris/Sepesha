@@ -103,10 +103,18 @@ class ClientInfo extends \yii\db\ActiveRecord
   }
 
 
+  // public static function getCustomerList()
+  // {
+  //   $cust = self::find()->all();
+  //   $list = ArrayHelper::map($cust, 'auth_key', 'name');
+  //   return $list;
+  // }
   public static function getCustomerList()
   {
     $cust = self::find()->all();
-    $list = ArrayHelper::map($cust, 'auth_key', 'name');
+    $list = ArrayHelper::map($cust, 'auth_key', function ($model) {
+      return $model->name . ' ' . $model->sname;
+    });
     return $list;
   }
 
