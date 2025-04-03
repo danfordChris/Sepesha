@@ -57,6 +57,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'updated_by',
                 'created_at',
                 'updated_at',
+                
 
             ],
         ]) ?>

@@ -52,28 +52,13 @@ use yii\helpers\ArrayHelper;
 
                                     <div class="row">
 
-                                        <div class="col-md-2">
-                                            <?= $form->field($model, 'phonecode')->widget(Select2::classname(), [
-                                                'data' => ArrayHelper::map(Countries::find()->all(), 'phonecode', 'phonecode'),
-                                                'options' => [
-                                                    'placeholder' => 'Select phone code...',
-                                                    'value' => '255',
-
-                                                ],
-                                                'pluginOptions' => [
-                                                    'allowClear' => true,
-                                                ],
-                                            ])->label('Phone Code'); ?>
-
-                                        </div>
-
-                                        <div class="col-4">
+                                        <div class="col-6">
                                             <?= $form->field($model, 'phone')->textInput(['maxlength' => true])->label('Phone') ?>
 
                                         </div>
 
                                         <div class="col-6">
-                                            <?= $form->field($model, 'status')->widget(Select2::classname(), [
+                                            <?= $form->field($model, 'status')->widget(Select2::class, [
                                                 'data' => [
                                                     10 => 'Active', // Option for Active status
                                                     0 => 'Inactive', // Option for Inactive status
@@ -85,6 +70,41 @@ use yii\helpers\ArrayHelper;
                                                     'allowClear' => true,
                                                 ],
                                             ])->label('Status'); ?>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <?= $form->field($model, 'date_from')->widget(DatePicker::class, [
+                                                'options' => [
+                                                    'class' => 'form-control',
+                                                    'placeholder' => 'From Date',
+                                                ],
+                                                'pluginOptions' => [
+                                                    'autoclose' => true,
+                                                    'format' => 'yyyy-mm-dd'
+                                                ]
+                                            ]) ?>
+
+                                        </div>
+                                        <div class="col-6">
+                                            <?= $form->field($model, 'date_to')->widget(DatePicker::class, [
+                                                'options' => [
+                                                    'class' => 'form-control',
+                                                    'placeholder' => 'To Date',
+                                                ],
+                                                'pluginOptions' => [
+                                                    'autoclose' => true,
+                                                    'format' => 'yyyy-mm-dd'
+                                                ]
+                                            ]) ?>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <?= $form->field($model, 'referal_code')->textInput(['maxlength' => true]) ?>
                                         </div>
                                     </div>
                             </div>

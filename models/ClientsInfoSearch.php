@@ -14,11 +14,12 @@ class ClientsInfoSearch extends ClientsInfo
     /**
      * {@inheritdoc}
      */
+    public  $date_from, $date_to;
     public function rules()
     {
         return [
             [['id', 'login_attempts', 'userid', 'total_rides', 'total_ratings', 'total_deliveries', 'is_verified', 'country_id', 'region_id', 'district_id', 'status', 'approved_by', 'wid', 'stid', 'created_by', 'updated_by', 'otp', 'privacy_checked'], 'integer'],
-            [['role', 'entity_type', 'reference_number', 'name', 'mname', 'sname', 'email', 'phonecode', 'phone', 'password', 'password_hash', 'password_reset_token', 'company_id', 'confirmation_token', 'auth_key', 'password_expiry', 'driver_license_number', 'license_expiry_date', 'profile_photo', 'dob', 'preferred_payment_method', 'address', 'ward', 'street', 'house_number', 'postal_code', 'location_updated_at', 'attachment', 'approved_date', 'wfstatus', 'requserinput', 'deleted_at', 'created_at', 'updated_at', 'otp_expires_at', 'referal_code'], 'safe'],
+            [['role', 'entity_type', 'reference_number', 'name', 'mname', 'sname', 'email', 'phonecode', 'phone', 'password', 'password_hash', 'password_reset_token', 'company_id', 'confirmation_token', 'auth_key', 'password_expiry', 'driver_license_number', 'license_expiry_date', 'profile_photo', 'dob', 'preferred_payment_method', 'address', 'ward', 'street', 'house_number', 'postal_code', 'location_updated_at', 'attachment', 'approved_date', 'wfstatus', 'requserinput', 'deleted_at', 'created_at', 'updated_at', 'otp_expires_at', 'referal_code', 'date_from', 'date_to'], 'safe'],
             [['rating', 'wallet_balance_tzs', 'wallet_balance_usd', 'latitude', 'longitude'], 'number'],
         ];
     }
@@ -84,12 +85,11 @@ class ClientsInfoSearch extends ClientsInfo
             'stid' => $this->stid,
             'created_by' => $this->created_by,
             'updated_by' => $this->updated_by,
-            'deleted_at' => $this->deleted_at,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
+
             'otp' => $this->otp,
             'otp_expires_at' => $this->otp_expires_at,
             'privacy_checked' => $this->privacy_checked,
+            'status'=>$this->status
         ]);
 
         $query->andFilterWhere(['like', 'role', $this->role])
@@ -119,7 +119,9 @@ class ClientsInfoSearch extends ClientsInfo
             ->andFilterWhere(['like', 'attachment', $this->attachment])
             ->andFilterWhere(['like', 'wfstatus', $this->wfstatus])
             ->andFilterWhere(['like', 'requserinput', $this->requserinput])
-            ->andFilterWhere(['like', 'referal_code', $this->referal_code]);
+            ->andFilterWhere(['like', 'referal_code', $this->referal_code])
+            ->andFilterWhere(['>=', 'DATE_FORMAT(created_at, "%Y-%m-%d")', $this->date_from])
+            ->andFilterWhere(['<=', 'DATE_FORMAT(created_at, "%Y-%m-%d")', $this->date_to]);
 
         return $dataProvider;
     }

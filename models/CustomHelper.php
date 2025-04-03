@@ -9,7 +9,7 @@ use yii\helpers\ArrayHelper;
 use Symfony\Component\Uid\Ulid;
 use yii\web\NotFoundHttpException;
 use PhpOffice\PhpSpreadsheet\Calculation\DateTimeExcel\WorkDay;
-
+use yii\helpers\Html;
 
 class CustomHelper extends Model
 {
@@ -38,6 +38,15 @@ class CustomHelper extends Model
                         <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path>
                         <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path>
                     </svg>';
+
+
+    const MAP ='<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-map-pin"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>';
+
+    const TRANSACTION= '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-hard-drive"><line x1="22" y1="12" x2="2" y2="12"></line><path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"></path><line x1="6" y1="16" x2="6" y2="16"></line><line x1="10" y1="16" x2="10" y2="16"></line></svg>';
+
+    const DISCOUNT= '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus-square"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="8" y1="12" x2="16" y2="12"></line></svg>';
+
+    
 
     const CASE_INTAKE_WORKFLOW = 1;
     const CASE_CLOSURE_WORKFLOW = 2;
@@ -568,6 +577,15 @@ class CustomHelper extends Model
         return $trimmedUrl;
     }
 
+    public static function getUserIcon(){
+
+        return Html::tag('i', '', [
+            'class' => 'fa fa-user-circle fa-2x',
+            'style' => 'width: 50px; height: 50px; display: inline-block; object-fit: cover;',
+            'contentOptions' => ['class' => 'align-middle'],
+        ]);
+    }
+
     public static function setMainUrl()
     {
         $controller = Yii::$app->controller->id;
@@ -601,5 +619,5 @@ class CustomHelper extends Model
 
         return  \Ramsey\Uuid\Uuid::uuid4()->toString();
     }
-    
+
 }

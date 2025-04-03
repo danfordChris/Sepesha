@@ -53,7 +53,7 @@ use yii\helpers\Url;
             <?php if (User::isAdmin()) : ?>
                 <li>
                     <a href="#" class="menu-toggle nav-link has-dropdown">
-                        <?= CustomHelper::ICON_USER_CHECK ?>
+                        <?= CustomHelper::ICON_APPROVAL ?>
                         <span>Approvals </span></a>
                     <ul class="dropdown-menu">
                         <li class="nav-link"><a href="<?= Url::toRoute(['/onboard/index']) ?>">
@@ -69,7 +69,7 @@ use yii\helpers\Url;
 
                 <li>
                     <a href="#" class="menu-toggle nav-link has-dropdown">
-                        <?= CustomHelper::ICON_USER_CHECK ?>
+                        <?= CustomHelper::ICON_MAP ?>
                         <span>Bookings </span></a>
                     <ul class="dropdown-menu">
                         <li class="nav-link"><a href="<?= Url::toRoute(['/bookings/pending']) ?>">
@@ -95,7 +95,7 @@ use yii\helpers\Url;
 
                 <li>
                     <a href="#" class="menu-toggle nav-link has-dropdown">
-                        <?= CustomHelper::ICON_USER_CHECK ?>
+                        <?= CustomHelper::TRANSACTION ?>
                         <span>Transactions</span></a>
                     <ul class="dropdown-menu">
                         <li class="nav-link"><a href="<?= Url::toRoute(['/commissions/driver']) ?>">
@@ -119,7 +119,7 @@ use yii\helpers\Url;
 
                 <li>
                     <a href="#" class="menu-toggle nav-link has-dropdown">
-                        <?= CustomHelper::ICON_USER_CHECK ?>
+                        <?= CustomHelper::ICON_USERS ?>
                         <span>Clients </span></a>
                     <ul class="dropdown-menu">
                         <li class="nav-link"><a href="<?= Url::toRoute(['/client-infos/driver']) ?>">
@@ -139,9 +139,6 @@ use yii\helpers\Url;
                     </ul>
                 </li>
 
-
-
-
                 <li>
                     <a href="#" class="menu-toggle nav-link has-dropdown">
                         <?= CustomHelper::ICON_USER_CHECK ?>
@@ -151,6 +148,13 @@ use yii\helpers\Url;
                                 Discount Codes
                             </a>
                         </li>
+
+                        <!-- <li class="nav-link"><a href="<?= Url::toRoute(['/discount-codes/customer']) ?>">
+                                Customer Discount Codes
+                            </a>
+                        </li> -->
+
+
                     </ul>
                 </li>
 
