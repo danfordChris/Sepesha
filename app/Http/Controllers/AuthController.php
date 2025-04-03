@@ -74,7 +74,6 @@ class AuthController extends Controller
             }
         }
 
-
         try {
             $fileField = "profile_photo";
             if ($request->hasFile($fileField)) {
@@ -85,7 +84,6 @@ class AuthController extends Controller
                 $fullUrl = url("/storage/profile_photos/{$fileName}");
                 $user->update([
                     'profile_photo' => $fullUrl,
-
                 ]);
             }
         } catch (ValidationException $e) {
@@ -117,7 +115,7 @@ class AuthController extends Controller
                     'email' => 'required|email|unique:clients_info,email',
                     'referal_code' => 'nullable|string',
                     'user_type' => 'required|in:driver,vendor,agent,customer',
-
+                    'business_description'=>'nullable|string',
                     'password' => [
                         'required',
                         'string',
@@ -128,7 +126,6 @@ class AuthController extends Controller
                         //  'regex:/[0-9]/',       // At least one digit
                         // 'regex:/[@$!%*?&]/',   // At least one special character
                     ],
-
                     'phone' => [
                         'required',
                         'numeric',
@@ -140,11 +137,9 @@ class AuthController extends Controller
                             }
                         },
                     ],
-
                     'privacy_checked' => 'required|accepted',
                     'licence_number' => 'nullable|required_if:user_type,driver|string|max:50',
                     'licence_expiry' => 'nullable|required_if:user_type,driver|date|after:today',
-
                 ],
                 [
                     'licence_number.required_if' => 'The licence number is required when registering as a driver.',
@@ -225,9 +220,6 @@ class AuthController extends Controller
                     'phone' => 'required|integer',
                     'user_type' => 'required|in:driver,vendor,agent,customer',
                 ],
-
-
-
             );
         } catch (ValidationException $e) {
             foreach ($e->errors() as $error) {

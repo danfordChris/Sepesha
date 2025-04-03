@@ -60,6 +60,7 @@ class User extends Authenticatable
         'preferred_payment_method',
         'license_expiry_date',
         'driver_license_number',
+        'business_description'
 
 
 
