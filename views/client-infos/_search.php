@@ -37,33 +37,29 @@ use yii\helpers\ArrayHelper;
 
                                         <div class="col-6">
 
-                                            <?php echo $form->field($model, 'email') ?> </div>
+                                            <?php echo $form->field($model, 'email') ?>
+                                        </div>
                                         <div class="col-6">
-                                            <?= $form->field($model, 'name')->textInput(['maxlength' => true])->label('First Name') ?>
-
+                                            <?= $form->field($model, 'auth_key')->widget(Select2::class, [
+                                                'data' => ClientInfo::getCustomerList(),
+                                                'options' => ['placeholder' => '-- select --'],
+                                                'pluginOptions' => [
+                                                    'allowClear' => true,
+                                                ],
+                                            ]) ?>
                                         </div>
 
                                     </div>
-                                    <div class="row">
-                                        <div class="col-6">
-                                            <?= $form->field($model, 'mname')->textInput(['maxlength' => true])->label('Middle Name') ?>
 
-                                        </div>
-
-                                        <div class="col-6">
-                                            <?= $form->field($model, 'sname')->textInput(['maxlength' => true])->label('Sur Name') ?>
-
-                                        </div>
-                                    </div>
                                     <div class="row">
 
                                         <div class="col-md-2">
                                             <?= $form->field($model, 'phonecode')->widget(Select2::classname(), [
-                                                'data' => ArrayHelper::map(Countries::find()->all(), 'phonecode', 'phonecode'), 
+                                                'data' => ArrayHelper::map(Countries::find()->all(), 'phonecode', 'phonecode'),
                                                 'options' => [
                                                     'placeholder' => 'Select phone code...',
-                                                    'value' => '255', 
-                                                   
+                                                    'value' => '255',
+
                                                 ],
                                                 'pluginOptions' => [
                                                     'allowClear' => true,

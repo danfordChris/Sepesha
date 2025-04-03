@@ -106,12 +106,11 @@ class ClientInfo extends \yii\db\ActiveRecord
   public static function getCustomerList()
   {
     $cust = self::find()->all();
-    $list = ArrayHelper::map($cust, 'id', function ($m) {
+    $list = ArrayHelper::map($cust, 'auth_key', function ($m) {
       return $m->getFullName();
     });
     return $list;
   }
-
 
 
   public static function getCustomerListById()
