@@ -14,7 +14,7 @@ use reine\datatables\DataTables;
 /** @var app\models\RegionsSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'Discount Codes';
+$this->title = 'Driver Discount Codes';
 $this->params['breadcrumbs'][] = $this->title;
 echo $this->render('/site/bs5tobs4');
 ?>

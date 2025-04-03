@@ -23,7 +23,7 @@ use yii\helpers\ArrayHelper;
                         <div class="">
                             <div class="">
                                 <?php $form = ActiveForm::begin([
-                                    'action' => ['driver'],
+                                    'action' => ['customer'],
                                     'method' => 'get',
                                 ]); ?>
                                 <strong>
@@ -51,6 +51,7 @@ use yii\helpers\ArrayHelper;
                                     </div>
 
                                     <div class="row">
+
 
 
                                         <div class="col-6">
@@ -88,7 +89,7 @@ use yii\helpers\ArrayHelper;
 
                         <div class="form-group">
                             <?= Html::submitButton('<i class="fa fa-search fa-1x me-2"></i>Search', ['class' => 'btn btn-sm btn-info']) ?>
-                            <?= Html::a('<i class="fa fa-times fa-1x me-2"></i>' . Yii::t('app', 'Reset'), ['driver'], ['class' => 'btn btn-sm btn-secondary text-dark']); ?>
+                            <?= Html::a('<i class="fa fa-times fa-1x me-2"></i>' . Yii::t('app', 'Reset'), ['customer'], ['class' => 'btn btn-sm btn-secondary text-dark']); ?>
                         </div>
 
                         <?php ActiveForm::end(); ?>

@@ -4,6 +4,9 @@ namespace app\controllers;
 
 use app\models\DiscountCodes;
 use app\models\DiscountCodesSearch;
+use app\models\User;
+use Yii;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -18,17 +21,26 @@ class DiscountCodesController extends Controller
      */
     public function behaviors()
     {
-        return array_merge(
-            parent::behaviors(),
-            [
-                'verbs' => [
-                    'class' => VerbFilter::className(),
-                    'actions' => [
-                        'delete' => ['POST'],
-                    ],
+        return [
+            'access' => [
+                'class' => AccessControl::class,
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
+                        'matchCallback' => function ($rule, $action) {
+                            return  User::auth('admin');
+                        }
+                    ]
                 ],
-            ]
-        );
+            ],
+            'verbs' => [
+                'class' => VerbFilter::class,
+                'actions' => [
+                    'delete' => ['post'],
+                ],
+            ],
+        ];
     }
 
     /**
@@ -36,17 +48,29 @@ class DiscountCodesController extends Controller
      *
      * @return string
      */
-    public function actionIndex()
+
+
+
+    public function actionDriver()
     {
         $searchModel = new DiscountCodesSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
-
-        return $this->render('index', [
+        $dataProvider->query->andWhere(['category' => 'driver']);
+        return $this->render('driver', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
     }
-
+    public function actionCustomer()
+    {
+        $searchModel = new DiscountCodesSearch();
+        $dataProvider = $searchModel->search($this->request->queryParams);
+        $dataProvider->query->andWhere(['category' => 'customer']);
+        return $this->render('customer', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
     /**
      * Displays a single DiscountCodes model.
      * @param int $id ID

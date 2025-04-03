@@ -14,7 +14,7 @@ use reine\datatables\DataTables;
 /** @var app\models\RegionsSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'Discount Codes';
+$this->title = 'Customer Discount Codes';
 $this->params['breadcrumbs'][] = $this->title;
 echo $this->render('/site/bs5tobs4');
 ?>
@@ -25,7 +25,7 @@ echo $this->render('/site/bs5tobs4');
             <div class="">
 
                 <h5><?= Html::encode($this->title) ?></h5>
-                <?php echo $this->render('_search', ['model' => $searchModel]); ?>
+                <?php echo $this->render('__customer_search', ['model' => $searchModel]); ?>
 
             </div>
 
