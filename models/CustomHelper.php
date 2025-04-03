@@ -9,7 +9,7 @@ use yii\helpers\ArrayHelper;
 use Symfony\Component\Uid\Ulid;
 use yii\web\NotFoundHttpException;
 use PhpOffice\PhpSpreadsheet\Calculation\DateTimeExcel\WorkDay;
-
+use yii\helpers\Html;
 
 class CustomHelper extends Model
 {
@@ -568,6 +568,15 @@ class CustomHelper extends Model
         return $trimmedUrl;
     }
 
+    public static function getUserIcon(){
+
+        return Html::tag('i', '', [
+            'class' => 'fa fa-user-circle fa-2x',
+            'style' => 'width: 50px; height: 50px; display: inline-block; object-fit: cover;',
+            'contentOptions' => ['class' => 'align-middle'],
+        ]);
+    }
+
     public static function setMainUrl()
     {
         $controller = Yii::$app->controller->id;
@@ -601,5 +610,5 @@ class CustomHelper extends Model
 
         return  \Ramsey\Uuid\Uuid::uuid4()->toString();
     }
-    
+
 }

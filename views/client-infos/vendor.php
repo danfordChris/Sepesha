@@ -60,21 +60,15 @@ echo $this->render('/site/bs5tobs4');
                     'format' => 'raw',
                     'value' => function ($model) {
 
-                        if ($model->profile_photo) {
+                        if ($model->profile_photo != null) {
                             return Html::img($model->profile_photo, [
                                 'alt' => 'Profile Photo',
-
                                 'width' => '50px',
                                 'height' => '50px',
                                 'style' => 'object-fit: cover;'
                             ]);
                         } else {
-
-                            return Html::tag('i', '', [
-                                'class' => 'fa fa-user fa-3x',
-                                'style' => 'width: 50px; height: 50px; display: inline-block; object-fit: cover;',
-                                'contentOptions' => ['class' => 'align-middle'],
-                            ]);
+                            return  CustomHelper::getUserIcon();
                         }
                     },
                     'contentOptions' => ['class' => 'align-middle'],
@@ -85,7 +79,7 @@ echo $this->render('/site/bs5tobs4');
                     'contentOptions' => ['class' => 'align-middle'],
                 ],
                 // 'entity_type',
-                // 'reference_number',
+                 'reference_number',
                 [
 
                     'attribute' => 'name',
@@ -111,6 +105,13 @@ echo $this->render('/site/bs5tobs4');
                         return '+' . $model->phonecode . '' . $model->phone;
                     },
                     'contentOptions' => ['class' => 'align-middle'],
+                ],
+
+                [
+                    'attribute' => 'referal_code',
+                    'value' => function ($model) {
+                        return $model->referal_code??'';
+                    },
                 ],
                 //'password',
                 //'password_hash',

@@ -18,71 +18,108 @@ $this->params['breadcrumbs'][] = $this->title;
     <h4><?= Html::encode($this->title) ?></h4>
 
 
-    <?= DetailView::widget([
-            'model' => $model,
-            'options' => ['class' => ' table table-responsive bordered table-sm'],
-            'attributes' => [
+    <div class="row">
+        <div class="col">
+            <?= DetailView::widget([
+                'model' => $model,
+                'options' => ['class' => ' table table-responsive bordered table-sm'],
+                'attributes' => [
+                    'driver_comission_rate',
+                    'vendor_comission_rate',
+                    'office_comission_rate:ntext:Sepesha Commission Rate',
+                    'pyment_mode',
+                    'description:ntext',
+                    'base_rate_km',
+                    'base_price',
+                    'vehicle_multipplier',
+                    'discount',
+                    'distance_km',
+                    'customer_id',
+                    'type',
+                    'driver_id',
+                    'vehicle_id',
+                    'booking_reference',
+                    'fee_category_id',
+                    'discount_code',
+                    'discount_code_value',
+                    'referal_code',
+                    'referal_code_value',
+                    'recepient_name',
+                    'recepient_phone',
+                    'recepient_address',
 
-                'id',
-                'customer_id',
-                'agent_id',
-                'driver_id',
-                'vehicle_id',
-                'vendor_id',
-                'driver_assignment_id',
-                'booking_reference',
-                'fee_category_id',
-                'discount_code',
-                'discount_code_value',
-                'referal_code',
-                'referal_code_value',
-                'recepient_name',
-                'recepient_phone',
-                'recepient_address',
-                'type',
-                'pyment_mode',
-                'description:ntext',
-                'weight',
-                'base_rate_km',
-                'base_price',
-                'vehicle_multipplier',
-                'vat',
-                'other_charge',
-                'driver_comission_rate',
-                'vendor_comission_rate',
-                'office_comission_rate',
-                'agent_comission_rate',
-                'driver_bonus',
-                'vendor_bonus',
-                'customer_bonus',
-                'volume',
-                'price',
-                'discount',
-                'distance_km',
-                'amount',
-                'currency',
-                'pickup_location',
-                'delivery_location',
-                'pickup_latitude',
-                'pickup_longitude',
-                'delivery_latitude',
-                'delivery_longitude',
-                'pickup_date',
-                'delivery_date',
-                'scheduled_time',
-                'pickup_photo',
-                'delivery_photo',
-                'status',
-                'created_by',
-                'updated_by',
-                'deleted_at',
-                'created_at',
-                'updated_at',
 
-        
-            ],
-        ])
-         ?>
+                ],
+            ])
+            ?>
+        </div>
+
+
+        <div class="col">
+            <?= DetailView::widget([
+                'model' => $model,
+                'options' => ['class' => ' table table-responsive bordered table-sm'],
+                'attributes' => [
+
+                    [
+                        'attribute' => 'driver_comission_rate',
+                        'label' => 'Driver Commission',
+                        'format' => ['decimal', 2],
+                        'value' => function ($model) {
+                            return $model->driver_comission_rate * $model->amount;
+                        },
+                    ],
+
+                    [
+                        'attribute' => 'vendor_comission_rate',
+                        'label' => 'Vendor Commission',
+                        'format' => ['decimal', 2],
+                        'value' => function ($model) {
+                            return $model->vendor_comission_rate * $model->amount;
+                        },
+                    ],
+
+                    [
+                        'attribute' => 'office_comission_rate',
+                        'label' => 'Sepesha Commission',
+                        'format' => ['decimal', 2],
+                        'value' => function ($model) {
+                            return $model->office_comission_rate * $model->amount;
+                        },
+                    ],
+
+                    [
+                        'attribute' => 'amount',
+                        'label' => 'Total Amount',
+                        'format' => ['decimal', 2],
+                        'value' => function ($model) {
+                            return $model->amount;
+                        },
+                    ],
+
+                    'currency',
+                    'pickup_location',
+                    'delivery_location',
+                    'pickup_latitude',
+                    'pickup_longitude',
+                    'delivery_latitude',
+                    'delivery_longitude',
+                    'pickup_date',
+                    'delivery_date',
+                    'pickup_photo',
+                    'delivery_photo',
+                    'created_by',
+                    'updated_by',
+                    'deleted_at',
+                    'created_at',
+                    'updated_at',
+                    'status',
+
+                ],
+            ])
+            ?>
+        </div>
+    </div>
 
 
 
