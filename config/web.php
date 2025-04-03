@@ -90,30 +90,20 @@ $config = [
             'errorAction' => 'site/error',
         ],
 
-        'mailer' => [
-            'class' => \yii\symfonymailer\Mailer::class,
-            'transport' => [
-                'dsn' => 'smtps://salesjames96@gmail.com:awahirsbvqmaxytm@smtp.gmail.com',
 
-                'class' => 'Swift_SmtpTransport', // Use Swift_SmtpTransport for SMTP
-                'host' =>   function () {
-                    return  Yii::$app->settings->get()->mail_host;  // SMTP server hostname
-                },
-                'username' =>   function () {
-                    return   Yii::$app->settings->get()->mail_username; // Your SMTP username
-                },
-                'password' => function () {
-                    return   Yii::$app->settings->get()->mail_password; // Your SMTP password
-                },
-                'port' => function () {
-                    return   Yii::$app->settings->get()->mail_port; // Port for SMTP (465 for SSL, 587 for TLS)
-                },
-                'encryption' =>  function () {
-                    return   Yii::$app->settings->get()->mail_encryption; // Use 'ssl' or 'tls' for encryption
-                },
+        'mailer' => [
+            'class' => 'yii\symfonymailer\Mailer',
+            'viewPath' => '@app/mail',
+            'useFileTransport' => false,
+            'transport' => [
+                'scheme' => 'smtps',
+                'host' => 'mail.sepesha.com',
+                'username' => 'info@sepesha.com',
+                'password' => 'sepesha@info24',
+                'port' => 465, // Corrected to an integer
+                'encryption' => 'tls',
             ],
-            // 'viewPath' => 'mail',
-            'useFileTransport' => false, // Set to false to send real emails
+
         ],
 
         'log' => [
