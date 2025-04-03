@@ -4,45 +4,53 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /** @var yii\web\View $this */
-/** @var app\models\DiscountCodes $model */
+/** @var app\models\Employee $model */
 
-$this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Discount Codes'), 'url' => ['index']];
+$this->title = 'discount-codes details';
+$this->params['breadcrumbs'][] = ['label' => 'Commissions', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
-<div class="discount-codes-view">
+<div class="employee-view card">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <div class="card-header bg-success">
+        <h5 class="mt-2 text-white"><?= Html::encode($this->title) ?></h5>
+    </div>
+    <div class="card-body">
 
-    <p>
-        <?= Html::a(Yii::t('app', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a(Yii::t('app', 'Delete'), ['delete', 'id' => $model->id], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
-                'method' => 'post',
+        <?= DetailView::widget([
+            'model' => $model,
+            'options' => ['class' => ' table table-responsive bordered table-sm'],
+            'attributes' => [
+                // 'id',
+                'value',
+                'type',
+                'category',
+                'code',
+                'descr:ntext',
+                'start_date',
+                'end_date',
+                'status',
+                'created_at',
+                'created_by',
+                'updated_at',
+                'updated_by',
+
             ],
         ]) ?>
-    </p>
 
-    <?= DetailView::widget([
-        'model' => $model,
-        'attributes' => [
-            'id',
-            'value',
-            'type',
-            'category',
-            'code',
-            'descr:ntext',
-            'start_date',
-            'end_date',
-            'status',
-            'created_at',
-            'created_by',
-            'updated_at',
-            'updated_by',
-        ],
-    ]) ?>
+        <?php
+        if ($model->category == 'driver') {
+            $url = ['/discount-codes/driver'];
+        } else {
+            $url = ['/discount-codes/customer'];
+        }
 
+        echo Html::a(
+            '<i class="fa fa-arrow-left"></i> Back',
+            $url,
+            ['class' => 'btn btn-secondary']
+        );
+        ?>
+    </div>
 </div>
