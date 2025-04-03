@@ -56,7 +56,7 @@ echo $this->render('/site/bs5tobs4');
                 ['class' => 'kartik\grid\SerialColumn'],
 
 
-                'id',
+                // 'id',
                 'value',
                 'type',
                 'category',

@@ -51,8 +51,6 @@ use yii\helpers\ArrayHelper;
                                     </div>
 
                                     <div class="row">
-
-
                                         <div class="col-6">
 
                                             <?= $form->field($model, 'start_date')->widget(DatePicker::class, [
