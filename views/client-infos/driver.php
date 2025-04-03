@@ -91,7 +91,7 @@ echo $this->render('/site/bs5tobs4');
 
                     'attribute' => 'name',
                     'value' => function ($model) {
-                        return $model->name . '' . $model->sname;
+                        return $model->name . ' ' . $model->sname;
                     },
                     'contentOptions' => ['class' => 'align-middle'],
                 ],
