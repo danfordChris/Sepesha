@@ -2,8 +2,8 @@
 
 namespace app\controllers;
 
-use app\models\ClientsInfo;
-use app\models\ClientsInfoSearch;
+use app\models\DiscountCodes;
+use app\models\DiscountCodesSearch;
 use app\models\User;
 use Yii;
 use yii\filters\AccessControl;
@@ -12,9 +12,9 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * ClientsInfosController implements the CRUD actions for ClientsInfo model.
+ * DiscountCodesController implements the CRUD actions for DiscountCodes model.
  */
-class ClientInfosController extends Controller
+class DiscountCodesController extends Controller
 {
     /**
      * @inheritDoc
@@ -44,58 +44,35 @@ class ClientInfosController extends Controller
     }
 
     /**
-     * Lists all ClientsInfo models.
+     * Lists all DiscountCodes models.
      *
      * @return string
      */
-    public function actionIndex()
-    {
-        $searchModel = new ClientsInfoSearch();
-        $dataProvider = $searchModel->search($this->request->queryParams);
 
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
-    }
 
 
     public function actionDriver()
     {
-        $searchModel = new ClientsInfoSearch();
+        $searchModel = new DiscountCodesSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
-        $dataProvider->query->andWhere(['role' => 'driver']);
+        $dataProvider->query->andWhere(['category' => 'driver']);
         return $this->render('driver', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
     }
-
     public function actionCustomer()
     {
-        $searchModel = new ClientsInfoSearch();
+        $searchModel = new DiscountCodesSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
-        $dataProvider->query->andWhere(['role' => 'customer']);
+        $dataProvider->query->andWhere(['category' => 'customer']);
         return $this->render('customer', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
     }
-
-
-    public function actionVendor()
-    {
-        $searchModel = new ClientsInfoSearch();
-        $dataProvider = $searchModel->search($this->request->queryParams);
-        $dataProvider->query->andWhere(['role' => 'vendor']);
-        return $this->render('vendor', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
-    }
-
     /**
-     * Displays a single ClientsInfo model.
+     * Displays a single DiscountCodes model.
      * @param int $id ID
      * @return string
      * @throws NotFoundHttpException if the model cannot be found
@@ -108,13 +85,13 @@ class ClientInfosController extends Controller
     }
 
     /**
-     * Creates a new ClientsInfo model.
+     * Creates a new DiscountCodes model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return string|\yii\web\Response
      */
     public function actionCreate()
     {
-        $model = new ClientsInfo();
+        $model = new DiscountCodes();
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post()) && $model->save()) {
@@ -130,7 +107,7 @@ class ClientInfosController extends Controller
     }
 
     /**
-     * Updates an existing ClientsInfo model.
+     * Updates an existing DiscountCodes model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param int $id ID
      * @return string|\yii\web\Response
@@ -150,7 +127,7 @@ class ClientInfosController extends Controller
     }
 
     /**
-     * Deletes an existing ClientsInfo model.
+     * Deletes an existing DiscountCodes model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param int $id ID
      * @return \yii\web\Response
@@ -164,15 +141,15 @@ class ClientInfosController extends Controller
     }
 
     /**
-     * Finds the ClientsInfo model based on its primary key value.
+     * Finds the DiscountCodes model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param int $id ID
-     * @return ClientsInfo the loaded model
+     * @return DiscountCodes the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = ClientsInfo::findOne(['id' => $id])) !== null) {
+        if (($model = DiscountCodes::findOne(['id' => $id])) !== null) {
             return $model;
         }
 

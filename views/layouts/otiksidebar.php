@@ -141,6 +141,26 @@ use yii\helpers\Url;
 
 
 
+
+                <li>
+                    <a href="#" class="menu-toggle nav-link has-dropdown">
+                        <?= CustomHelper::ICON_USER_CHECK ?>
+                        <span>Discount Codes </span></a>
+                    <ul class="dropdown-menu">
+                        <li class="nav-link"><a href="<?= Url::toRoute(['/discount-codes/driver']) ?>">
+                                Driver Discount Codes
+                            </a>
+                        </li>
+
+                        <li class="nav-link"><a href="<?= Url::toRoute(['/discount-codes/customer']) ?>">
+                                Customer Discount Codes
+                            </a>
+                        </li>
+
+
+                    </ul>
+                </li>
+
             <?php endif ?>
 
             <?php if (User::Menu('gmt_reports_main')) : ?>
