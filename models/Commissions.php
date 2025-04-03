@@ -3,6 +3,9 @@
 namespace app\models;
 
 use Yii;
+use yii\behaviors\BlameableBehavior;
+use yii\behaviors\TimestampBehavior;
+use yii\db\Expression;
 
 /**
  * This is the model class for table "commissions".
@@ -46,6 +49,19 @@ class Commissions extends \yii\db\ActiveRecord
     public static function tableName()
     {
         return 'commissions';
+    }
+    public function behaviors()
+
+    {
+        return [
+            [
+                'class' => TimestampBehavior::class,
+                'value' => new Expression('NOW()'),
+            ],
+            [
+                'class' => BlameableBehavior::class,
+            ],
+        ];
     }
 
     /**

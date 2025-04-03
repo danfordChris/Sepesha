@@ -1,62 +1,41 @@
 <?php
 
-use app\models\User;
-use yii\helpers\Url;
-use yii\helpers\Html;
-use kartik\grid\GridView;
-use app\models\Regions;
-use yii\grid\ActionColumn;
-use app\models\SystemRoles;
-use app\models\CustomHelper;
+use app\models\Departments;
 use reine\datatables\DataTables;
+use yii\helpers\Html;
+use yii\helpers\Url;
+use yii\grid\ActionColumn;
+use yii\grid\GridView;
 
 /** @var yii\web\View $this */
-/** @var app\models\RegionsSearch $searchModel */
+/** @var app\models\DepartmentsSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'Discount Codes';
+$this->title = Yii::t('app', 'Discount codes');
 $this->params['breadcrumbs'][] = $this->title;
-echo $this->render('/site/bs5tobs4');
 ?>
-<div class="commissions-index">
+<div class="discount-codes-index card">
 
-    <div class="">
+    <div class="card-body">
+
         <div class="row">
-            <div class="">
-
+            <div class="col-md-6">
                 <h5><?= Html::encode($this->title) ?></h5>
-                <?php echo $this->render('_search', ['model' => $searchModel]); ?>
 
             </div>
-
+            <div class="col-md-6">
+                <button type="button" class="btn mb-2 float-end  btn-outline-info" data-bs-toggle="modal" data-bs-target="#rcamodal">
+                    <i class="fa fa-plus"></i> Add discount</button>
+            </div>
         </div>
-        <?= GridView::widget([
+
+        <?= DataTables::widget([
             'dataProvider' => $dataProvider,
-            //'filterModel' => $searchModel,
+            'filterModel' => $searchModel,
             'tableOptions' => ['class' => ' table table-responsive bordered table-sm'],
-            'showPageSummary' => true,
-            'headerRowOptions' => ['style' => 'white-space: nowrap;'],
-            'exportConfig' => Yii::$app->kalaExport->getKalaExport($this->title),
-            'export' => [
-                'options' => ['class' => 'btn btn-sm btn-warning'],
-                'menuOptions' => ['class' => 'dropdown-menu dropdown-menu-end fs-6'], // Align dropdown to right
-            ],
-
-            'toggleDataOptions' => [
-                'all' => ['class' => 'btn btn-secondary text-dark mx-2 btn-sm'],
-                'page' => ['class' => 'btn btn-secondary text-dark mx-2 btn-sm'],
-            ],
-            'bsVersion' => '5.x',
-            'responsive' => true,
-            'hover' => true,
-            'summary' => 'Showing {begin} - {end} of {totalCount} items',
-            'tableOptions' => ['class' => ' table table-responsive bordered table-sm'],
-
             'columns' => [
-                ['class' => 'kartik\grid\SerialColumn'],
-
-
-                'id',
+                ['class' => 'yii\grid\SerialColumn'],
+                // 'id',
                 'value',
                 'type',
                 'category',
@@ -73,7 +52,7 @@ echo $this->render('/site/bs5tobs4');
                     'attribute' => 'status',
                     'format' => 'raw',
                     'value' => function ($model) {
-                        if ($model->status == 10) {
+                        if ($model->status == 1) {
                             return Html::tag('span', 'Active', ['class' => 'badge bg-success']);
                         } elseif ($model->status == 0) {
                             return Html::tag('span', 'Inactive', ['class' => 'badge bg-danger']);
@@ -103,39 +82,41 @@ echo $this->render('/site/bs5tobs4');
                 //'referal_code',
                 [
                     'class' => 'yii\grid\ActionColumn',
-                    //'visible' => User::auth('admin'),
-                    // 'noWrap' => true,
-                    'template' => '{view}',
-                    'contentOptions' => ['class' => 'align-middle'],
+                    'template' => '{view}{update}',
                     'buttons' => [
+                        'update' => function ($url, $model) {
+                            return Html::a(
+                                '<button type="button" class="btn btn-sm btn-dark mx-2 button-icon mb-1 "><i class="fa fa-edit me-1"></i>Edit</button>',
+                                Yii::$app->urlManager->createUrl(['discount-codes/update', 'rca' => Yii::$app->getSecurity()->hashData($model->id, 'gmtdev'), 'update' => 't']),
+                                ['title' => Yii::t('yii', 'Edit'),]
+                            );
+                        },
                         'view' => function ($url, $model) {
                             return Html::a(
                                 '<button type="button" class="btn btn-sm btn-warning mx-2 button-icon mb-1"><i class="fa fa-eye me-1"></i>View</button>',
-                                Yii::$app->urlManager->createUrl(['discount-codes/view', 'id' => $model->id]),
+                                Yii::$app->urlManager->createUrl(['discount-codes/view', 'rca' => Yii::$app->getSecurity()->hashData($model->id, 'gmtdev'), 'view' => 't']),
                                 ['title' => Yii::t('yii', 'View'),]
                             );
                         }
                     ],
                 ],
             ],
-
-            'panel' => [
-                'type' => 'warning',
-                'headingOptions' => ['class' => 'card-header float-end float-right text-white bg-dark p-2', 'style' => 'height:3em;'],
-                'beforeOptions' => ['style' => 'height:4em;'],
-                'before' =>
-                Html::a(
-                    '<i class="fa fa-search fa-1x me-2"></i>Search',
-                    '#panel-body-1',
-                    [
-                        'class' => 'btn btn-sm btn-info text-white float-end accordion-bs-toggle',
-                        'data-bs-toggle' => 'collapse',
-                        'aria-expanded' => 'false',
-                        'data-bs-target' => '#panel-body-1',
-                    ]
-                ),
-            ],
-
         ]); ?>
+
+
+    </div>
+</div>
+
+
+<div class="modal fade" id="rcamodal" tabindex="-1" role="dialog" aria-labelledby="formModal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-success">
+                <h4 class="modal-title mb-2 font-weight-bold text-white" id="formModal"><strong>Discount Codes</strong></h4>
+            </div>
+            <div class="modal-body">
+                <?= $this->render('create', ['model' => $model]); ?>
+            </div>
+        </div>
     </div>
 </div>

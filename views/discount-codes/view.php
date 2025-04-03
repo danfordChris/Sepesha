@@ -6,7 +6,7 @@ use yii\widgets\DetailView;
 /** @var yii\web\View $this */
 /** @var app\models\Employee $model */
 
-$this->title = 'discount-codes details';
+$this->title = 'Discount codes details';
 $this->params['breadcrumbs'][] = ['label' => 'Commissions', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
@@ -30,27 +30,47 @@ $this->params['breadcrumbs'][] = $this->title;
                 'descr:ntext',
                 'start_date',
                 'end_date',
-                'status',
+                [
+                    'attribute' => 'status',
+                    'format' => 'raw',
+                    'value' => function ($model) {
+                        if ($model->status == 1) {
+                            return Html::tag('span', 'Active', ['class' => 'badge bg-success']);
+                        } elseif ($model->status == 0) {
+                            return Html::tag('span', 'Inactive', ['class' => 'badge bg-danger']);
+                        }
+                    },
+                    'contentOptions' => ['class' => 'align-middle'],
+                ],
                 'created_at',
-                'created_by',
+
+                [
+                    'attribute' => 'created_by',
+                    'value' => $model->createdUser->full_name ?? ''
+
+                ],
                 'updated_at',
-                'updated_by',
+                [
+                    'attribute' => 'updated_by',
+                    'value' => $model->updatedUser->full_name ?? ''
+
+                ],
 
             ],
         ]) ?>
 
-        <?php
-        if ($model->category == 'driver') {
-            $url = ['/discount-codes/driver'];
-        } else {
-            $url = ['/discount-codes/customer'];
-        }
 
+
+
+
+        <?php
         echo Html::a(
-            '<i class="fa fa-arrow-left"></i> Back',
-            $url,
+            '<i class="fa fa-arrow-left"></i>Back',
+            ['/discount-codes/index'],
             ['class' => 'btn btn-secondary']
         );
         ?>
+
+
     </div>
 </div>

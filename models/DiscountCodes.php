@@ -3,6 +3,9 @@
 namespace app\models;
 
 use Yii;
+use yii\behaviors\BlameableBehavior;
+use yii\behaviors\TimestampBehavior;
+use yii\db\Expression;
 
 /**
  * This is the model class for table "discount_codes".
@@ -29,6 +32,20 @@ class DiscountCodes extends \yii\db\ActiveRecord
     public static function tableName()
     {
         return 'discount_codes';
+    }
+
+    public function behaviors()
+
+    {
+        return [
+            [
+                'class' => TimestampBehavior::class,
+                'value' => new Expression('NOW()'),
+            ],
+            [
+                'class' => BlameableBehavior::class,
+            ],
+        ];
     }
 
     /**
@@ -68,5 +85,23 @@ class DiscountCodes extends \yii\db\ActiveRecord
             'updated_at' => 'Updated At',
             'updated_by' => 'Updated By',
         ];
+    }
+
+
+    public function getCreatedUser()
+    {
+        return $this->hasOne(User::class, ['id' => 'created_by']);
+    }
+
+    public function getUpdatedUser()
+    {
+        return $this->hasOne(User::class, ['id' => 'updated_by']);
+    }
+
+
+    public function getFullName()
+    {
+        $fullname = $this->fname . ' ' . $this->mname . ' ' . $this->sname;
+        return $fullname ?? '';
     }
 }

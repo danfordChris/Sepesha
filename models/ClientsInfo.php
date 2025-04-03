@@ -3,6 +3,9 @@
 namespace app\models;
 
 use Yii;
+use yii\behaviors\BlameableBehavior;
+use yii\behaviors\TimestampBehavior;
+use yii\db\Expression;
 
 /**
  * This is the model class for table "clients_info".
@@ -75,6 +78,19 @@ class ClientsInfo extends \yii\db\ActiveRecord
     public static function tableName()
     {
         return 'clients_info';
+    }
+    public function behaviors()
+
+    {
+        return [
+            [
+                'class' => TimestampBehavior::class,
+                'value' => new Expression('NOW()'),
+            ],
+            [
+                'class' => BlameableBehavior::class,
+            ],
+        ];
     }
 
     /**

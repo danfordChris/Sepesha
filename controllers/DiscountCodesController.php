@@ -51,39 +51,39 @@ class DiscountCodesController extends Controller
 
 
 
-    public function actionDriver()
+    public function actionIndex()
     {
+        $model = new DiscountCodes();
         $searchModel = new DiscountCodesSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
-        $dataProvider->query->andWhere(['category' => 'driver']);
-        return $this->render('driver', [
+        return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'model' => $model
         ]);
     }
-    public function actionCustomer()
-    {
-        $searchModel = new DiscountCodesSearch();
-        $dataProvider = $searchModel->search($this->request->queryParams);
-        $dataProvider->query->andWhere(['category' => 'customer']);
-        return $this->render('customer', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
-    }
+
     /**
      * Displays a single DiscountCodes model.
      * @param int $id ID
      * @return string
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionView($id)
+    // public function actionView($id)
+    // {
+    //     return $this->render('view', [
+    //         'model' => $this->findModel($id),
+    //     ]);
+    // }
+
+    public function actionView($rca)
     {
+        $number = Yii::$app->getSecurity()->validateData($rca, 'gmtdev');
+
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $this->findModel($number),
         ]);
     }
-
     /**
      * Creates a new DiscountCodes model.
      * If creation is successful, the browser will be redirected to the 'view' page.
@@ -95,7 +95,8 @@ class DiscountCodesController extends Controller
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
+                Yii::$app->session->setFlash('success', "Discount codes added successfully ");
+                return $this->redirect(['index']);
             }
         } else {
             $model->loadDefaultValues();
@@ -113,18 +114,34 @@ class DiscountCodesController extends Controller
      * @return string|\yii\web\Response
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionUpdate($id)
+    // public function actionUpdate($id)
+    // {
+    //     $model = $this->findModel($id);
+
+    //     if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
+    //         return $this->redirect(['view', 'id' => $model->id]);
+    //     }
+
+    //     return $this->render('update', [
+    //         'model' => $model,
+    //     ]);
+    // }
+    public function actionUpdate($rca)
     {
-        $model = $this->findModel($id);
+        $number = Yii::$app->getSecurity()->validateData($rca, 'gmtdev');
+
+        $model = $this->findModel($number);
 
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            Yii::$app->session->setFlash('success', "Discount code Updated Successfully");
+            return $this->redirect(['index']);
         }
 
         return $this->render('update', [
             'model' => $model,
         ]);
     }
+
 
     /**
      * Deletes an existing DiscountCodes model.

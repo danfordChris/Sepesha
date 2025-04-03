@@ -147,17 +147,10 @@ use yii\helpers\Url;
                         <?= CustomHelper::ICON_USER_CHECK ?>
                         <span>Discount Codes </span></a>
                     <ul class="dropdown-menu">
-                        <li class="nav-link"><a href="<?= Url::toRoute(['/discount-codes/driver']) ?>">
-                                Driver Discount Codes
+                        <li class="nav-link"><a href="<?= Url::toRoute(['/discount-codes/index']) ?>">
+                                Discount Codes
                             </a>
                         </li>
-
-                        <li class="nav-link"><a href="<?= Url::toRoute(['/discount-codes/customer']) ?>">
-                                Customer Discount Codes
-                            </a>
-                        </li>
-
-
                     </ul>
                 </li>
 

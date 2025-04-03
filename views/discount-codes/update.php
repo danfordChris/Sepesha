@@ -3,21 +3,20 @@
 use yii\helpers\Html;
 
 /** @var yii\web\View $this */
-/** @var app\models\DiscountCodes $model */
+/** @var app\models\Country $model */
 
-$this->title = Yii::t('app', 'Update Discount Codes: {name}', [
-    'name' => $model->id,
-]);
+$this->title = 'Update Discount Codes';
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Discount Codes'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = Yii::t('app', 'Update');
 ?>
-<div class="discount-codes-update">
+<div class="country-update card">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <div class="card-body">
+        <h5><?= Html::encode($this->title) ?></h5>
 
-    <?= $this->render('_form', [
-        'model' => $model,
-    ]) ?>
+        <?= $this->render('_form', [
+            'model' => $model,
+        ]) ?>
 
-</div>
+    </div>
