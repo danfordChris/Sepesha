@@ -45,8 +45,9 @@ use kartik\helpers\Html;
 
 
                         <h5>
-                            <i data-feather="message-circle"></i>
-                            <b>Message:</b><br>
+                            <i data-feather="message-square"></i>
+                            <b>Message</b>
+                            <hr>
                         </h5>
                         <div style="background-color: rgb(50, 19, 190); padding: 10px; border-radius: 5px; display: inline-block; width: auto;color:white;">
                             <?= Html::encode($supportticketmessageModel->message) ?>
