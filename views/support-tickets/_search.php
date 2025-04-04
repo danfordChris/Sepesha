@@ -36,16 +36,16 @@ use kartik\widgets\DatePicker;
                                     </div>
                                     <div class="row">
 
-                                        <div class="col-3">
+                                        <div class="col-4">
                                             <?= $form->field($model, 'status')->dropDownList(['open' => 'Open', 'inprogress' => 'Inprogress', 'closed' => 'Closed', 'cancelled' => 'Cancelled',], ['prompt' => '-- select status --']) ?>
 
                                         </div>
 
-                                        <div class="col-3">
+                                        <div class="col-4">
                                             <?= $form->field($model, 'priority')->dropDownList(['low' => 'Low', 'medium' => 'Medium', 'high' => 'High',], ['prompt' => '-- select priority --']) ?>
 
                                         </div>
-                                        <div class="col-3">
+                                        <div class="col-4">
                                             <?= $form->field($model, 'category') ?>
 
                                         </div>

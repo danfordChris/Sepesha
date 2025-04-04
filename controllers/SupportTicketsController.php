@@ -61,9 +61,12 @@ class SupportTicketsController extends Controller
             'dataProvider' => $dataProvider,
         ]);
     }
-  
+
     public function actionTicketmessage($id)
     {
+
+
+
         $model = $this->findModel($id);
         $ticketmessageModel = new SupportTicketMessages();
         $ticketmessageModel->support_ticket_id = $model->id;
@@ -74,10 +77,14 @@ class SupportTicketsController extends Controller
             Yii::$app->session->setFlash('success', "Support ticket message added Successfully");
             return $this->refresh();
         }
+
+
+
         return $this->render('ticketmessage', [
             'model' => $model,
             'ticketmessageModel' => $ticketmessageModel,
             'ticketmessageDataProvider' => $ticketmessageDataProvider
+
         ]);
     }
 
