@@ -1,18 +1,16 @@
 <?php
 
-use kartik\date\DatePicker;
 use kartik\form\ActiveForm;
 use kartik\select2\Select2;
 use yii\helpers\Html;
 
 
 /** @var yii\web\View $this */
-/** @var app\models\ReferalCodes $model */
+/** @var app\models\SupportContacts $model */
 /** @var yii\widgets\ActiveForm $form */
 ?>
 
-<div class="referal-codes-form">
-
+<div class="support-contacts-form">
     <?php
     if ($model->isNewRecord) {
         $action = 'create';
@@ -31,65 +29,38 @@ use yii\helpers\Html;
     ]); ?>
     <div class="row">
         <div class="col-md-6">
-            <?= $form->field($model, 'user_type')->widget(Select2::class, [
-                'data' => [
-                    'customer' => 'Customer',
-                    'driver' => 'Driver',
-                ],
-                'options' => [
-                    'placeholder' => 'Select User Type',
-                ],
-                'pluginOptions' => [
-                    'allowClear' => true,
-                    'dropdownParent' => $parent
-                ],
-            ]) ?>
-        </div>
-        <div class="col-md-6">
-            <?= $form->field($model, 'code')->textInput(['maxlength' => true]) ?>
+            <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
         </div>
-    </div>
-    <div class="row">
         <div class="col-md-6">
-            <?= $form->field($model, 'start_date')->widget(DatePicker::class, [
-                'options' => [
-                    'class' => 'form-control',
-                    'placeholder' => 'Start Date',
-                ],
-                'pluginOptions' => [
-                    'autoclose' => true,
-                    'format' => 'yyyy-mm-dd'
-                ]
-            ]) ?>
-        </div>
-        <div class="col-md-6">
-            <?= $form->field($model, 'end_date')->widget(DatePicker::class, [
-                'options' => [
-                    'class' => 'form-control',
-                    'placeholder' => 'End Date',
-                ],
-                'pluginOptions' => [
-                    'autoclose' => true,
-                    'format' => 'yyyy-mm-dd'
-                ]
-            ]) ?>
+            <?= $form->field($model, 'email')->textInput(['maxlength' => true]) ?>
+
         </div>
     </div>
 
     <div class="row">
         <div class="col-md-6">
-            <?= $form->field($model, 'value')->textInput(['maxlength' => true]) ?>
-
+            <?= $form->field($model, 'phone')->textInput(['maxlength' => true]) ?>
 
         </div>
+        <div class="col-md-6">
+            <?= $form->field($model, 'office')->textInput(['maxlength' => true]) ?>
+
+        </div>
+    </div>
+
+
+
+
+
+    <div class="row">
+
+
         <div class="col-md-6">
             <?= $form->field($model, 'descr')->textarea(['rows' => 6]) ?>
+
         </div>
-    </div>
 
-
-    <div class="row">
         <div class="col-md-6">
             <?php if (!$model->isNewRecord) : ?>
                 <div class="col-md-6">

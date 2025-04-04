@@ -2,8 +2,8 @@
 
 namespace app\controllers;
 
-use app\models\SupportTicketMessages;
-use app\models\SupportTicketMessagesSearch;
+use app\models\SupportContacts;
+use app\models\SupportContactsSearch;
 use app\models\User;
 use Yii;
 use yii\filters\AccessControl;
@@ -12,9 +12,9 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * SupportTicketMessagesController implements the CRUD actions for SupportTicketMessages model.
+ * SupportContactsController implements the CRUD actions for SupportContacts model.
  */
-class SupportTicketMessagesController extends Controller
+class SupportContactsController extends Controller
 {
     /**
      * @inheritDoc
@@ -44,46 +44,51 @@ class SupportTicketMessagesController extends Controller
     }
 
     /**
-     * Lists all SupportTicketMessages models.
+     * Lists all SupportContacts models.
      *
      * @return string
      */
     public function actionIndex()
     {
-        $searchModel = new SupportTicketMessagesSearch();
+        $model = new SupportContacts();
+        $searchModel = new SupportContactsSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'model' => $model,
         ]);
     }
 
     /**
-     * Displays a single SupportTicketMessages model.
-     * @param string $id ID
+     * Displays a single SupportContacts model.
+     * @param int $id ID
      * @return string
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionView($id)
+    public function actionView($rca)
     {
+        $number = Yii::$app->getSecurity()->validateData($rca, 'gmtdev');
+
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $this->findModel($number),
         ]);
     }
 
     /**
-     * Creates a new SupportTicketMessages model.
+     * Creates a new SupportContacts model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return string|\yii\web\Response
      */
     public function actionCreate()
     {
-        $model = new SupportTicketMessages();
+        $model = new SupportContacts();
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
+                Yii::$app->session->setFlash('success', "Support Contacts added successfully ");
+                return $this->redirect(['index']);
             }
         } else {
             $model->loadDefaultValues();
@@ -95,18 +100,21 @@ class SupportTicketMessagesController extends Controller
     }
 
     /**
-     * Updates an existing SupportTicketMessages model.
+     * Updates an existing SupportContacts model.
      * If update is successful, the browser will be redirected to the 'view' page.
-     * @param string $id ID
+     * @param int $id ID
      * @return string|\yii\web\Response
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionUpdate($id)
+    public function actionUpdate($rca)
     {
-        $model = $this->findModel($id);
+        $number = Yii::$app->getSecurity()->validateData($rca, 'gmtdev');
+
+        $model = $this->findModel($number);
 
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            Yii::$app->session->setFlash('success', "Support Contacts Updated Successfully");
+            return $this->redirect(['index']);
         }
 
         return $this->render('update', [
@@ -115,9 +123,9 @@ class SupportTicketMessagesController extends Controller
     }
 
     /**
-     * Deletes an existing SupportTicketMessages model.
+     * Deletes an existing SupportContacts model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param string $id ID
+     * @param int $id ID
      * @return \yii\web\Response
      * @throws NotFoundHttpException if the model cannot be found
      */
@@ -129,15 +137,15 @@ class SupportTicketMessagesController extends Controller
     }
 
     /**
-     * Finds the SupportTicketMessages model based on its primary key value.
+     * Finds the SupportContacts model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param string $id ID
-     * @return SupportTicketMessages the loaded model
+     * @param int $id ID
+     * @return SupportContacts the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = SupportTicketMessages::findOne(['id' => $id])) !== null) {
+        if (($model = SupportContacts::findOne(['id' => $id])) !== null) {
             return $model;
         }
 
