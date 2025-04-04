@@ -171,6 +171,22 @@ use yii\helpers\Url;
                     </ul>
                 </li>
 
+                <li>
+                    <a href="#" class="menu-toggle nav-link has-dropdown">
+                        <?= CustomHelper::ICON_USER_CHECK ?>
+                        <span>Referal codes </span></a>
+                    <ul class="dropdown-menu">
+                        <li class="nav-link"><a href="<?= Url::toRoute(['/referal-codes/index']) ?>">
+                                Referal code
+                            </a>
+                        </li>
+
+
+
+
+                    </ul>
+                </li>
+
             <?php endif ?>
 
             <?php if (User::Menu('gmt_reports_main')) : ?>

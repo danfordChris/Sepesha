@@ -91,9 +91,7 @@ $email = ArrayHelper::getValue($emailList, $supportticketmessageModel->sender_id
                         </div>
                     </div>
                 </div>
-                <?php $form = ActiveForm::begin(
-                    
-                ); ?>
+                <?php $form = ActiveForm::begin(); ?>
                 <div class="row">
                     <?= $form->field($model, 'message')->widget(\yii\redactor\widgets\Redactor::class, [
                         'clientOptions' => [
@@ -105,6 +103,9 @@ $email = ArrayHelper::getValue($emailList, $supportticketmessageModel->sender_id
                         ]
                     ]) ?>
                 </div>
+
+
+
                 <?php ActiveForm::end(); ?>
             </div>
 
