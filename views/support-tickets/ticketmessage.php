@@ -8,7 +8,7 @@ use kartik\helpers\Html;
 <div class="row">
     <div class="col-md-3 left-card">
         <div class="card">
-            <div class="card-header" style="font-weight: bold; font-size: 1.1rem;">
+            <div class="card-header" style="font-weight: bold; font-size: 1.8rem;">
                 Ticket Information
             </div>
             <ul class="list-group list-group-flush">
@@ -39,17 +39,32 @@ use kartik\helpers\Html;
     <div class="col-md-9 horizontal-card">
         <div class="card">
             <div class="card-body">
-                <h5 class="card-title">View Ticket # <?= Html::encode($model->id) ?></h5>
-                Sender Role: <b><?= Html::encode($supportticketmessageModel->sender_role) ?></b>
+                <h4 class="card-title">Sender Role # <?= Html::encode($supportticketmessageModel->sender_role) ?></h4>
+                <div class="card">
+                    <div class="card-body">
+
+
+                        <h5>
+                            <i data-feather="message-circle"></i>
+                            <b>Message:</b><br>
+                        </h5>
+                        <div style="background-color: rgb(50, 19, 190); padding: 10px; border-radius: 5px; display: inline-block; width: auto;color:white;">
+                            <?= Html::encode($supportticketmessageModel->message) ?>
+                        </div>
+                    </div>
+                </div>
+
+                <hr>
+                Posted by <?= Html::encode($supportticketmessageModel->created_by) ?> on <?= Yii::$app->formatter->asDatetime($supportticketmessageModel->created_at) ?>
 
 
             </div>
-
         </div>
+
 
         <div class="card">
             <div class="card-body">
-                <h5 class="card-title">Combined Card</h5>
+                <h5 class="card-title">Reply</h5>
 
 
             </div>
