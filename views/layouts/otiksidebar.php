@@ -149,10 +149,23 @@ use yii\helpers\Url;
                             </a>
                         </li>
 
-                        <!-- <li class="nav-link"><a href="<?= Url::toRoute(['/discount-codes/customer']) ?>">
-                                Customer Discount Codes
+
+
+
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="#" class="menu-toggle nav-link has-dropdown">
+                        <?= CustomHelper::ICON_USER_CHECK ?>
+                        <span>Support Tickets </span></a>
+                    <ul class="dropdown-menu">
+                        <li class="nav-link"><a href="<?= Url::toRoute(['/support-tickets/index']) ?>">
+                                Support Tickets
                             </a>
-                        </li> -->
+                        </li>
+
+
 
 
                     </ul>
