@@ -6,6 +6,7 @@ use Yii;
 use yii\behaviors\BlameableBehavior;
 use yii\behaviors\TimestampBehavior;
 use yii\db\Expression;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "support_tickets".
@@ -103,5 +104,27 @@ class SupportTickets extends \yii\db\ActiveRecord
     {
         $fullname = $this->fname . ' ' . $this->mname . ' ' . $this->sname;
         return $fullname ?? '';
+    }
+
+
+    // public  function getFullName()
+    // {
+    //   return $this->name . ' ' . $this->mname . ' ' . $this->sname;
+    // }
+  
+  
+    public  function getEmail()
+    {
+      return $this->email ?? "";
+    }
+  
+  
+   public static function getCustomerList()
+    {
+      $cust = self::find()->all();
+      $list = ArrayHelper::map($cust, 'auth_key', function ($m) {
+        return $m->getFullName();
+      });
+      return $list;
     }
 }

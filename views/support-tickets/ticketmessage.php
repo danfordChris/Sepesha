@@ -1,7 +1,13 @@
 <?php
-
+use app\models\ClientInfo;
+use kartik\form\ActiveForm;
 use kartik\helpers\Html;
+use yii\helpers\ArrayHelper;
 
+$customerList = ClientInfo::getCustomerList();
+$emailList = ClientInfo::getCustomerEmailByAuthKey();
+$fullName = ArrayHelper::getValue($customerList, $supportticketmessageModel->sender_id, 'Full Name not found');
+$email = ArrayHelper::getValue($emailList, $supportticketmessageModel->sender_id, 'Email not found');
 ?>
 
 
@@ -66,11 +72,33 @@ use kartik\helpers\Html;
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title">Reply</h5>
+                <?php $form = ActiveForm::begin(); ?>
 
 
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label">Full Name</label>
+                            <?= Html::textInput('full_name', $fullName, ['class' => 'form-control', 'disabled' => true]) ?>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label">Email</label>
+                            <?= Html::textInput('email', $email, ['class' => 'form-control', 'disabled' => true]) ?>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    form
+                </div>
             </div>
-
+            <?php ActiveForm::end(); ?>
         </div>
+
     </div>
+</div>
 
 </div>
