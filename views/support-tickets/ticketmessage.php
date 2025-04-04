@@ -9,7 +9,7 @@ use kartik\helpers\Html;
     <div class="col-md-3 left-card">
         <div class="card">
             <div class="card-header" style="font-weight: bold; font-size: 1.8rem;">
-                Ticket Information
+                <i data-feather="clipboard" style="margin-right: 5px;"></i> Ticket Information
             </div>
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">
