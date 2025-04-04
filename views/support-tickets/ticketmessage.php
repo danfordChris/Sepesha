@@ -1,4 +1,5 @@
 <?php
+
 use app\models\ClientInfo;
 use kartik\form\ActiveForm;
 use kartik\helpers\Html;
@@ -72,7 +73,7 @@ $email = ArrayHelper::getValue($emailList, $supportticketmessageModel->sender_id
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title">Reply</h5>
-                <?php $form = ActiveForm::begin(); ?>
+
 
 
                 <div class="row">
@@ -90,12 +91,23 @@ $email = ArrayHelper::getValue($emailList, $supportticketmessageModel->sender_id
                         </div>
                     </div>
                 </div>
-
+                <?php $form = ActiveForm::begin(
+                    
+                ); ?>
                 <div class="row">
-                    form
+                    <?= $form->field($model, 'message')->widget(\yii\redactor\widgets\Redactor::class, [
+                        'clientOptions' => [
+                            'imageManagerJson' => false,
+                            'imageUpload' => false,
+                            'fileUpload' => false,
+                            'linkUpload' => false,
+                            'lang' => 'en',
+                        ]
+                    ]) ?>
                 </div>
+                <?php ActiveForm::end(); ?>
             </div>
-            <?php ActiveForm::end(); ?>
+
         </div>
 
     </div>
