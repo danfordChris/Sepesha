@@ -66,7 +66,7 @@ class SupportTicketsController extends Controller
     {
 
 
-
+        $supportticketmessageModel = SupportTicketMessages::findOne(['support_ticket_id' => $id]);
         $model = $this->findModel($id);
         $ticketmessageModel = new SupportTicketMessages();
         $ticketmessageModel->support_ticket_id = $model->id;
@@ -83,7 +83,8 @@ class SupportTicketsController extends Controller
         return $this->render('ticketmessage', [
             'model' => $model,
             'ticketmessageModel' => $ticketmessageModel,
-            'ticketmessageDataProvider' => $ticketmessageDataProvider
+            'ticketmessageDataProvider' => $ticketmessageDataProvider,
+            'supportticketmessageModel' => $supportticketmessageModel
 
         ]);
     }

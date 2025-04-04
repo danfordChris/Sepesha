@@ -40,7 +40,7 @@ use kartik\helpers\Html;
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title">View Ticket # <?= Html::encode($model->id) ?></h5>
-                Sender Role:
+                Sender Role: <b><?= Html::encode($supportticketmessageModel->sender_role) ?></b>
 
 
             </div>
@@ -50,6 +50,7 @@ use kartik\helpers\Html;
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title">Combined Card</h5>
+
 
             </div>
 
