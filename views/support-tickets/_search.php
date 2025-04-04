@@ -1,51 +1,81 @@
 <?php
 
 use yii\helpers\Html;
+use app\models\Customer;
+use app\models\ClientInfo;
+use yii\httpclient\Client;
+use kartik\widgets\Select2;
 use yii\widgets\ActiveForm;
+use kartik\widgets\DatePicker;
 
 /** @var yii\web\View $this */
-/** @var app\models\SupportTicketsSearch $model */
+/** @var app\models\CommissionsSearch $model */
 /** @var yii\widgets\ActiveForm $form */
 ?>
+<div class="intake-search">
 
-<div class="support-tickets-search">
+    <div id="accordion">
+        <div class="accordion">
 
-    <?php $form = ActiveForm::begin([
-        'action' => ['index'],
-        'method' => 'get',
-    ]); ?>
 
-    <?= $form->field($model, 'id') ?>
 
-    <?= $form->field($model, 'sender_id') ?>
+            <div class="accordion-body collapse" id="panel-body-1" data-bs-parent="#accordion">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="">
+                            <div class="">
+                                <?php $form = ActiveForm::begin([
+                                    'action' => ['index'],
+                                    'method' => 'get',
+                                ]); ?>
+                                <strong>
+                                    <div class="group1 text-dark">
+                                        <h6 style="font-weight:bold;" class="text-decoration-italic">Filter By</h6>
 
-    <?= $form->field($model, 'subject') ?>
 
-    <?= $form->field($model, 'message') ?>
+                                    </div>
+                                    <div class="row">
 
-    <?= $form->field($model, 'category') ?>
+                                        <div class="col-3">
+                                            <?= $form->field($model, 'status')->dropDownList(['open' => 'Open', 'inprogress' => 'Inprogress', 'closed' => 'Closed', 'cancelled' => 'Cancelled',], ['prompt' => '-- select status --']) ?>
 
-    <?php // echo $form->field($model, 'status') ?>
+                                        </div>
 
-    <?php // echo $form->field($model, 'priority') ?>
+                                        <div class="col-3">
+                                            <?= $form->field($model, 'priority')->dropDownList(['low' => 'Low', 'medium' => 'Medium', 'high' => 'High',], ['prompt' => '-- select priority --']) ?>
 
-    <?php // echo $form->field($model, 'attachment') ?>
+                                        </div>
+                                        <div class="col-3">
+                                            <?= $form->field($model, 'category') ?>
 
-    <?php // echo $form->field($model, 'created_at') ?>
+                                        </div>
 
-    <?php // echo $form->field($model, 'updated_at') ?>
+                                    </div>
 
-    <?php // echo $form->field($model, 'created_by') ?>
 
-    <?php // echo $form->field($model, 'updated_by') ?>
+                            </div>
+                            </strong>
 
-    <?php // echo $form->field($model, 'deleted_at') ?>
+                            <div class="form-group">
+                                <?= Html::submitButton('<i class="fa fa-search fa-1x me-2"></i>Search', ['class' => 'btn btn-sm btn-info']) ?>
+                                <?= Html::a('<i class="fa fa-times fa-1x me-2"></i>' . Yii::t('app', 'Reset'), ['index'], ['class' => 'btn btn-sm btn-secondary text-dark']); ?>
+                            </div>
 
-    <div class="form-group">
-        <?= Html::submitButton(Yii::t('app', 'Search'), ['class' => 'btn btn-primary']) ?>
-        <?= Html::resetButton(Yii::t('app', 'Reset'), ['class' => 'btn btn-outline-secondary']) ?>
+                            <?php ActiveForm::end(); ?>
+
+                        </div>
+
+                    </div>
+                </div>
+
+
+            </div>
+
+
+
+
+
+        </div>
     </div>
-
-    <?php ActiveForm::end(); ?>
-
+</div>
 </div>

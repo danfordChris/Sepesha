@@ -3,7 +3,7 @@
 use app\models\User;
 use yii\helpers\Url;
 use yii\helpers\Html;
-use yii\grid\GridView;
+use kartik\grid\GridView;
 use app\models\Regions;
 use yii\grid\ActionColumn;
 use app\models\SystemRoles;
@@ -16,28 +16,44 @@ use reine\datatables\DataTables;
 
 $this->title = 'Support Tickets';
 $this->params['breadcrumbs'][] = $this->title;
+echo $this->render('/site/bs5tobs4');
 ?>
-<div class="support-tickets-index card">
+<div class="commissions-index">
 
-    <div class="card-body">
-
+    <div class="">
         <div class="row">
-            <div class="col-md-6">
-                <h5> <i class="fa fa-book"></i> <?= Html::encode($this->title) ?></h5>
+            <div class="">
+
+                <h5><?= Html::encode($this->title) ?></h5>
+                <?php echo $this->render('_search', ['model' => $searchModel]); ?>
+
             </div>
 
-
-
-            <hr>
         </div>
-
-        <?= DataTables::widget([
+        <?= GridView::widget([
             'dataProvider' => $dataProvider,
-            'filterModel' => $searchModel,
+            //'filterModel' => $searchModel,
             'tableOptions' => ['class' => ' table table-responsive bordered table-sm'],
-            'columns' => [
-                ['class' => 'yii\grid\SerialColumn'],
+            'showPageSummary' => true,
+            'headerRowOptions' => ['style' => 'white-space: nowrap;'],
+            'exportConfig' => Yii::$app->kalaExport->getKalaExport($this->title),
+            'export' => [
+                'options' => ['class' => 'btn btn-sm btn-warning'],
+                'menuOptions' => ['class' => 'dropdown-menu dropdown-menu-end fs-6'], // Align dropdown to right
+            ],
 
+            'toggleDataOptions' => [
+                'all' => ['class' => 'btn btn-secondary text-dark mx-2 btn-sm'],
+                'page' => ['class' => 'btn btn-secondary text-dark mx-2 btn-sm'],
+            ],
+            'bsVersion' => '5.x',
+            'responsive' => true,
+            'hover' => true,
+            'summary' => 'Showing {begin} - {end} of {totalCount} items',
+            'tableOptions' => ['class' => ' table table-responsive bordered table-sm'],
+
+            'columns' => [
+                ['class' => 'kartik\grid\SerialColumn'],
                 // 'id',
                 // 'sender_id',
                 'subject',
@@ -73,7 +89,26 @@ $this->params['breadcrumbs'][] = $this->title;
                         }
                     ],
                 ],
+
             ],
+
+            'panel' => [
+                'type' => 'warning',
+                'headingOptions' => ['class' => 'card-header float-end float-right text-white bg-dark p-2', 'style' => 'height:3em;'],
+                'beforeOptions' => ['style' => 'height:4em;'],
+                'before' =>
+                Html::a(
+                    '<i class="fa fa-search fa-1x me-2"></i>Search',
+                    '#panel-body-1',
+                    [
+                        'class' => 'btn btn-sm btn-info text-white float-end accordion-bs-toggle',
+                        'data-bs-toggle' => 'collapse',
+                        'aria-expanded' => 'false',
+                        'data-bs-target' => '#panel-body-1',
+                    ]
+                ),
+            ],
+
         ]); ?>
 
 
