@@ -14,6 +14,7 @@ class m250403_120812_create_discount_codes_table extends Migration
     {
         $this->createTable('{{%discount_codes}}', [
             'id' => $this->primaryKey(),
+            'user_id' => $this->string(),
             'value' => $this->decimal(30, 2)->notNull(),
             'type' => $this->string(10)->notNull()->comment('Allowed values: percent, amount'), 
             'category' => $this->string(10)->notNull()->comment('Allowed values: driver, customer'), 

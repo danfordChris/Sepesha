@@ -45,7 +45,7 @@ use yii\helpers\Html;
             ]) ?>
         </div>
         <div class="col-md-6">
-            <?= $form->field($model, 'code')->textInput(['maxlength' => true]) ?>
+            <?= $form->field($model, 'code')->textInput(['maxlength' => true,'readOnly'=>!$model->isNewRecord]) ?>
 
         </div>
     </div>
