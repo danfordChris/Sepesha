@@ -38,8 +38,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 // 'id',
                 [
                     'attribute' => 'user_id',
-                    'value' => function ($model) {
-                        return $model->user->full_name ?? '';
+                    'value' => function ($m) {
+                        return $m->clientInfo->getFullName()??'';
                     }
                 ],
                 'value',

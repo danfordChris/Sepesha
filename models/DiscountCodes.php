@@ -74,7 +74,7 @@ class DiscountCodes extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'user_id' => 'Employee name',
+            'user_id' => 'Client name',
             'value' => 'Value',
             'type' => 'Type',
             'category' => 'Category',
@@ -107,8 +107,10 @@ class DiscountCodes extends \yii\db\ActiveRecord
         $fullname = $this->fname . ' ' . $this->mname . ' ' . $this->sname;
         return $fullname ?? '';
     }
-    public function getUser()
+    
+
+    public function getClientInfo()
     {
-        return $this->hasOne(User::class, ['userid' => 'user_id']);
+        return $this->hasOne(ClientInfo::class, ['auth_key' => 'user_id']);
     }
 }

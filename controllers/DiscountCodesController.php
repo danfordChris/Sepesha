@@ -55,6 +55,7 @@ class DiscountCodesController extends Controller
     {
         $model = new DiscountCodes();
         $model->code = 'SEPESHAD' . mt_rand(10, 100);
+
         $searchModel = new DiscountCodesSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
         return $this->render('index', [
@@ -95,7 +96,10 @@ class DiscountCodesController extends Controller
         $model = new DiscountCodes();
 
         if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->save()) {
+            if ($model->load($this->request->post())) {
+                $model->category = $model->clientInfo->role;
+                $model->type = 'percent';
+                $model->save();
                 Yii::$app->session->setFlash('success', "Discount codes added successfully ");
                 return $this->redirect(['index']);
             }

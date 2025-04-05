@@ -1,5 +1,6 @@
 <?php
 
+use app\models\ClientInfo;
 use app\models\Employee;
 use kartik\date\DatePicker;
 use kartik\form\ActiveForm;
@@ -32,8 +33,8 @@ use yii\helpers\Html;
     ]); ?>
     <div class="row">
         <div class="col-md-6">
-        <?= $form->field($model, 'user_id')->widget(Select2::class, [
-                'data' => Employee::getActiveEmployees(),
+            <?= $form->field($model, 'user_id')->widget(Select2::class, [
+                'data' => ClientInfo::getCustomerList(),
                 'options' => [
                     'placeholder' => '-- Select Employee --',
                 ],
@@ -44,51 +45,19 @@ use yii\helpers\Html;
             ]) ?>
         </div>
         <div class="col-md-6">
-        <?= $form->field($model, 'value')->textInput(['maxlength' => true]) ?>
+            <?= $form->field($model, 'value')->textInput(['maxlength' => true]) ?>
 
         </div>
     </div>
     <div class="row">
         <div class="col-md-6">
-        <?= $form->field($model, 'type')->widget(Select2::classname(), [
-                'data' => [
-                    'amount' => 'Amount',
-                    'percent' => 'Percent',
-                ],
-                'options' => ['placeholder' => '-- Select Type --'],
-                'pluginOptions' => [
-                    'allowClear' => true,
-                    'dropdownParent' => $parent
-                ],
-            ]) ?>
+
+            <?= $form->field($model, 'code')->textInput(['maxlength' => true]) ?>
 
         </div>
         <div class="col-md-6">
-        <?= $form->field($model, 'category')->widget(Select2::classname(), [
-                'data' => [
-                    'driver' => 'Driver',
-                    'customer' => 'Customer',
-                ],
-                'options' => ['placeholder' => '-- Select Category --'],
-                'pluginOptions' => [
-                    'allowClear' => true,
-                    'dropdownParent' => $parent
-                ],
-            ]) ?>
 
-        </div>
-    </div>
-
-
-    <div class="row">
-        <div class="col-md-6">
-         
-
-        <?= $form->field($model, 'code')->textInput(['maxlength' => true]) ?>
-
-        </div>
-        <div class="col-md-6">
-        <?= $form->field($model, 'start_date')->widget(DatePicker::class, [
+            <?= $form->field($model, 'start_date')->widget(DatePicker::class, [
                 'options' => [
                     'class' => 'form-control',
                     'placeholder' => 'Start Date',
@@ -104,7 +73,8 @@ use yii\helpers\Html;
 
     <div class="row">
         <div class="col-md-6">
-        <?= $form->field($model, 'end_date')->widget(DatePicker::class, [
+
+            <?= $form->field($model, 'end_date')->widget(DatePicker::class, [
                 'options' => [
                     'class' => 'form-control',
                     'placeholder' => 'End Date',
@@ -114,35 +84,39 @@ use yii\helpers\Html;
                     'format' => 'yyyy-mm-dd'
                 ]
             ]) ?>
-            </div>
+
+        </div>
         <div class="col-md-6">
-        <?= $form->field($model, 'descr')->textarea(['rows' => 6]) ?>
+            <?= $form->field($model, 'descr')->textarea(['rows' => 6]) ?>
+
 
         </div>
     </div>
+
+
     <div class="row">
-        <!-- <div class="col-md-6">
 
+        <div class="col-md-6">
+            <?php if (!$model->isNewRecord) : ?>
+                <div class="col-md-6">
 
-        </div> -->
-        <?php if (!$model->isNewRecord) : ?>
-            <div class="col-md-6">
+                    <?= $form->field($model, 'status')->widget(Select2::classname(), [
+                        'data' => [
+                            '1' => 'Active',
+                            '0' => 'Inactive',
+                        ],
+                        'options' => ['placeholder' => '-- Select Category --'],
+                        'pluginOptions' => [
+                            'allowClear' => true,
+                            'dropdownParent' => $parent
+                        ],
+                    ]) ?>
 
-                <?= $form->field($model, 'status')->widget(Select2::classname(), [
-                    'data' => [
-                        '1' => 'Active',
-                        '0' => 'Inactive',
-                    ],
-                    'options' => ['placeholder' => '-- Select Category --'],
-                    'pluginOptions' => [
-                        'allowClear' => true,
-                        'dropdownParent' => $parent
-                    ],
-                ]) ?>
-
-            </div>
-        <?php endif; ?>
+                </div>
+            <?php endif; ?>
+        </div>
     </div>
+
 
 
 
