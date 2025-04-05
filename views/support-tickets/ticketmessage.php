@@ -101,7 +101,7 @@ use yii\helpers\ArrayHelper;
                                     <div style="font-size: 16px;">
                                         <?= Html::encode(strip_tags($msg->message ?? "")) ?> <br>
                                     </div>
-                                    <div style="font-style: italic; color: black; font-size: 12px; margin-top: 5px;">
+                                    <div style="font-style: italic; color: <?= $msg->sender_role === 'driver' ? 'black' : 'white' ?>; font-size: 12px; margin-top: 5px;">
                                         <?= Html::encode('Posted at ' . $msg->created_at ?? "") ?>
                                     </div>
                                 </div>
@@ -137,7 +137,8 @@ use yii\helpers\ArrayHelper;
 
 
                 <div class="form-group">
-                    <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+
+                    <?= Html::submitButton('Send', ['class' => 'btn btn-success']) ?>
                 </div>
                 <?php ActiveForm::end(); ?>
             </div>
