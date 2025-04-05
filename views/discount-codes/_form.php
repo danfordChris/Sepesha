@@ -36,7 +36,7 @@ use yii\helpers\Html;
             <?= $form->field($model, 'user_id')->widget(Select2::class, [
                 'data' => ClientInfo::getCustomerList(),
                 'options' => [
-                    'placeholder' => '-- Select Employee --',
+                    'placeholder' => '-- Select Client --',
                 ],
                 'pluginOptions' => [
                     'allowClear' => true,

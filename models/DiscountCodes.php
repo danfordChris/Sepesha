@@ -79,7 +79,7 @@ class DiscountCodes extends \yii\db\ActiveRecord
             'type' => 'Type',
             'category' => 'Category',
             'code' => 'Code',
-            'descr' => 'Descr',
+            'descr' => 'Description',
             'start_date' => 'Start Date',
             'end_date' => 'End Date',
             'status' => 'Status',
