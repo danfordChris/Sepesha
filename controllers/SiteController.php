@@ -198,7 +198,7 @@ class SiteController extends Controller
                 $pass->save();
 
                 Yii::$app->session->setFlash('info', " Your registration is now complete, you can now login!");
-                return $this->redirect(['site/login',]);
+                return $this->redirect(['auth/login',]);
             } else {
                 return $this->render('addPassword', [
                     'model' => $model,
@@ -224,7 +224,7 @@ class SiteController extends Controller
         }
         Yii::$app->user->logout();
         Yii::$app->session->setFlash('success', "You have been successfully logged out.!");
-        return $this->redirect(['site/login']);
+        return $this->redirect(['auth/login']);
     }
 
 
@@ -299,7 +299,7 @@ class SiteController extends Controller
         if ($model->sendEmail($user)) {
             $emailtemplate = '<p>Hello ' . $employee->getFullName() . ',</strong></p>
                 <p>Click the following link to reset your password at  <strong>' . Yii::$app->name  . '</strong> </p>
-                <p>. ' . Yii::$app->urlManager->createAbsoluteUrl(['site/reset-password', 'token' => $user->password_reset_token]) . '</p>';
+                <p>. ' . Yii::$app->urlManager->createAbsoluteUrl(['auth/reset-password', 'token' => $user->password_reset_token]) . '</p>';
             $subject = 'Password reset for ' . Yii::$app->name;
             Notification::emailnotificationaddeduser($emailtemplate, $subject, $employee, $user->email);
 
@@ -328,7 +328,7 @@ class SiteController extends Controller
 
         $emailtemplate = '<p>Hello ' . $employee->getFullName() . ',</strong></p>
         <p>You have been successfully registered to  <strong>' . 'SEPESHA SYSTEM' . '</strong> </p>
-        <p>. Please click the following link to confirm your email: ' . Yii::$app->urlManager->createAbsoluteUrl(['site/confirmemail', 'token' => $user->confirmation_token]) . '</p>';
+        <p>. Please click the following link to confirm your email: ' . Yii::$app->urlManager->createAbsoluteUrl(['auth/confirmemail', 'token' => $user->confirmation_token]) . '</p>';
         $subject = "SEPESHA User Registration";
         Notification::sendConfirmationEmailRepeat($employee, $user->confirmation_token, $user->email);
         Notification::emailnotificationaddeduser($emailtemplate, $subject, $employee, $user->email);
