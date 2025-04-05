@@ -6,7 +6,7 @@ use yii\widgets\DetailView;
 /** @var yii\web\View $this */
 /** @var app\models\Employee $model */
 
-$this->title = 'Discount codes details';
+$this->title = 'Discount codes details for: ' . $model->user->full_name;
 $this->params['breadcrumbs'][] = ['label' => 'Commissions', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
@@ -23,6 +23,12 @@ $this->params['breadcrumbs'][] = $this->title;
             'options' => ['class' => ' table table-responsive bordered table-sm'],
             'attributes' => [
                 // 'id',
+                [
+                    'attribute' => 'user_id',
+                    'value' => function ($model) {
+                        return $model->user->full_name ?? '';
+                    }
+                ],
                 'value',
                 'type',
                 'category',

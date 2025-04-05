@@ -54,7 +54,7 @@ class DiscountCodesController extends Controller
     public function actionIndex()
     {
         $model = new DiscountCodes();
-        $model->code = 'SEPESHA' . mt_rand(10, 100);
+        $model->code = 'SEPESHAD' . mt_rand(10, 100);
         $searchModel = new DiscountCodesSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
         return $this->render('index', [
