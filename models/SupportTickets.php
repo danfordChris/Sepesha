@@ -107,20 +107,25 @@ class SupportTickets extends \yii\db\ActiveRecord
     }
 
 
-  
-  
+
+
     public  function getEmail()
     {
-      return $this->email ?? "";
+        return $this->email ?? "";
     }
-  
-  
-   public static function getCustomerList()
+
+
+    public static function getCustomerList()
     {
-      $cust = self::find()->all();
-      $list = ArrayHelper::map($cust, 'auth_key', function ($m) {
-        return $m->getFullName();
-      });
-      return $list;
+        $cust = self::find()->all();
+        $list = ArrayHelper::map($cust, 'auth_key', function ($m) {
+            return $m->getFullName();
+        });
+        return $list;
+    }
+
+    public function getClientInfo()
+    {
+        return $this->hasOne(ClientInfo::class, ['auth_key' => 'sender_id']);
     }
 }

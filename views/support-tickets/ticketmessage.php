@@ -5,26 +5,47 @@ use kartik\form\ActiveForm;
 use kartik\helpers\Html;
 use yii\helpers\ArrayHelper;
 
-$customerList = ClientInfo::getCustomerList();
-$emailList = ClientInfo::getCustomerEmailByAuthKey();
-$fullName = ArrayHelper::getValue($customerList, $supportticketmessageModel->sender_id, 'Full Name not found');
-$email = ArrayHelper::getValue($emailList, $supportticketmessageModel->sender_id, 'Email not found');
 ?>
+
+
 
 
 <div class="row">
     <div class="col-md-3 left-card">
         <div class="card">
-            <div class="card-header" style="font-weight: bold; font-size: 1.8rem;">
+            <div class="card-header" style="font-weight: bold; font-size: 1.1rem;">
+                <i data-feather="user" style="margin-right: 5px;"></i> User Information
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    <strong>Name:</strong><br> <?= Html::encode($model->clientInfo->fullName ?? "") ?>
+                </li>
+                <li class="list-group-item">
+                    <strong>Email:</strong><br> <?= Html::encode($model->clientInfo->getEmail() ?? "") ?>
+                </li>
+
+                <li class="list-group-item">
+                    <strong>Phone:</strong><br> <?= Html::encode($model->clientInfo->getPhoneNumber() ?? "") ?>
+                </li>
+
+                <li class="list-group-item">
+                    <strong>Category:</strong><br> <?= Html::encode($model->clientInfo->role ?? "") ?>
+                </li>
+
+            </ul>
+        </div>
+
+        <div class="card">
+            <div class="card-header" style="font-weight: bold; font-size: 1.1rem;">
                 <i data-feather="clipboard" style="margin-right: 5px;"></i> Ticket Information
             </div>
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">
                     <strong>Subject:</strong><br> <?= Html::encode($model->subject) ?>
                 </li>
-                <li class="list-group-item">
+                <!-- <li class="list-group-item">
                     <strong>Category:</strong><br> <?= Html::encode($model->category) ?>
-                </li>
+                </li> -->
                 <li class="list-group-item">
                     <strong>Status:</strong><br>
                     <?php
@@ -44,27 +65,46 @@ $email = ArrayHelper::getValue($emailList, $supportticketmessageModel->sender_id
         </div>
     </div>
     <div class="col-md-9 horizontal-card">
+
+
         <div class="card">
             <div class="card-body">
-                <h4 class="card-title">Sender Role # <?= Html::encode($supportticketmessageModel->sender_role) ?></h4>
                 <div class="card">
                     <div class="card-body">
 
 
                         <h5>
-                            <i data-feather="message-square"></i>
-                            <b>Message</b>
+
+
+                            <div class="row">
+                                <div class="col-md-9">
+                                    <i data-feather="message-square"></i>
+                                    <b>Message</b>
+                                </div>
+                                <div class="col-md-3">
+
+                                    <button type="button" class="btn mb-2 float-end  btn-outline-info" data-bs-toggle="modal" data-bs-target="#rcamodal">
+                                        <i class="fa fa-file"></i> View attachment</button>
+
+                                </div>
+                            </div>
                             <hr>
                         </h5>
-                        <div style="background-color: rgb(50, 19, 190); padding: 10px; border-radius: 5px; display: inline-block; width: auto;color:white;">
-                            <?= Html::encode($supportticketmessageModel->message) ?>
+                        <div style="background-color: #6777ef; padding: 10px; border-radius: 5px; display: inline-block; width: auto;color:white;">
+                            <?php foreach ($messages as $msg) : ?>
+                                <div style="font-size: 16px;">
+                                <?= Html::encode(strip_tags($msg->message ?? "")) ?> <br>                                </div>
+                                <div style="font-style: italic;color:black;font-size: 12px;">
+                                    <?= Html::encode('Posted at ' . $msg->created_at ?? "") ?>
+
+                                </div>
+
+                            <?php endforeach; ?>
                         </div>
                     </div>
                 </div>
 
                 <hr>
-                Posted by <?= Html::encode($supportticketmessageModel->created_by) ?> on <?= Yii::$app->formatter->asDatetime($supportticketmessageModel->created_at) ?>
-
 
             </div>
         </div>
@@ -76,24 +116,9 @@ $email = ArrayHelper::getValue($emailList, $supportticketmessageModel->sender_id
 
 
 
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label class="control-label">Full Name</label>
-                            <?= Html::textInput('full_name', $fullName, ['class' => 'form-control', 'disabled' => true]) ?>
-                        </div>
-                    </div>
-
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label class="control-label">Email</label>
-                            <?= Html::textInput('email', $email, ['class' => 'form-control', 'disabled' => true]) ?>
-                        </div>
-                    </div>
-                </div>
                 <?php $form = ActiveForm::begin(); ?>
                 <div class="row">
-                    <?= $form->field($model, 'message')->widget(\yii\redactor\widgets\Redactor::class, [
+                    <?= $form->field($ticketmessageModel, 'message')->widget(\yii\redactor\widgets\Redactor::class, [
                         'clientOptions' => [
                             'imageManagerJson' => false,
                             'imageUpload' => false,
@@ -105,7 +130,9 @@ $email = ArrayHelper::getValue($emailList, $supportticketmessageModel->sender_id
                 </div>
 
 
-
+                <div class="form-group">
+                    <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+                </div>
                 <?php ActiveForm::end(); ?>
             </div>
 
@@ -114,4 +141,21 @@ $email = ArrayHelper::getValue($emailList, $supportticketmessageModel->sender_id
     </div>
 </div>
 
+</div>
+
+
+<div class="modal fade" id="rcamodal" tabindex="-1" role="dialog" aria-labelledby="formModal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-success">
+                <h4 class="modal-title mb-2 font-weight-bold text-white" id="formModal"><strong>Attachment</strong></h4>
+                <button type='button' class='close' data-dismiss='modal' aria-label='Close'>
+                    <span aria-hidden='true'>&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <iframe src="<?= $model->attachment ?>" width="100%" height="600"></iframe>
+            </div>
+        </div>
+    </div>
 </div>

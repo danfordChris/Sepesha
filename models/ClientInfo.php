@@ -122,6 +122,16 @@ class ClientInfo extends \yii\db\ActiveRecord
     return $list1;
   }
 
+  public static function getCustomerPhoneByAuthKey()
+  {
+    $customer =  self::find()->all();
+
+    $phone = ArrayHelper::map($customer, 'auth_key', function ($m) {
+      return $m->getPhoneNumber();
+    });
+    return $phone;
+  }
+
 
   public static function getCustomerListById()
   {
@@ -139,4 +149,6 @@ class ClientInfo extends \yii\db\ActiveRecord
     $list = ArrayHelper::map($cust, 'auth_key', 'name');
     return $list;
   }
+
+
 }
