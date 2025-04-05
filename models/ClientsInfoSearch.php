@@ -42,7 +42,7 @@ class ClientsInfoSearch extends ClientsInfo
      */
     public function search($params)
     {
-        $query = ClientsInfo::find();
+        $query = ClientsInfo::find()->orderBy('created_at desc');
 
         // add conditions that should always apply here
 

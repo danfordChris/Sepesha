@@ -182,7 +182,7 @@ use yii\helpers\Url;
 
 
 
-            <?php endif ?>
+    <?php endif ?>
 
             <?php if (User::Menu('gmt_reports_main')) : ?>
                 <li class="dropdown">
