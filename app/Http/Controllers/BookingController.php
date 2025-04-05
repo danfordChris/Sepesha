@@ -288,9 +288,11 @@ class BookingController extends Controller
                 ->whereNotIn('status', ['completed', 'cancelled'])
                 ->firstOrFail();
             $validated = $request->validate([
-                'cancel_by' => 'required|uuid|exists:clients_info,auth_key',
+               'cancel_by' => 'nullable|uuid|exists:clients_info,auth_key',
                 'cancel_reason' => 'required|string',
             ]);
+
+            $validated['cancel_by']=$request->auth_key;
             $validated['status'] = 'cancelled';
             $booking->update($validated);
             return response()->json([
