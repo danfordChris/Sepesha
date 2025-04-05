@@ -70,7 +70,7 @@ use yii\helpers\ArrayHelper;
         <div class="card">
             <div class="card-body">
                 <div class="card">
-                    <div class="card-body">
+                    <div class="card-body" style="background-color:rgba(249, 249, 249, 0.87) !important;">
 
 
                         <h5>
@@ -90,17 +90,23 @@ use yii\helpers\ArrayHelper;
                             </div>
                             <hr>
                         </h5>
-                        <div style="background-color: #6777ef; padding: 10px; border-radius: 5px; display: inline-block; width: auto;color:white;">
-                            <?php foreach ($messages as $msg) : ?>
-                                <div style="font-size: 16px;">
-                                <?= Html::encode(strip_tags($msg->message ?? "")) ?> <br>                                </div>
-                                <div style="font-style: italic;color:black;font-size: 12px;">
-                                    <?= Html::encode('Posted at ' . $msg->created_at ?? "") ?>
-
+                        <?php foreach ($messages as $msg) : ?>
+                            <div style="display: flex; justify-content: <?= $msg->sender_role === 'driver' ? 'flex-start' : 'flex-end' ?>; margin-bottom: 15px;">
+                                <div style="background-color: <?= $msg->sender_role === 'driver' ? '#eaeded' : '#6777ef' ?>; 
+                    padding: 10px; 
+                    border-radius: 10px; 
+                    max-width: 60%; 
+                    color: <?= $msg->sender_role === 'driver' ? 'black' : 'white' ?>; 
+                    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);">
+                                    <div style="font-size: 16px;">
+                                        <?= Html::encode(strip_tags($msg->message ?? "")) ?> <br>
+                                    </div>
+                                    <div style="font-style: italic; color: black; font-size: 12px; margin-top: 5px;">
+                                        <?= Html::encode('Posted at ' . $msg->created_at ?? "") ?>
+                                    </div>
                                 </div>
-
-                            <?php endforeach; ?>
-                        </div>
+                            </div>
+                        <?php endforeach; ?>
                     </div>
                 </div>
 

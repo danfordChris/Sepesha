@@ -62,51 +62,22 @@ class SupportTicketsController extends Controller
         ]);
     }
 
-    // public function actionTicketmessage($id)
-    // {
-
-
-    //     $supportticketmessageModel = SupportTicketMessages::findOne(['support_ticket_id' => $id]);
-    //     $model = $this->findModel($id);
-    //     $ticketmessageModel = new SupportTicketMessages();
-    //     $ticketmessageModel->support_ticket_id = $model->id;
-    //     $searchModel = new SupportTicketMessagesSearch();
-    //     $ticketmessageDataProvider = $searchModel->search($this->request->queryParams);
-    //     $ticketmessageDataProvider->query->andWhere(['support_ticket_id' => $model->id]);
-    //     if ($this->request->isPost && $ticketmessageModel->load($this->request->post()) && $ticketmessageModel->save()) {
-    //         Yii::$app->session->setFlash('success', "Support ticket message added Successfully");
-    //         return $this->refresh();
-    //     }
-
-
-
-    //     return $this->render('ticketmessage', [
-    //         'model' => $model,
-    //         'ticketmessageModel' => $ticketmessageModel,
-    //         'ticketmessageDataProvider' => $ticketmessageDataProvider,
-    //         'supportticketmessageModel' => $supportticketmessageModel
-
-    //     ]);
-    // }
-
-
-
     public function actionTicketmessage($id)
     {
-        $model = $this->findModel($id); 
-        $messages = SupportTicketMessages::find()->where(['support_ticket_id' => $id])->all();
-        $ticketmessageModel = new SupportTicketMessages(); 
-        $ticketmessageModel->support_ticket_id = $model->id; 
- 
+        $model = $this->findModel($id);
+        $messages = SupportTicketMessages::find()->where(['support_ticket_id' => $id])->orderBy(['created_at' => SORT_ASC])->all();
+        $ticketmessageModel = new SupportTicketMessages();
+        $ticketmessageModel->support_ticket_id = $model->id;
+
         if ($this->request->isPost && $ticketmessageModel->load($this->request->post()) && $ticketmessageModel->save()) {
             Yii::$app->session->setFlash('success', "Support ticket message added successfully.");
-            return $this->refresh(); 
+            return $this->refresh();
         }
 
         return $this->render('ticketmessage', [
             'model' => $model,
             'ticketmessageModel' => $ticketmessageModel,
-             'messages' => $messages
+            'messages' => $messages
         ]);
     }
 
