@@ -32,11 +32,11 @@ use yii\helpers\Html;
 
     ]); ?>
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-12">
             <?= $form->field($model, 'user_id')->widget(Select2::class, [
                 'data' => ClientInfo::getCustomerList(),
                 'options' => [
-                    'placeholder' => '-- Select Employee --',
+                    'placeholder' => '-- Select Client --',
                 ],
                 'pluginOptions' => [
                     'allowClear' => true,
@@ -44,19 +44,26 @@ use yii\helpers\Html;
                 ],
             ]) ?>
         </div>
+
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+
+            <?= $form->field($model, 'code')->textInput(['maxlength' => true, 'readOnly' => !$model->isNewRecord]) ?>
+
+        </div>
+
         <div class="col-md-6">
             <?= $form->field($model, 'value')->textInput(['maxlength' => true]) ?>
 
         </div>
     </div>
+
+
     <div class="row">
+
         <div class="col-md-6">
-
-            <?= $form->field($model, 'code')->textInput(['maxlength' => true]) ?>
-
-        </div>
-        <div class="col-md-6">
-
             <?= $form->field($model, 'start_date')->widget(DatePicker::class, [
                 'options' => [
                     'class' => 'form-control',
@@ -67,11 +74,9 @@ use yii\helpers\Html;
                     'format' => 'yyyy-mm-dd'
                 ]
             ]) ?>
+
         </div>
-    </div>
 
-
-    <div class="row">
         <div class="col-md-6">
 
             <?= $form->field($model, 'end_date')->widget(DatePicker::class, [
@@ -86,21 +91,19 @@ use yii\helpers\Html;
             ]) ?>
 
         </div>
-        <div class="col-md-6">
-            <?= $form->field($model, 'descr')->textarea(['rows' => 6]) ?>
 
-
-        </div>
     </div>
 
 
     <div class="row">
-
         <div class="col-md-6">
-            <?php if (!$model->isNewRecord) : ?>
-                <div class="col-md-6">
+            <?= $form->field($model, 'descr')->textarea(['rows' => 6]) ?>
 
-                    <?= $form->field($model, 'status')->widget(Select2::classname(), [
+        </div>
+        <?php if (!$model->isNewRecord) : ?>
+        <div class="col-md-6">
+
+            <?= $form->field($model, 'status')->widget(Select2::class, [
                         'data' => [
                             '1' => 'Active',
                             '0' => 'Inactive',
@@ -112,24 +115,19 @@ use yii\helpers\Html;
                         ],
                     ]) ?>
 
-                </div>
-            <?php endif; ?>
         </div>
+        <?php endif; ?>
+
     </div>
-
-
-
-
-
 
 
     <div class="col-md-3 mt-4">
         <?php if ($model->isNewRecord) : ?>
-            <button type="button" class=" btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
-            <?php echo Html::submitButton(Yii::t('app', 'Add'), ['class' => 'btn btn-outline-info']); ?>
+        <button type="button" class=" btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+        <?php echo Html::submitButton(Yii::t('app', 'Add'), ['class' => 'btn btn-outline-info']); ?>
         <?php else : ?>
-            <?php echo Html::a('<i class="fa fa-arrow-left"></i> Back', ['index'], ['class' => 'btn btn-secondary']); ?>
-            <?php echo Html::submitButton(Yii::t('app', 'Update'), ['class' => 'btn btn-primary']); ?>
+        <?php echo Html::a('<i class="fa fa-arrow-left"></i> Back', ['index'], ['class' => 'btn btn-secondary']); ?>
+        <?php echo Html::submitButton(Yii::t('app', 'Update'), ['class' => 'btn btn-primary']); ?>
         <?php endif; ?>
     </div>
 

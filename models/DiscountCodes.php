@@ -75,11 +75,11 @@ class DiscountCodes extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'user_id' => 'Client name',
-            'value' => 'Value',
+            'value' => 'Discount Value(%)',
             'type' => 'Type',
             'category' => 'Category',
-            'code' => 'Code',
-            'descr' => 'Descr',
+            'code' => 'Discount Code',
+            'descr' => 'Description',
             'start_date' => 'Start Date',
             'end_date' => 'End Date',
             'status' => 'Status',
@@ -107,7 +107,7 @@ class DiscountCodes extends \yii\db\ActiveRecord
         $fullname = $this->fname . ' ' . $this->mname . ' ' . $this->sname;
         return $fullname ?? '';
     }
-    
+
 
     public function getClientInfo()
     {
