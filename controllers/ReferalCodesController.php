@@ -52,6 +52,7 @@ class ReferalCodesController extends Controller
     public function actionIndex()
     {
         $model = new ReferalCodes();
+        $model->code = 'SEPESHA' . mt_rand(10, 100);
         $searchModel = new ReferalCodesSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
 
@@ -92,6 +93,7 @@ class ReferalCodesController extends Controller
     public function actionCreate()
     {
         $model = new ReferalCodes();
+        $model->user_type = 'agent';
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post()) && $model->save()) {

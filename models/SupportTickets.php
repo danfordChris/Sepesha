@@ -107,10 +107,6 @@ class SupportTickets extends \yii\db\ActiveRecord
     }
 
 
-    // public  function getFullName()
-    // {
-    //   return $this->name . ' ' . $this->mname . ' ' . $this->sname;
-    // }
   
   
     public  function getEmail()

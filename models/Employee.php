@@ -292,6 +292,20 @@ class Employee extends \yii\db\ActiveRecord
         return $result;
     }
 
+
+    
+    public static function getActiveEmployees()
+    {
+
+        $employees = Employee::find()->where(['status' => 10])->all();
+
+        $result = ArrayHelper::map($employees, 'id', function ($employee) {
+            return strtolower($employee->fname . ' ' . $employee->sname);
+        });
+
+        return $result;
+    }
+
     public function getUserStatus($employeemail)
     {
         $status = User::find()->where(['email' => $employeemail])->one();

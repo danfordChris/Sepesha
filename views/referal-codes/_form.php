@@ -1,5 +1,7 @@
 <?php
 
+use app\models\Employee;
+use app\models\ReferalCodes;
 use kartik\date\DatePicker;
 use kartik\form\ActiveForm;
 use kartik\select2\Select2;
@@ -31,17 +33,14 @@ use yii\helpers\Html;
     ]); ?>
     <div class="row">
         <div class="col-md-6">
-            <?= $form->field($model, 'user_type')->widget(Select2::class, [
-                'data' => [
-                    'customer' => 'Customer',
-                    'driver' => 'Driver',
-                ],
+            <?= $form->field($model, 'user_id')->widget(Select2::class, [
+                'data' => Employee::getActiveEmployees(),
                 'options' => [
-                    'placeholder' => 'Select User Type',
+                    'placeholder' => '-- Select Employee --',
                 ],
                 'pluginOptions' => [
                     'allowClear' => true,
-                    'dropdownParent' => $parent
+                    'dropdownParent' => $parent,
                 ],
             ]) ?>
         </div>

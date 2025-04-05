@@ -6,6 +6,7 @@ use Yii;
 use yii\behaviors\BlameableBehavior;
 use yii\behaviors\TimestampBehavior;
 use yii\db\Expression;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "referal_codes".
@@ -45,7 +46,10 @@ class ReferalCodes extends \yii\db\ActiveRecord
             [['descr'], 'string'],
             [['status', 'created_by', 'updated_by'], 'integer'],
             [['user_id', 'user_type', 'code'], 'string', 'max' => 255],
-            [['value', 'start_date', 'end_date', 'descr', 'user_type', 'code'], 'required'],
+            [['code'],'unique'],
+            [['value', 'start_date', 'end_date', 'descr', 'code'], 'required'],
+            [['start_date', 'end_date'], 'date', 'format' => 'yyyy-MM-dd'], 
+            ['end_date', 'compare', 'compareAttribute' => 'start_date', 'operator' => '>=', 'message' => 'End Date must be greater than or equal to Start Date'], 
         ];
     }
 
@@ -56,13 +60,13 @@ class ReferalCodes extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'user_id' => 'User ID',
+            'user_id' => 'Employee name',
             'user_type' => 'User Type',
-            'code' => 'Code',
-            'value' => 'Value',
+            'code' => 'Referal Code',
+            'value' => 'Referal (%)',
             'start_date' => 'Start Date',
             'end_date' => 'End Date',
-            'descr' => 'Descr',
+            'descr' => 'Description',
             'status' => 'Status',
             'created_at' => 'Created At',
             'created_by' => 'Created By',
@@ -97,10 +101,8 @@ class ReferalCodes extends \yii\db\ActiveRecord
         return $this->hasOne(User::class, ['id' => 'updated_by']);
     }
 
-
-    public function getFullName()
+    public function getUser()
     {
-        $fullname = $this->fname . ' ' . $this->mname . ' ' . $this->sname;
-        return $fullname ?? '';
+        return $this->hasOne(User::class, ['id' => 'user_id']);
     }
 }
