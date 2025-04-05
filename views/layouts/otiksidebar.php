@@ -20,203 +20,203 @@ use yii\helpers\Url;
 
             <?php foreach (LinkNames::find()->where(['status' => true, 'isparent' => true, 'has_submenu' => false])->orderBy('order asc')->all() as $menu_nosub) : ?>
 
-                <?php if (User::Menu($menu_nosub->access_name)) : ?>
+            <?php if (User::Menu($menu_nosub->access_name)) : ?>
 
-                    <li>
-                        <a href="<?= Url::toRoute($menu_nosub->url) ?>" class="nav-link">
-                            <?= $menu_nosub->icon ?>
-                            <span><?= User::MenuLabel($menu_nosub->access_name)->label ?></span></a>
-                    </li>
+            <li>
+                <a href="<?= Url::toRoute($menu_nosub->url) ?>" class="nav-link">
+                    <?= $menu_nosub->icon ?>
+                    <span><?= User::MenuLabel($menu_nosub->access_name)->label ?></span></a>
+            </li>
 
-                <?php endif; ?>
+            <?php endif; ?>
             <?php endforeach ?>
 
             <?php foreach (LinkNames::find()->where(['status' => true, 'isparent' => true, 'has_submenu' => true])->orderBy('order asc')->all() as $menu_withsub) : ?>
-                <?php if (User::Menu($menu_withsub->access_name)) : ?>
-                    <li>
-                        <a href="#" class="menu-toggle nav-link has-dropdown">
-                            <?= $menu_withsub->icon ?>
-                            <span><?= User::MenuLabel($menu_withsub->access_name)->label ?> </span></a>
-                        <ul class="dropdown-menu">
-                            <?php foreach (LinkNames::find()->where(['status' => true, 'isparent' => false, 'has_submenu' => false, 'parentid' => $menu_withsub->id])->orderBy('order asc')->all() as $sub) : ?>
-                                <?php if (User::Menu($sub->access_name)) : ?>
-                                    <li><a class="nav-link"
-                                            href="<?= Url::toRoute($sub->url) ?>"><span><?= User::MenuLabel($sub->access_name)->label ?></span></a>
-                                    </li>
-                                <?php endif; ?>
-                            <?php endforeach ?>
-                        </ul>
+            <?php if (User::Menu($menu_withsub->access_name)) : ?>
+            <li>
+                <a href="#" class="menu-toggle nav-link has-dropdown">
+                    <?= $menu_withsub->icon ?>
+                    <span><?= User::MenuLabel($menu_withsub->access_name)->label ?> </span></a>
+                <ul class="dropdown-menu">
+                    <?php foreach (LinkNames::find()->where(['status' => true, 'isparent' => false, 'has_submenu' => false, 'parentid' => $menu_withsub->id])->orderBy('order asc')->all() as $sub) : ?>
+                    <?php if (User::Menu($sub->access_name)) : ?>
+                    <li><a class="nav-link"
+                            href="<?= Url::toRoute($sub->url) ?>"><span><?= User::MenuLabel($sub->access_name)->label ?></span></a>
                     </li>
-                <?php endif; ?>
+                    <?php endif; ?>
+                    <?php endforeach ?>
+                </ul>
+            </li>
+            <?php endif; ?>
             <?php endforeach ?>
 
             <?php if (User::isAdmin()) : ?>
-                <li>
-                    <a href="#" class="menu-toggle nav-link has-dropdown">
-                        <?= CustomHelper::ICON_APPROVAL ?>
-                        <span>Approvals </span></a>
-                    <ul class="dropdown-menu">
-                        <li class="nav-link"><a href="<?= Url::toRoute(['/onboard/index']) ?>">
-                                Driver Onboarding Request
-                            </a>
-                        </li>
-                        <li class="nav-link"><a href="<?= Url::toRoute(['/onboard/vendor']) ?>">
-                                Vendor Onboarding Request
-                            </a>
-                        </li>
-                    </ul>
-                </li>
+            <li>
+                <a href="#" class="menu-toggle nav-link has-dropdown">
+                    <?= CustomHelper::ICON_APPROVAL ?>
+                    <span>Approvals </span></a>
+                <ul class="dropdown-menu">
+                    <li class="nav-link"><a href="<?= Url::toRoute(['/onboard/index']) ?>">
+                            Driver Onboarding Request
+                        </a>
+                    </li>
+                    <li class="nav-link"><a href="<?= Url::toRoute(['/onboard/vendor']) ?>">
+                            Vendor Onboarding Request
+                        </a>
+                    </li>
+                </ul>
+            </li>
 
-                <li>
-                    <a href="#" class="menu-toggle nav-link has-dropdown">
-                        <?= CustomHelper::ICON_MAP ?>
-                        <span>Bookings </span></a>
-                    <ul class="dropdown-menu">
-                        <li class="nav-link"><a href="<?= Url::toRoute(['/bookings/pending']) ?>">
-                                Pending
-                            </a>
-                        </li>
+            <li>
+                <a href="#" class="menu-toggle nav-link has-dropdown">
+                    <?= CustomHelper::ICON_MAP ?>
+                    <span>Bookings </span></a>
+                <ul class="dropdown-menu">
+                    <li class="nav-link"><a href="<?= Url::toRoute(['/bookings/pending']) ?>">
+                            Pending
+                        </a>
+                    </li>
 
-                        <li class="nav-link"><a href="<?= Url::toRoute(['/bookings/intransit']) ?>">
-                                Intransit
-                            </a>
-                        </li>
-                        <li class="nav-link"><a href="<?= Url::toRoute(['/bookings/completed']) ?>">
-                                Completed
-                            </a>
-                        </li>
-                        <li class="nav-link"><a href="<?= Url::toRoute(['/bookings/cancelled']) ?>">
-                                Cancelled
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-
-
-                <li>
-                    <a href="#" class="menu-toggle nav-link has-dropdown">
-                        <?= CustomHelper::TRANSACTION ?>
-                        <span>Transactions</span></a>
-                    <ul class="dropdown-menu">
-                        <li class="nav-link"><a href="<?= Url::toRoute(['/commissions/driver']) ?>">
-                                Driver Account
-                            </a>
-                        </li>
-
-                        <li class="nav-link"><a href="<?= Url::toRoute(['/commissions/vendor']) ?>">
-                                Vendor Account
-                            </a>
-                        </li>
-                        <li class="nav-link"><a href="<?= Url::toRoute(['/commissions/owner']) ?>">
-                                Revenue Distribution
-                            </a>
-                        </li>
-
-                    </ul>
-                </li>
+                    <li class="nav-link"><a href="<?= Url::toRoute(['/bookings/intransit']) ?>">
+                            Intransit
+                        </a>
+                    </li>
+                    <li class="nav-link"><a href="<?= Url::toRoute(['/bookings/completed']) ?>">
+                            Completed
+                        </a>
+                    </li>
+                    <li class="nav-link"><a href="<?= Url::toRoute(['/bookings/cancelled']) ?>">
+                            Cancelled
+                        </a>
+                    </li>
+                </ul>
+            </li>
 
 
+            <li>
+                <a href="#" class="menu-toggle nav-link has-dropdown">
+                    <?= CustomHelper::TRANSACTION ?>
+                    <span>Transactions</span></a>
+                <ul class="dropdown-menu">
+                    <li class="nav-link"><a href="<?= Url::toRoute(['/commissions/driver']) ?>">
+                            Driver Account
+                        </a>
+                    </li>
 
-                <li>
-                    <a href="#" class="menu-toggle nav-link has-dropdown">
-                        <?= CustomHelper::ICON_USERS ?>
-                        <span>Clients </span></a>
-                    <ul class="dropdown-menu">
-                        <li class="nav-link"><a href="<?= Url::toRoute(['/client-infos/driver']) ?>">
-                                Driver List
-                            </a>
-                        </li>
+                    <li class="nav-link"><a href="<?= Url::toRoute(['/commissions/vendor']) ?>">
+                            Vendor Account
+                        </a>
+                    </li>
+                    <li class="nav-link"><a href="<?= Url::toRoute(['/commissions/owner']) ?>">
+                            Revenue Distribution
+                        </a>
+                    </li>
 
-                        <li class="nav-link"><a href="<?= Url::toRoute(['/client-infos/customer']) ?>">
-                                Customer List
-                            </a>
-                        </li>
-                        <li class="nav-link"><a href="<?= Url::toRoute(['/client-infos/vendor']) ?>">
-                                Vendor List
-                            </a>
-                        </li>
-
-                    </ul>
-                </li>
-
-                <li>
-                    <a href="#" class="menu-toggle nav-link has-dropdown">
-                        <?= CustomHelper::ICON_USER_CHECK ?>
-                        <span>Promotion </span></a>
-                    <ul class="dropdown-menu">
-                        <li class="nav-link"><a href="<?= Url::toRoute(['/discount-codes/index']) ?>">
-                                Discount Codes
-                            </a>
-                        </li>
-
-                        <li class="nav-link"><a href="<?= Url::toRoute(['/referal-codes/index']) ?>">
-                                Referal code
-                            </a>
-                        </li>
-
-
-                    </ul>
-                </li>
-
-
-                <li>
-                    <a href="#" class="menu-toggle nav-link has-dropdown">
-                        <?= CustomHelper::ICON_USER_CHECK ?>
-                        <span>Support Tickets </span></a>
-                    <ul class="dropdown-menu">
-                        <li class="nav-link"><a href="<?= Url::toRoute(['/support-tickets/index']) ?>">
-                                Support Tickets
-                            </a>
-                        </li>
-
-                        <li class="nav-link"><a href="<?= Url::toRoute(['/support-contacts/index']) ?>">
-                                Support Contacts
-                            </a>
-                        </li>
+                </ul>
+            </li>
 
 
 
+            <li>
+                <a href="#" class="menu-toggle nav-link has-dropdown">
+                    <?= CustomHelper::ICON_USERS ?>
+                    <span>Clients </span></a>
+                <ul class="dropdown-menu">
+                    <li class="nav-link"><a href="<?= Url::toRoute(['/client-infos/driver']) ?>">
+                            Driver List
+                        </a>
+                    </li>
 
-                    </ul>
-                </li>
+                    <li class="nav-link"><a href="<?= Url::toRoute(['/client-infos/customer']) ?>">
+                            Customer List
+                        </a>
+                    </li>
+                    <li class="nav-link"><a href="<?= Url::toRoute(['/client-infos/vendor']) ?>">
+                            Vendor List
+                        </a>
+                    </li>
+
+                </ul>
+            </li>
+
+            <li>
+                <a href="#" class="menu-toggle nav-link has-dropdown">
+                    <?= CustomHelper::PROMOTION ?>
+                    <span>Promotion </span></a>
+                <ul class="dropdown-menu">
+                    <li class="nav-link"><a href="<?= Url::toRoute(['/discount-codes/index']) ?>">
+                            Discount Codes
+                        </a>
+                    </li>
+
+                    <li class="nav-link"><a href="<?= Url::toRoute(['/referal-codes/index']) ?>">
+                            Referal code
+                        </a>
+                    </li>
+
+
+                </ul>
+            </li>
+
+
+            <li>
+                <a href="#" class="menu-toggle nav-link has-dropdown">
+                    <?= CustomHelper::SUPPORT_TICKET ?>
+                    <span>Support Tickets </span></a>
+                <ul class="dropdown-menu">
+                    <li class="nav-link"><a href="<?= Url::toRoute(['/support-tickets/index']) ?>">
+                            Support Tickets
+                        </a>
+                    </li>
+
+                    <li class="nav-link"><a href="<?= Url::toRoute(['/support-contacts/index']) ?>">
+                            Support Contacts
+                        </a>
+                    </li>
 
 
 
-    <?php endif ?>
+
+                </ul>
+            </li>
+
+
+
+            <?php endif ?>
 
             <?php if (User::Menu('gmt_reports_main')) : ?>
-                <li class="dropdown">
-                    <a href="#" class="menu-toggle nav-link has-dropdown">
-                        <?= CustomHelper::ICON_REPORT ?>
-                        <span><?= User::MenuLabel('gmt_reports_main')->label ?></span></a>
-                    <ul class="dropdown-menu">
-                        <li class="nav-link"><a href="<?= Url::toRoute(['/reports/index']) ?>">Service Summary
-                                Tracking</a></li>
-                        <li class="nav-link"><a href="<?= Url::toRoute(['/intake/report']) ?>"> Intake Report</a>
-                        </li>
-                        <li class="nav-link"><a href="<?= Url::toRoute(['/services/report']) ?>">Service Provision
-                                report</a></li>
-                        <li class="nav-link"><a href="<?= Url::toRoute(['/closures/transfer-report']) ?>"> Case Transfers
-                                report</a>
-                        </li>
-                        <li class="nav-link"><a href="<?= Url::to(['#']); ?>">Reunification report</a></li>
-                        <li class="nav-link"><a href="<?= Url::to(['#']); ?>">Dropout Report</a>
-                        <li class="nav-link"><a href="<?= Url::toRoute(['/closures/report']) ?>">Case Closure report</a>
-                        </li>
-                        <li class="nav-link"><a
-                                href="<?= Url::toRoute(['/fitperson-shelter-placement/report']) ?>">Shelter/Fit Person
-                                placement </a></li>
-                </li>
+            <li class="dropdown">
+                <a href="#" class="menu-toggle nav-link has-dropdown">
+                    <?= CustomHelper::ICON_REPORT ?>
+                    <span><?= User::MenuLabel('gmt_reports_main')->label ?></span></a>
+                <ul class="dropdown-menu">
+                    <li class="nav-link"><a href="<?= Url::toRoute(['/reports/index']) ?>">Service Summary
+                            Tracking</a></li>
+                    <li class="nav-link"><a href="<?= Url::toRoute(['/intake/report']) ?>"> Intake Report</a>
+                    </li>
+                    <li class="nav-link"><a href="<?= Url::toRoute(['/services/report']) ?>">Service Provision
+                            report</a></li>
+                    <li class="nav-link"><a href="<?= Url::toRoute(['/closures/transfer-report']) ?>"> Case Transfers
+                            report</a>
+                    </li>
+                    <li class="nav-link"><a href="<?= Url::to(['#']); ?>">Reunification report</a></li>
+                    <li class="nav-link"><a href="<?= Url::to(['#']); ?>">Dropout Report</a>
+                    <li class="nav-link"><a href="<?= Url::toRoute(['/closures/report']) ?>">Case Closure report</a>
+                    </li>
+                    <li class="nav-link"><a
+                            href="<?= Url::toRoute(['/fitperson-shelter-placement/report']) ?>">Shelter/Fit Person
+                            placement </a></li>
+            </li>
 
         </ul>
 
         </li>
 
-    <?php endif; ?>
+        <?php endif; ?>
 
 
 
-    <?php if (User::isAdmin()) : ?>
+        <?php if (User::isAdmin()) : ?>
 
         <li>
             <a class="nav-link"
@@ -249,9 +249,9 @@ use yii\helpers\Url;
 
         </li>
 
-    <?php endif ?>
+        <?php endif ?>
 
-    </ul>
+        </ul>
 
 
     </aside>
