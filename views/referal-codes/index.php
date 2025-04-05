@@ -36,7 +36,12 @@ $this->params['breadcrumbs'][] = $this->title;
             'columns' => [
                 ['class' => 'yii\grid\SerialColumn'],
                 // 'id',
-                // 'user_id',
+               [
+                'attribute'=>'user_id',
+                'value'=>function($model){
+                    return $model->user->full_name ?? '';
+                }
+               ],
                 // 'user_type',
                 'code',
                 'value',

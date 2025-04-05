@@ -142,18 +142,22 @@ use yii\helpers\Url;
                 <li>
                     <a href="#" class="menu-toggle nav-link has-dropdown">
                         <?= CustomHelper::ICON_USER_CHECK ?>
-                        <span>Discount Codes </span></a>
+                        <span>Promotion </span></a>
                     <ul class="dropdown-menu">
                         <li class="nav-link"><a href="<?= Url::toRoute(['/discount-codes/index']) ?>">
                                 Discount Codes
                             </a>
                         </li>
 
-
+                        <li class="nav-link"><a href="<?= Url::toRoute(['/referal-codes/index']) ?>">
+                                Referal code
+                            </a>
+                        </li>
 
 
                     </ul>
                 </li>
+
 
                 <li>
                     <a href="#" class="menu-toggle nav-link has-dropdown">
@@ -176,21 +180,7 @@ use yii\helpers\Url;
                     </ul>
                 </li>
 
-                <li>
-                    <a href="#" class="menu-toggle nav-link has-dropdown">
-                        <?= CustomHelper::ICON_USER_CHECK ?>
-                        <span>Referal codes </span></a>
-                    <ul class="dropdown-menu">
-                        <li class="nav-link"><a href="<?= Url::toRoute(['/referal-codes/index']) ?>">
-                                Referal code
-                            </a>
-                        </li>
 
-
-
-
-                    </ul>
-                </li>
 
             <?php endif ?>
 

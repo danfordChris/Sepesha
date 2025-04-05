@@ -62,6 +62,8 @@ class DiscountCodes extends \yii\db\ActiveRecord
             [['type', 'category'], 'string', 'max' => 10],
             [['code'], 'string', 'max' => 255],
             [['code'], 'unique'],
+            [['start_date', 'end_date'], 'date', 'format' => 'yyyy-MM-dd'],
+            ['end_date', 'compare', 'compareAttribute' => 'start_date', 'operator' => '>=', 'message' => 'End Date must be greater than or equal to Start Date'],
         ];
     }
 
