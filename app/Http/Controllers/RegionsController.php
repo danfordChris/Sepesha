@@ -16,7 +16,7 @@ class RegionsController extends Controller
 
     public function index(Request $request){
         try {
-            $data= Region::select('rid as regiongi_id','name')->where('status',10)->get();
+            $data= Region::select('rid as region_id','name')->where('status',10)->get();
             if($data){
                 return CustomHelper::response(true, 'data found',200,$data);
             }else{
