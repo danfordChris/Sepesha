@@ -1,5 +1,6 @@
 <?php
 
+use app\models\Employee;
 use kartik\date\DatePicker;
 use kartik\form\ActiveForm;
 use kartik\select2\Select2;
@@ -31,12 +32,25 @@ use yii\helpers\Html;
     ]); ?>
     <div class="row">
         <div class="col-md-6">
-            <?= $form->field($model, 'value')->textInput(['maxlength' => true]) ?>
-
-
+        <?= $form->field($model, 'user_id')->widget(Select2::class, [
+                'data' => Employee::getActiveEmployees(),
+                'options' => [
+                    'placeholder' => '-- Select Employee --',
+                ],
+                'pluginOptions' => [
+                    'allowClear' => true,
+                    'dropdownParent' => $parent,
+                ],
+            ]) ?>
         </div>
         <div class="col-md-6">
-            <?= $form->field($model, 'type')->widget(Select2::classname(), [
+        <?= $form->field($model, 'value')->textInput(['maxlength' => true]) ?>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+        <?= $form->field($model, 'type')->widget(Select2::classname(), [
                 'data' => [
                     'amount' => 'Amount',
                     'percent' => 'Percent',
@@ -49,12 +63,8 @@ use yii\helpers\Html;
             ]) ?>
 
         </div>
-    </div>
-
-
-    <div class="row">
         <div class="col-md-6">
-            <?= $form->field($model, 'category')->widget(Select2::classname(), [
+        <?= $form->field($model, 'category')->widget(Select2::classname(), [
                 'data' => [
                     'driver' => 'Driver',
                     'customer' => 'Customer',
@@ -66,18 +76,19 @@ use yii\helpers\Html;
                 ],
             ]) ?>
 
-
-        </div>
-        <div class="col-md-6">
-            <?= $form->field($model, 'code')->textInput(['maxlength' => true]) ?>
-
         </div>
     </div>
 
 
     <div class="row">
         <div class="col-md-6">
-            <?= $form->field($model, 'start_date')->widget(DatePicker::class, [
+         
+
+        <?= $form->field($model, 'code')->textInput(['maxlength' => true]) ?>
+
+        </div>
+        <div class="col-md-6">
+        <?= $form->field($model, 'start_date')->widget(DatePicker::class, [
                 'options' => [
                     'class' => 'form-control',
                     'placeholder' => 'Start Date',
@@ -86,9 +97,14 @@ use yii\helpers\Html;
                     'autoclose' => true,
                     'format' => 'yyyy-mm-dd'
                 ]
-            ]) ?> </div>
+            ]) ?>
+        </div>
+    </div>
+
+
+    <div class="row">
         <div class="col-md-6">
-            <?= $form->field($model, 'end_date')->widget(DatePicker::class, [
+        <?= $form->field($model, 'end_date')->widget(DatePicker::class, [
                 'options' => [
                     'class' => 'form-control',
                     'placeholder' => 'End Date',
@@ -98,14 +114,17 @@ use yii\helpers\Html;
                     'format' => 'yyyy-mm-dd'
                 ]
             ]) ?>
+            </div>
+        <div class="col-md-6">
+        <?= $form->field($model, 'descr')->textarea(['rows' => 6]) ?>
+
         </div>
     </div>
     <div class="row">
-        <div class="col-md-6">
+        <!-- <div class="col-md-6">
 
-            <?= $form->field($model, 'descr')->textarea(['rows' => 6]) ?>
 
-        </div>
+        </div> -->
         <?php if (!$model->isNewRecord) : ?>
             <div class="col-md-6">
 

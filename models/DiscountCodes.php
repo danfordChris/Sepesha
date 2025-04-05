@@ -54,10 +54,10 @@ class DiscountCodes extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['value', 'type', 'category', 'code'], 'required'],
+            [['value', 'type', 'category', 'code', 'user_id'], 'required'],
             [['value'], 'number'],
             [['descr'], 'string'],
-            [['start_date', 'end_date', 'created_at', 'updated_at'], 'safe'],
+            [['start_date', 'end_date', 'created_at', 'updated_at', 'user_id'], 'safe'],
             [['status', 'created_by', 'updated_by'], 'integer'],
             [['type', 'category'], 'string', 'max' => 10],
             [['code'], 'string', 'max' => 255],
@@ -74,6 +74,7 @@ class DiscountCodes extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
+            'user_id' => 'Employee name',
             'value' => 'Value',
             'type' => 'Type',
             'category' => 'Category',
@@ -105,5 +106,9 @@ class DiscountCodes extends \yii\db\ActiveRecord
     {
         $fullname = $this->fname . ' ' . $this->mname . ' ' . $this->sname;
         return $fullname ?? '';
+    }
+    public function getUser()
+    {
+        return $this->hasOne(User::class, ['userid' => 'user_id']);
     }
 }
