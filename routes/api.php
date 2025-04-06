@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BookingController;
+use App\Http\Controllers\DriverReviewController;
 use App\Http\Controllers\FeeCategoryController;
 use App\Http\Controllers\RegionsController;
 use App\Http\Controllers\RideController;
@@ -115,6 +116,9 @@ Route::middleware(['auth.jwt:driver,vendor,agent,customer'])->group(function () 
     Route::get('/categories', [FeeCategoryController::class, 'index']);
 
     Route::get('/regions', [RegionsController::class, 'index']);
+
+    Route::get('/driver-rating/{id}', [DriverReviewController::class, 'index']);
+    Route::post('/driver-rating/create', [DriverReviewController::class, 'store']);
 
     Route::get('/dashboard', function (Request $request) {
         return response()->json([
