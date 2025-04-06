@@ -58,7 +58,7 @@ class AuthController extends Controller
             }
 
 
-            $request->validate(
+           $validated= $request->validate(
                 [
                     'profile_photo' => ['required', 'image', 'mimes:jpg,jpeg,png', 'max:2048'],
                 ],
@@ -69,8 +69,10 @@ class AuthController extends Controller
                 ]
             );
 
-            $user->update($request->all());
-            
+            $datatoSave=$request->all();
+            Arr::forget($datatoSave, ['user_type']);
+            $user->update($datatoSave);
+
         } catch (ValidationException $e) {
             foreach ($e->errors() as $error) {
                 return CustomHelper::response(false, $error[0], 442);
