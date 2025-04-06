@@ -68,6 +68,9 @@ class AuthController extends Controller
                     'profile_photo.max' => 'Photo must not exceed 2MB in size.',
                 ]
             );
+
+            $user->update($request->all());
+            
         } catch (ValidationException $e) {
             foreach ($e->errors() as $error) {
                 return CustomHelper::response(false, $error[0], 442);
