@@ -3,6 +3,9 @@
 namespace app\models;
 
 use Yii;
+use yii\behaviors\BlameableBehavior;
+use yii\behaviors\TimestampBehavior;
+use yii\db\Expression;
 
 /**
  * This is the model class for table "support_ticket_messages".
@@ -37,7 +40,7 @@ class SupportTicketMessages extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id', 'sender_id', 'sender_role', 'message'], 'required'],
+            [['message'], 'required'],
             [['sender_role', 'message'], 'string'],
             [['is_read', 'is_delivered', 'created_by', 'updated_by'], 'integer'],
             [['created_at', 'updated_at', 'deleted_at'], 'safe'],
@@ -46,7 +49,19 @@ class SupportTicketMessages extends \yii\db\ActiveRecord
             [['id'], 'unique'],
         ];
     }
+    public function behaviors()
 
+    {
+        return [
+            [
+                'class' => TimestampBehavior::class,
+                'value' => new Expression('NOW()'),
+            ],
+            [
+                'class' => BlameableBehavior::class,
+            ],
+        ];
+    }
     /**
      * {@inheritdoc}
      */
@@ -67,5 +82,16 @@ class SupportTicketMessages extends \yii\db\ActiveRecord
             'updated_by' => 'Updated By',
             'deleted_at' => 'Deleted At',
         ];
+    }
+
+    public function beforeSave($insert)
+
+    {
+        if ($this->isNewRecord) {
+            $this->id = \Ramsey\Uuid\Uuid::uuid4()->toString();
+            $this->sender_id = Yii::$app->user->id;
+            $this->sender_role = 'support';
+        }
+        return parent::beforeSave($insert);
     }
 }

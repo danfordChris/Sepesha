@@ -64,28 +64,20 @@ class SupportTicketsController extends Controller
 
     public function actionTicketmessage($id)
     {
-
-
-        $supportticketmessageModel = SupportTicketMessages::findOne(['support_ticket_id' => $id]);
         $model = $this->findModel($id);
+        $messages = SupportTicketMessages::find()->where(['support_ticket_id' => $id])->orderBy(['created_at' => SORT_ASC])->all();
         $ticketmessageModel = new SupportTicketMessages();
         $ticketmessageModel->support_ticket_id = $model->id;
-        $searchModel = new SupportTicketMessagesSearch();
-        $ticketmessageDataProvider = $searchModel->search($this->request->queryParams);
-        $ticketmessageDataProvider->query->andWhere(['support_ticket_id' => $model->id]);
+
         if ($this->request->isPost && $ticketmessageModel->load($this->request->post()) && $ticketmessageModel->save()) {
-            Yii::$app->session->setFlash('success', "Support ticket message added Successfully");
+            Yii::$app->session->setFlash('success', "Support ticket message added successfully.");
             return $this->refresh();
         }
-
-
 
         return $this->render('ticketmessage', [
             'model' => $model,
             'ticketmessageModel' => $ticketmessageModel,
-            'ticketmessageDataProvider' => $ticketmessageDataProvider,
-            'supportticketmessageModel' => $supportticketmessageModel
-
+            'messages' => $messages
         ]);
     }
 
@@ -169,7 +161,7 @@ class SupportTicketsController extends Controller
      */
     protected function findModel($id)
     {
-        if (($model = SupportTickets::findOne(['id' => $id])) !== null) {
+        if (($model = SupportTickets::findOne($id)) !== null) {
             return $model;
         }
 
