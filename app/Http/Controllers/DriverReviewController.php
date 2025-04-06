@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\CustomHelper;
 use App\Models\DriverReview;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 
 class DriverReviewController extends Controller
@@ -18,9 +19,13 @@ class DriverReviewController extends Controller
                 ->selectRaw('COUNT(*) as total_reviews, AVG(rating) as average_rating')
                 ->first();
 
-            $reviews = DriverReview::where('driver_id', $id)
+                $reviews = DriverReview::with(['user' => function ($query) {
+                    $query->selectRaw('auth_key,auth_key as reviewer_id, profile_photo as reviewer_photo, CONCAT(name, " ", sname) as reviewer_name');
+                }])
+                ->where('driver_id', $id)
                 ->orderBy('created_at', 'desc')
                 ->get();
+
 
             $data = [
                 'driver_id' => $id,

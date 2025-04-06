@@ -10,6 +10,7 @@ use App\Http\Controllers\DriverReviewController;
 use App\Http\Controllers\FeeCategoryController;
 use App\Http\Controllers\RegionsController;
 use App\Http\Controllers\RideController;
+use App\Http\Controllers\SupportContactController;
 use App\Http\Controllers\SupportTicketController;
 use App\Http\Controllers\VehicleController;
 use App\Http\Controllers\WelcomeController;
@@ -110,6 +111,7 @@ Route::middleware(['auth.jwt:driver,vendor,agent,customer'])->group(function () 
     Route::post('/support-ticket/create', [SupportTicketController::class, 'store']);
     Route::get('/support-tickets', [SupportTicketController::class, 'index']);
     Route::get('/support-ticket/{id}', [SupportTicketController::class, 'view']);
+    Route::get('/support-contacts', [SupportContactController::class, 'index']);
 
     Route::get('/attachment-categories', [AttachmentController::class, 'index']);
     Route::get('/category/{id}', [FeeCategoryController::class, 'view']);
@@ -119,6 +121,9 @@ Route::middleware(['auth.jwt:driver,vendor,agent,customer'])->group(function () 
 
     Route::get('/driver-rating/{id}', [DriverReviewController::class, 'index']);
     Route::post('/driver-rating/create', [DriverReviewController::class, 'store']);
+
+
+
 
     Route::get('/dashboard', function (Request $request) {
         return response()->json([
