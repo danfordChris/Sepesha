@@ -67,8 +67,8 @@ use yii\helpers\ArrayHelper;
     <div class="col-md-9 horizontal-card">
 
 
-        <div class="card">
-            <div class="card-body">
+        <div class="">
+            <div class="">
                 <div class="card">
                     <div class="card-body" style="background-color:rgba(249, 249, 249, 0.87) !important;">
 
@@ -83,7 +83,8 @@ use yii\helpers\ArrayHelper;
                                 </div>
                                 <div class="col-md-3">
 
-                                    <button type="button" class="btn mb-2 float-end  btn-outline-info" data-bs-toggle="modal" data-bs-target="#rcamodal">
+                                    <button type="button" class="btn mb-2 float-end  btn-outline-info"
+                                        data-bs-toggle="modal" data-bs-target="#rcamodal">
                                         <i class="fa fa-file"></i> View attachment</button>
 
                                 </div>
@@ -91,21 +92,23 @@ use yii\helpers\ArrayHelper;
                             <hr>
                         </h5>
                         <?php foreach ($messages as $msg) : ?>
-                            <div style="display: flex; justify-content: <?= $msg->sender_role === 'driver' ? 'flex-start' : 'flex-end' ?>; margin-bottom: 15px;">
-                                <div style="background-color: <?= $msg->sender_role === 'driver' ? '#eaeded' : '#6777ef' ?>; 
-                    padding: 10px; 
-                    border-radius: 10px; 
-                    max-width: 60%; 
-                    color: <?= $msg->sender_role === 'driver' ? 'black' : 'white' ?>; 
+                        <div
+                            style="display: flex; justify-content: <?= $msg->sender_role === 'driver' ? 'flex-start' : 'flex-end' ?>; margin-bottom: 15px;">
+                            <div style="background-color: <?= $msg->sender_role === 'driver' ? '#eaeded' : '#6777ef' ?>;
+                    padding: 10px;
+                    border-radius: 10px;
+                    max-width: 60%;
+                    color: <?= $msg->sender_role === 'driver' ? 'black' : 'white' ?>;
                     box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);">
-                                    <div style="font-size: 16px;">
-                                        <?= Html::encode(strip_tags($msg->message ?? "")) ?> <br>
-                                    </div>
-                                    <div style="font-style: italic; color: <?= $msg->sender_role === 'driver' ? 'black' : 'white' ?>; font-size: 12px; margin-top: 5px;">
-                                        <?= Html::encode('Posted at ' . $msg->created_at ?? "") ?>
-                                    </div>
+                                <div style="font-size: 16px;">
+                                    <?= Html::encode(strip_tags($msg->message ?? "")) ?> <br>
+                                </div>
+                                <div
+                                    style="font-style: italic; color: <?= $msg->sender_role === 'driver' ? 'black' : 'white' ?>; font-size: 12px; margin-top: 5px;">
+                                    <?= Html::encode('Posted at ' . $msg->created_at ?? "") ?>
                                 </div>
                             </div>
+                        </div>
                         <?php endforeach; ?>
                     </div>
                 </div>
