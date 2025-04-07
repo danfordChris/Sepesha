@@ -40,7 +40,7 @@ class SupportTicketMessagesSearch extends SupportTicketMessages
      */
     public function search($params)
     {
-        $query = SupportTicketMessages::find();
+        $query = SupportTicketMessages::find()->orderBy('created_at desc');
 
         // add conditions that should always apply here
 

@@ -59,7 +59,7 @@ class SupportContacts extends \yii\db\ActiveRecord
             'email' => 'Email',
             'phone' => 'Phone',
             'office' => 'Office',
-            'descr' => 'Descr',
+            'descr' => 'Description',
             'status' => 'Status',
             'created_at' => 'Created At',
             'created_by' => 'Created By',

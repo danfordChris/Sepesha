@@ -40,7 +40,7 @@ class SupportTicketsSearch extends SupportTickets
      */
     public function search($params)
     {
-        $query = SupportTickets::find();
+        $query = SupportTickets::find()->orderBy('created_at desc');
 
         // add conditions that should always apply here
 
