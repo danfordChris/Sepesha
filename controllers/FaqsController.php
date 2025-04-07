@@ -50,12 +50,15 @@ class FaqsController extends Controller
      */
     public function actionIndex()
     {
+
+        $model = new Faqs();
         $searchModel = new FaqsSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'model' => $model,
         ]);
     }
 
@@ -65,15 +68,17 @@ class FaqsController extends Controller
      * @return string
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionView($id)
+    public function actionView($rca)
     {
+        $number = Yii::$app->getSecurity()->validateData($rca, 'gmtdev');
+
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $this->findModel($number),
         ]);
     }
 
     /**
-     * Creates a new Faqs model.
+     * Creates a new SupportContacts model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return string|\yii\web\Response
      */
@@ -83,7 +88,8 @@ class FaqsController extends Controller
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
+                Yii::$app->session->setFlash('success', "Faqs added successfully ");
+                return $this->redirect(['index']);
             }
         } else {
             $model->loadDefaultValues();
@@ -94,6 +100,7 @@ class FaqsController extends Controller
         ]);
     }
 
+
     /**
      * Updates an existing Faqs model.
      * If update is successful, the browser will be redirected to the 'view' page.
@@ -101,12 +108,15 @@ class FaqsController extends Controller
      * @return string|\yii\web\Response
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionUpdate($id)
+    public function actionUpdate($rca)
     {
-        $model = $this->findModel($id);
+        $number = Yii::$app->getSecurity()->validateData($rca, 'gmtdev');
+
+        $model = $this->findModel($number);
 
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            Yii::$app->session->setFlash('success', "Support Contacts Updated Successfully");
+            return $this->redirect(['index']);
         }
 
         return $this->render('update', [
