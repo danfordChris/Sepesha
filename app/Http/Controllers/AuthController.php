@@ -62,6 +62,17 @@ class AuthController extends Controller
 
             $validated = $request->validate(
                 [
+
+                    'first_name' => 'required|string',
+                    'middle_name' => 'nullable|string',
+                    'last_name' => 'required|string',
+                    'region_id' => 'required|numeric',
+                    'phonecode' => 'required|in:255',
+                    'email' => 'required|email|unique:clients_info,email',
+                    'business_description' => [
+                        $request->user_type === 'vendor' ? 'required' : 'nullable',
+                        'string',
+                    ],
                     'profile_photo' => [
                         $requiresPhoto ? 'required' : 'nullable',
                         'file',
@@ -74,12 +85,23 @@ class AuthController extends Controller
                         'mimes:jpg,jpeg,png,pdf',
                         'max:2048',
                     ],
+
+                    'phone' => [
+                        'required',
+                        'numeric',
+                        'digits:9',
+                        'unique:clients_info,phone',
+                        function ($attribute, $value, $fail) {
+                            if (preg_match('/^(0|255)/', $value)) {
+                                $fail('The phone number must not start with 0 or 255.');
+                            }
+                        },
+                    ],
                 ],
                 [
                     'profile_photo.required' => 'Photo is required.',
                     'profile_photo.mimes' => 'Photo must be a image of type: jpg, jpeg, png.',
                     'profile_photo.max' => 'Photo must not exceed 2MB in size.',
-
                     'attachment.required' => 'ID Attechment is required',
                     'attachment.mimes' => 'ID Attechment must be a image of type: jpg, jpeg, png,pdf.',
                     'attachment.max' => 'ID Attechment must not exceed 2MB in size.',
@@ -87,16 +109,22 @@ class AuthController extends Controller
             );
 
             $datatoSave = $request->all();
-            Arr::forget($datatoSave, ['user_type']);
+            $datatoSave['name'] = $datatoSave['first_name'];
+            $datatoSave['mname'] = $datatoSave['middle_name'];
+            $datatoSave['sname'] = $datatoSave['last_name'];
+            $datatoSave['driver_license_number'] = $datatoSave['licence_number'];
+            $datatoSave['license_expiry_date'] = $datatoSave['licence_expiry'];
+            Arr::forget($datatoSave, ['first_name', 'middle_name', 'last_name', 'password', 'licence_number', 'licence_expiry', 'user_type']);
             $user->update($datatoSave);
+
+        $this->uploadAttachment($request, $user, 'profile_photo');
+        $this->uploadAttachment($request, $user, 'attachment');
+
         } catch (ValidationException $e) {
             foreach ($e->errors() as $error) {
                 return CustomHelper::response(false, $error[0], 442);
             }
         }
-
-        $this->uploadAttachment($request, $user, 'profile_photo');
-        $this->uploadAttachment($request, $user, 'attachment');
 
         return response()->json([
             'status' => true,
