@@ -50,12 +50,12 @@ class AuthController extends Controller
     {
 
         try {
-
-            $user = User::where('auth_key', $id)->first()->makeHidden(['id', 'otp', 'otp_expires_at', 'password_expiry', 'auth_key', 'password_reset_token', 'userid', 'confirmation_token']);
-
+            $user = User::where('auth_key', $id)->first();
             if (!$user) {
                 return CustomHelper::response(false, 'User is not found', 404);
             }
+
+            $user = User::where('auth_key', $id)->first()->makeHidden(['otp', 'otp_expires_at', 'password_expiry', 'auth_key', 'password_reset_token', 'userid', 'confirmation_token']);
 
             $requiresPhoto = $request->user_type === 'driver' && is_null($user->profile_photo);
             $requiresAttachment = $request->user_type === 'driver' && is_null($user->attachment);
