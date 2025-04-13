@@ -32,7 +32,7 @@ class AuthController extends Controller
     public function index($id)
     {
         try {
-            $data = User::where('auth_key', $id)->get()->makeHidden(['id', 'otp', 'otp_expires_at', 'attachment', 'password_expiry', 'auth_key', 'password_reset_token', 'userid', 'confirmation_token']);
+            $data = User::where('auth_key', $id)->get()->makeHidden(['id', 'otp', 'otp_expires_at', 'password_expiry', 'auth_key', 'password_reset_token', 'userid', 'confirmation_token']);
             if ($data) {
                 return CustomHelper::response(true, 'data found', 200, $data);
             } else {
@@ -49,53 +49,54 @@ class AuthController extends Controller
     public function updateProfile(Request $request, $id)
     {
 
-         try {
+        try {
 
-            $user = User::where('auth_key', $id)->first()->makeHidden(['id', 'otp', 'otp_expires_at', 'attachment', 'password_expiry', 'auth_key', 'password_reset_token', 'userid', 'confirmation_token']);
+            $user = User::where('auth_key', $id)->first()->makeHidden(['id', 'otp', 'otp_expires_at', 'password_expiry', 'auth_key', 'password_reset_token', 'userid', 'confirmation_token']);
 
             if (!$user) {
                 return CustomHelper::response(false, 'User is not found', 404);
             }
 
+            $requiresPhoto = $request->user_type === 'driver' && is_null($user->profile_photo);
+            $requiresAttachment = $request->user_type === 'driver' && is_null($user->attachment);
 
-           $validated= $request->validate(
+            $validated = $request->validate(
                 [
-                    'profile_photo' => ['required', 'image', 'mimes:jpg,jpeg,png', 'max:2048'],
+                    'profile_photo' => [
+                        $requiresPhoto ? 'required' : 'nullable',
+                        'file',
+                        'mimes:jpg,jpeg,png',
+                        'max:2048',
+                    ],
+                    'attachment' => [
+                        $requiresAttachment ? 'required' : 'nullable',
+                        'file',
+                        'mimes:jpg,jpeg,png,pdf',
+                        'max:2048',
+                    ],
                 ],
                 [
                     'profile_photo.required' => 'Photo is required.',
                     'profile_photo.mimes' => 'Photo must be a image of type: jpg, jpeg, png.',
                     'profile_photo.max' => 'Photo must not exceed 2MB in size.',
+
+                    'attachment.required' => 'ID Attechment is required',
+                    'attachment.mimes' => 'ID Attechment must be a image of type: jpg, jpeg, png,pdf.',
+                    'attachment.max' => 'ID Attechment must not exceed 2MB in size.',
                 ]
             );
 
-            $datatoSave=$request->all();
+            $datatoSave = $request->all();
             Arr::forget($datatoSave, ['user_type']);
             $user->update($datatoSave);
-
         } catch (ValidationException $e) {
             foreach ($e->errors() as $error) {
                 return CustomHelper::response(false, $error[0], 442);
             }
         }
 
-        try {
-            $fileField = "profile_photo";
-            if ($request->hasFile($fileField)) {
-                $file = $request->file($fileField);
-                $extension = $file->getClientOriginalExtension();
-                $fileName = time() . '_' . uniqid() . '.' . $extension;
-                $filePath = $file->storeAs('/profile_photos', $fileName);
-                $fullUrl = url("/storage/profile_photos/{$fileName}");
-                $user->update([
-                    'profile_photo' => $fullUrl,
-                ]);
-            }
-        } catch (ValidationException $e) {
-            return CustomHelper::response(false, $e->getMessage(), 442);
-        } catch (\Exception $e) {
-            return CustomHelper::response(false, "Error uploading file: " . $e->getMessage(), 500);
-        }
+        $this->uploadAttachment($request, $user, 'profile_photo');
+        $this->uploadAttachment($request, $user, 'attachment');
 
         return response()->json([
             'status' => true,
@@ -107,8 +108,6 @@ class AuthController extends Controller
 
     public function register(Request $request)
     {
-
-
         try {
             $validatedData = $request->validate(
                 [
@@ -120,7 +119,25 @@ class AuthController extends Controller
                     'email' => 'required|email|unique:clients_info,email',
                     'referal_code' => 'nullable|string',
                     'user_type' => 'required|in:driver,vendor,agent,customer',
-                    'business_description'=>'nullable|string',
+                    'business_description' => [
+                        $request->user_type === 'vendor' ? 'required' : 'nullable',
+                        'string',
+                    ],
+
+                    'profile_photo' => [
+                        $request->user_type === 'driver' ? 'required' : 'nullable',
+                        'file',
+                        'mimes:jpg,jpeg,png',
+                        'max:2048',
+                    ],
+
+                    'attachment' => [
+                        $request->user_type === 'driver' ? 'required' : 'nullable',
+                        'file',
+                        'mimes:jpg,jpeg,png,pdf',
+                        'max:2048',
+                    ],
+
                     'password' => [
                         'required',
                         'string',
@@ -146,10 +163,24 @@ class AuthController extends Controller
                     'licence_number' => 'nullable|required_if:user_type,driver|string|max:50',
                     'licence_expiry' => 'nullable|required_if:user_type,driver|date|after:today',
                 ],
+
+
                 [
+
+                    'profile_photo.required' => 'Photo is required.',
+                    'profile_photo.mimes' => 'Photo must be a image of type: jpg, jpeg, png.',
+                    'profile_photo.max' => 'Photo must not exceed 2MB in size.',
+
+
+                    'attachment.required' => 'ID Attechment is required',
+                    'attachment.mimes' => 'ID Attechment must be a image of type: jpg, jpeg, png,pdf.',
+                    'attachment.max' => 'ID Attechment must not exceed 2MB in size.',
+
+
                     'licence_number.required_if' => 'The licence number is required when registering as a driver.',
                     'licence_expiry.required_if' => 'The licence expiry date is required when registering as a driver.',
                     'licence_expiry.after' => 'The licence expiry date must be a future date.',
+
                     'privacy_checked' => [
                         'required' => 'You must check the privacy agreement.',
                         'accepted' => 'The privacy agreement must be accepted.'
@@ -161,7 +192,7 @@ class AuthController extends Controller
             // Create the user
             $validatedData['password_hash'] = Hash::make($validatedData['password']);
             $validatedData['name'] = $validatedData['first_name'];
-            $validatedData['country_id'] =1;
+            $validatedData['country_id'] = 1;
             $validatedData['mname'] = $validatedData['middle_name'];
             $validatedData['sname'] = $validatedData['last_name'];
             $validatedData['reference_number'] = User::getRegistrationNumber($validatedData['user_type']);
@@ -180,6 +211,9 @@ class AuthController extends Controller
 
             $otp = $this->jwtService->generateOtp();
             $optExpires  = date('Y-m-d H:i:s', strtotime('+240 seconds'));;
+
+            $this->uploadAttachment($request, $user, 'profile_photo');
+            $this->uploadAttachment($request, $user, 'attachment');
 
             User::updateOrCreate(
                 ['auth_key' => $user->auth_key, 'role' => $request->user_type],
@@ -200,6 +234,8 @@ class AuthController extends Controller
                         'phonecode' => $user->phonecode,
                         'phone_number' => $user->phone,
                         'email' => $user->email,
+                        'profile_photo' => $user->profile_photo,
+                        'attachment' => $user->attachment,
                         'user_type' => $user->role,
                         'uid' => $user->auth_key,
                         'otp' => $otp,
@@ -412,5 +448,27 @@ class AuthController extends Controller
         // Remove the refresh token from the database
         UserToken::where('refresh_token', $refreshToken)->delete();
         return CustomHelper::response(true, 'Logged out successfully', 200);
+    }
+
+
+    public function uploadAttachment($request, $model, $fileField)
+    {
+
+        try {
+            if ($request->hasFile($fileField)) {
+                $file = $request->file($fileField);
+                $extension = $file->getClientOriginalExtension();
+                $fileName = time() . '_' . uniqid() . '.' . $extension;
+                $filePath = $file->storeAs('/documents', $fileName);
+                $fullUrl = url("/storage/documents/{$fileName}");
+                $model->update([
+                    $fileField => $fullUrl,
+                ]);
+            }
+        } catch (ValidationException $e) {
+            return CustomHelper::response(false, $e->getMessage(), 442);
+        } catch (\Exception $e) {
+            return CustomHelper::response(false, "Error uploading user  attachment: " . $e->getMessage(), 500);
+        }
     }
 }
