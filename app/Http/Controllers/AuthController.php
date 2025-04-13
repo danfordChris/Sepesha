@@ -55,7 +55,7 @@ class AuthController extends Controller
                 return CustomHelper::response(false, 'User is not found', 404);
             }
 
-            $user = User::where('auth_key', $id)->first()->makeHidden(['otp', 'otp_expires_at', 'password_expiry', 'auth_key', 'password_reset_token', 'userid', 'confirmation_token']);
+            $user->makeHidden(['otp', 'otp_expires_at', 'password_expiry', 'auth_key', 'password_reset_token', 'userid', 'confirmation_token']);
 
             $requiresPhoto = $request->user_type === 'driver' && is_null($user->profile_photo);
             $requiresAttachment = $request->user_type === 'driver' && is_null($user->attachment);
@@ -68,7 +68,7 @@ class AuthController extends Controller
                     'last_name' => 'required|string',
                     'region_id' => 'required|numeric',
                     'phonecode' => 'required|in:255',
-                    'email' => 'required|email|unique:clients_info,email',
+                    'email' => 'email|unique:clients_info,email,' . $user->id,
                     'business_description' => [
                         $request->user_type === 'vendor' ? 'required' : 'nullable',
                         'string',
@@ -90,7 +90,7 @@ class AuthController extends Controller
                         'required',
                         'numeric',
                         'digits:9',
-                        'unique:clients_info,phone',
+                        'unique:clients_info,phone,' . $user->id,
                         function ($attribute, $value, $fail) {
                             if (preg_match('/^(0|255)/', $value)) {
                                 $fail('The phone number must not start with 0 or 255.');
@@ -117,9 +117,8 @@ class AuthController extends Controller
             Arr::forget($datatoSave, ['first_name', 'middle_name', 'last_name', 'password', 'licence_number', 'licence_expiry', 'user_type']);
             $user->update($datatoSave);
 
-        $this->uploadAttachment($request, $user, 'profile_photo');
-        $this->uploadAttachment($request, $user, 'attachment');
-
+            $this->uploadAttachment($request, $user, 'profile_photo');
+            $this->uploadAttachment($request, $user, 'attachment');
         } catch (ValidationException $e) {
             foreach ($e->errors() as $error) {
                 return CustomHelper::response(false, $error[0], 442);
