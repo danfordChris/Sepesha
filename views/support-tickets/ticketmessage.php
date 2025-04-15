@@ -1,17 +1,11 @@
 <?php
-
-use app\models\ClientInfo;
 use kartik\form\ActiveForm;
 use kartik\helpers\Html;
-use yii\helpers\ArrayHelper;
-
 ?>
-
-
-
 
 <div class="row">
     <div class="col-md-3 left-card">
+        
         <div class="card">
             <div class="card-header" style="font-weight: bold; font-size: 1.1rem;">
                 <i data-feather="user" style="margin-right: 5px;"></i> User Information
