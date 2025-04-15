@@ -37,9 +37,12 @@ class LoginForm extends Model
             // password is validated by validatePassword()
             ['password', 'validatePassword'],
             [['password_expiry','login_attempts'],'safe']
-            
+
         ];
     }
+
+
+    
 
     /**
      * Validates the password.
@@ -58,6 +61,10 @@ class LoginForm extends Model
             }
         }
     }
+
+
+
+
 
     /**
      * Logs in a user using the provided username and password.
@@ -94,5 +101,5 @@ class LoginForm extends Model
     }
 
 
- 
+
 }

@@ -75,12 +75,10 @@ echo DataTables::widget([
         ],
 
 
-
-
         [
             'class' => 'yii\grid\ActionColumn',
             'header' => 'Password',
-            'template' => '{update} {view} {confirm} {role}',
+            'template' => '{update} {view} {role}',
             'buttons' => [
                 'update' => function ($url, $model) {
 
@@ -113,7 +111,7 @@ echo DataTables::widget([
                                 'data-method' => 'post', 'data-pjax' => '0',
                             ]
                         );
-                    } 
+                    }
                 },
 
                 'edit' => function ($url, $model) {

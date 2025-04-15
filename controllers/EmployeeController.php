@@ -129,10 +129,10 @@ class EmployeeController extends Controller
             }
         } else {
             $emailtemplate = '<p>Hello ' . $employee->getFullName() . ',</strong></p>
-            <p>You have been successfully registered to  <strong>' . 'Sepesha Backend System' . '</strong> </p>
-            <p>. Please click the following link to confirm your email: ' . Yii::$app->urlManager->createAbsoluteUrl(['site/confirmemail', 'token' => $userexists->confirmation_token]) . '</p>';
-            $subject = "SEPESHA User Registration";
-            Notification::sendConfirmationEmailRepeat($employee, $userexists->confirmation_token, $userexists->email);
+            <p>You have been successfully registered to  <strong>' .Yii::$app->name. '</strong> </p>
+            <p>. Please click the following link to confirm your email: ' . Yii::$app->urlManager->createAbsoluteUrl(['auth/confirmemail', 'token' => $userexists->confirmation_token]) . '</p>';
+            $subject = "New User Registration";
+           // Notification::sendConfirmationEmailRepeat($employee, $userexists->confirmation_token, $userexists->email);
             Notification::emailnotificationaddeduser($emailtemplate, $subject, $employee, $userexists->email);
             $employee->updateAttributes(['is_user' => 1]);
             $employee->save(false);

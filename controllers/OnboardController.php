@@ -70,7 +70,7 @@ class OnboardController extends Controller
     public function actionVendor()
     {
 
-        $query = ClientInfo::find()->andWhere(['role'=>'vendor','status'=>10])->orderBy('created_at desc');
+        $query = ClientInfo::find()->andWhere(['role' => 'vendor', 'status' => 10])->orderBy('created_at desc');
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
@@ -123,19 +123,19 @@ class OnboardController extends Controller
                 if ($sno > $maxStage) {
                     $mainModel->wfstatus = 'A';
                     $mainModel->is_verified = 1;
-                    $mainModel->requserinput='N';
+                    $mainModel->requserinput = 'N';
                     $mainModel->approved_by = Yii::$app->user->id;
                     $mainModel->approved_date = date('Y-m-d H:i:s');
                 }
             } else {
                 $mainModel->stid = $stage->backstage;
-                if($mainModel->stid==1){
-                    $mainModel->requserinput='Y';
+                if ($mainModel->stid == 1) {
+                    $mainModel->requserinput = 'Y';
                 }
                 $mainModel->wfstatus = $modelApproval->wfstatus  = $stage->notokname;
             }
 
-             $modelApproval->stid = $mainModel->stid;
+            $modelApproval->stid = $mainModel->stid;
             if ($modelApproval->save()) {
                 $mainModel->save(false);
                 Yii::$app->session->setFlash('success', "Action submitted  Successfully !");
@@ -159,6 +159,7 @@ class OnboardController extends Controller
     public function actionAttend($ref)
     {
         $mainModel = $this->loadVehicle($ref);
+        $driver = $this->loadClientInfor($mainModel->driver_id);
         $modelApproval = new Approval;
         $modelApproval->reqid = $mainModel->id;
         $modelApproval->wid = $mainModel->wid;
@@ -172,7 +173,6 @@ class OnboardController extends Controller
         }
         $attachmentModel = Attachment::populateAttachmentFields($mainModel);
         $this->addAttachementFunction($attachmentModel);
-
 
         if ($this->request->isPost && $modelApproval->load($this->request->post()) && $modelApproval->validate()) {
             $stage = WfStages::find()->where(['wid' => $mainModel->wid, 'sno' => $modelApproval->sno])->one();
@@ -196,14 +196,16 @@ class OnboardController extends Controller
                 $mainModel->wfstatus =  $modelApproval->wfstatus  = $stage->okname;
                 if ($sno > $maxStage) {
                     $mainModel->status = 'A';
+                    $driver->is_verified = 1;
+                    $driver->safe(false);
                     $mainModel->approved_by = Yii::$app->user->id;
                     $mainModel->approved_at = date('Y-m-d H:i:s');
-                    $mainModel->requserinput='N';
+                    $mainModel->requserinput = 'N';
                 }
             } else {
                 $mainModel->stid = $stage->backstage;
-                if($mainModel->stid==1){
-                    $mainModel->requserinput='Y';
+                if ($mainModel->stid == 1) {
+                    $mainModel->requserinput = 'Y';
                 }
                 $mainModel->wfstatus = $modelApproval->wfstatus  = $stage->notokname;
             }
@@ -325,7 +327,7 @@ class OnboardController extends Controller
     protected function loadClientInfor($id)
     {
 
-        if (($model = ClientInfo::findOne(['auth_key' => $id,'status' => 10])) !== null) {
+        if (($model = ClientInfo::findOne(['auth_key' => $id, 'status' => 10])) !== null) {
             return $model;
         }
 
@@ -336,7 +338,7 @@ class OnboardController extends Controller
 
     protected function findDriver($id)
     {
-        if (($model = User::findOne(['auth_key' => $id, 'status' => 10])) !== null) {
+        if (($model = ClientInfo::findOne(['auth_key' => $id, 'status' => 10])) !== null) {
             return $model;
         }
 
@@ -355,10 +357,7 @@ class OnboardController extends Controller
             } else {
                 Yii::$app->session->setFlash('error', 'Failed to upload attachment');
                 return $this->refresh();
-
             }
         }
     }
-
-
 }

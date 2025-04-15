@@ -9,6 +9,7 @@ use app\models\User;
 class PasswordResetRequestForm extends Model
 {
     public $email;
+    public $username;
 
 
     /**
@@ -44,14 +45,14 @@ class PasswordResetRequestForm extends Model
         if (!$user) {
             return false;
         }
-        
+
         if (!User::isPasswordResetTokenValid($user->password_reset_token)) {
             $user->generatePasswordResetToken();
             if (!$user->save(false)) {
                 return false;
             }
         }
-        
+
         return Yii::$app
             ->mailer
             ->compose(

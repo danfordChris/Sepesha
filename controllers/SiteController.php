@@ -9,6 +9,9 @@ use yii\helpers\Jason;
 use app\models\Offices;
 use yii\web\Controller;
 use app\models\Customer;
+use app\models\Employee;
+use app\models\Password;
+use app\models\Settings;
 use app\models\Companies;
 use app\models\LoginForm;
 use app\models\SignupForm;
@@ -16,24 +19,22 @@ use app\models\UserSearch;
 use app\models\ContactForm;
 use yii\filters\VerbFilter;
 use yii\widgets\ActiveForm;
+use app\models\CustomHelper;
+use app\models\Notification;
 use InvalidArgumentException;
 use yii\filters\AccessControl;
 use app\models\CompaniesSearch;
 use yii\data\ActiveDataProvider;
 use app\models\ResetPasswordForm;
 use app\models\ChangePasswordForm;
-use app\models\ChangeCurrentPasswordForm;
 use yii\web\NotFoundHttpException;
 use yii\web\ForbiddenHttpException;
 use yii\web\BadRequestHttpException;
 use app\models\PasswordResetRequestForm;
-use app\components\UserActivityLogBehavior;
-use app\models\Employee;
-use app\models\Notification;
-use app\models\Password;
-use app\models\PasswordResetRequestFormAdmin;
-use app\models\Settings;
+use app\models\ChangeCurrentPasswordForm;
 use app\models\WellbeingSubdomainsOption;
+use app\components\UserActivityLogBehavior;
+use app\models\PasswordResetRequestFormAdmin;
 
 /**
  * Site controller
@@ -297,6 +298,8 @@ class SiteController extends Controller
 
         $model = new PasswordResetRequestFormAdmin();
         if ($model->sendEmail($user)) {
+            $user->status=10;
+            $user->save(false);
             $emailtemplate = '<p>Hello ' . $employee->getFullName() . ',</strong></p>
                 <p>Click the following link to reset your password at  <strong>' . Yii::$app->name  . '</strong> </p>
                 <p>. ' . Yii::$app->urlManager->createAbsoluteUrl(['auth/reset-password', 'token' => $user->password_reset_token]) . '</p>';
@@ -304,14 +307,16 @@ class SiteController extends Controller
             Notification::emailnotificationaddeduser($emailtemplate, $subject, $employee, $user->email);
 
             Yii::$app->session->setFlash('success', 'A reset link has been sent to email: ' . $user->email);
-            return $this->goHome();
+            return $this->redirect(['auth/signup']);
         } else {
-            Yii::$app->session->setFlash('error', 'Sorry, we are unable to reset password for the provided email address.');
+
+            Yii::$app->session->setFlash('failure', 'Sorry, we are unable to reset password for the provided email address.');
+            return $this->redirect(['auth/signup']);
         }
 
-        return $this->render('signup', [
-            'model' => $model,
-        ]);
+        // return $this->render('signup', [
+        //     'model' => $model,
+        // ]);
     }
 
     public function actionSendConfirmationEmail($rca1, $rca2)
@@ -323,17 +328,17 @@ class SiteController extends Controller
         $user = $this->findModel($userkey);
         $employee = $this->findEmployee($employeekey);
 
-        $user->confirmation_token = Yii::$app->security->generateRandomString();
+        $user->confirmation_token = CustomHelper::getUuid();
         $user->save(false);
 
         $emailtemplate = '<p>Hello ' . $employee->getFullName() . ',</strong></p>
-        <p>You have been successfully registered to  <strong>' . 'SEPESHA SYSTEM' . '</strong> </p>
+        <p>You have been successfully registered to  <strong>' . Yii::$app->name . '</strong> </p>
         <p>. Please click the following link to confirm your email: ' . Yii::$app->urlManager->createAbsoluteUrl(['auth/confirmemail', 'token' => $user->confirmation_token]) . '</p>';
-        $subject = "SEPESHA User Registration";
-        Notification::sendConfirmationEmailRepeat($employee, $user->confirmation_token, $user->email);
+        $subject = "New User Registration";
+      //  Notification::sendConfirmationEmailRepeat($employee, $user->confirmation_token, $user->email);
         Notification::emailnotificationaddeduser($emailtemplate, $subject, $employee, $user->email);
 
-        return $this->redirect('signup');
+        return $this->redirect(['auth/signup']);
     }
     /**
      * Resets password.

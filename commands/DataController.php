@@ -23,4 +23,8 @@ class DataController extends  Controller
 
         echo "successful removed please run: 'php yii migrate' to re create new data";
     }
+
+      public function TestMail(){
+           
+       }
 }

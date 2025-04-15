@@ -11,7 +11,7 @@ use kartik\select2\Select2;
 use yii\helpers\ArrayHelper;
 ?>
 
-<div class="card">
+<div class="card" style="display: none;">
     <div class="card-body">
         <?php $form = ActiveForm::begin(['id' => 'form-signup', 'enableAjaxValidation' => true]);
 

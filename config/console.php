@@ -4,7 +4,8 @@ $params = require __DIR__ . '/params.php';
 $db = require __DIR__ . '/db.php';
 
 $config = [
-    'id' => 'basic-console',
+    'id' => 'SEPESHA',
+    'name' => 'SEPESHA',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'controllerNamespace' => 'app\commands',
@@ -14,12 +15,25 @@ $config = [
         '@tests' => '@app/tests',
     ],
     'components' => [
+
+        'settings' => [
+            'class' => 'app\components\SettingsComponent',
+        ],
+
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],
         'authManager' => [
             'class' => 'yii\rbac\DbManager',
         ],
+
+
+        'mailer' => [
+            'class' => 'app\components\CustomMailer',
+            'viewPath' => '@app/mail',
+            'useFileTransport' => false,
+        ],
+
         'log' => [
             'targets' => [
                 [

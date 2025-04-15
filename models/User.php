@@ -467,11 +467,8 @@ class User extends ActiveRecord implements IdentityInterface
     {
 
         if ($this->validate()) {
-
             $user = new User;
-
             $id  =  $employee->id;
-
             $user->userid = $id;
             $user->user_role = 1;
             $user->status = 0;
@@ -479,14 +476,14 @@ class User extends ActiveRecord implements IdentityInterface
             $user->username = strtolower($employee->fname . '.' . $employee->sname);
             $user->full_name = ucwords(strtolower($employee->fname . ' ' . $employee->mname . ' ' . $employee->sname));
             $user->generateAuthKey();
-            $user->confirmation_token = Yii::$app->security->generateRandomString();
+            $user->confirmation_token = \Ramsey\Uuid\Uuid::uuid4()->toString() . '_' . time();
             $user->password_expiry = Settings::PasswordExpiry();
             if ($user->save(false)) {
                 $emailtemplate = '<p>Hello ' . $employee->getFullName() . ',</strong></p>
-                <p>You have been successfully registered to  <strong>' . 'Railway Children Africa(RCA) Management System' . '</strong> </p>
-                <p>. Please click the following link to confirm your email: ' . Yii::$app->urlManager->createAbsoluteUrl(['../site/confirmemail', 'token' => $user->confirmation_token]) . '</p>';
-                $subject = "Employee Registration at RCAMS";
-                Notification::sendConfirmationEmail($employee, $user->confirmation_token);
+                <p>You have been successfully registered to  <strong>' . Yii::$app->name . '</strong> </p>
+                <p>. Please click the following link to confirm your email: ' . Yii::$app->urlManager->createAbsoluteUrl(['auth/confirmemail', 'token' => $user->confirmation_token]) . '</p>';
+                $subject = "New User Registration";
+                //Notification::sendConfirmationEmail($employee, $user->confirmation_token);
                 Notification::emailnotification($emailtemplate, $subject, $employee);
 
                 return true;
@@ -511,14 +508,14 @@ class User extends ActiveRecord implements IdentityInterface
             $user->username = strtolower($employee->fname . '.' . $employee->sname);
             $user->full_name = ucwords(strtolower($employee->fname . ' ' . $employee->mname . ' ' . $employee->sname));
             $user->generateAuthKey();
-            $user->confirmation_token = Yii::$app->security->generateRandomString();
+            $user->confirmation_token = \Ramsey\Uuid\Uuid::uuid4()->toString() . '_' . time();
             $user->password_expiry = Settings::PasswordExpiry();
             if ($user->save()) {
                 $emailtemplate = '<p>Hello ' . $employee->getFullName() . ',</strong></p>
-                <p>You have been successfully registered to  <strong>' . 'SEPESHA SYSTEM' . '</strong> </p>
-                <p>. Please click the following link to confirm your email: ' . Yii::$app->urlManager->createAbsoluteUrl(['../site/confirmemail', 'token' => $user->confirmation_token]) . '</p>';
+                <p>You have been successfully registered to  <strong>' . Yii::$app->name . '</strong> </p>
+                <p>. Please click the following link to confirm your email: ' . Yii::$app->urlManager->createAbsoluteUrl(['auth/confirmemail', 'token' => $user->confirmation_token]) . '</p>';
                 $subject = "New User Registration";
-                Notification::sendConfirmationEmail($employee, $user->confirmation_token);
+              //  Notification::sendConfirmationEmail($employee, $user->confirmation_token);
                 Notification::emailnotificationaddeduser($emailtemplate, $subject, $employee, $employee_email);
 
                 return true;

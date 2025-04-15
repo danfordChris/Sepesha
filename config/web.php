@@ -90,20 +90,25 @@ $config = [
             'errorAction' => 'site/error',
         ],
 
+        // 'mailer' => [
+        //     'class' => 'yii\symfonymailer\Mailer',
+        //     'viewPath' => '@app/mail',
+        //     'useFileTransport' => false,
+        //     'transport' => [
+        //         'scheme' => 'smtps',
+        //         'host' => 'mail.sepesha.com',
+        //         'username' => 'info@sepesha.com',
+        //         'password' => 'sepesha@info24',
+        //         'port' => 465, // Corrected to an integer
+        //         'encryption' => 'tls',
+        //     ],
+
+        // ],
 
         'mailer' => [
-            'class' => 'yii\symfonymailer\Mailer',
+            'class' => 'app\components\CustomMailer',
             'viewPath' => '@app/mail',
-            'useFileTransport' => false,
-            'transport' => [
-                'scheme' => 'smtps',
-                'host' => 'mail.sepesha.com',
-                'username' => 'info@sepesha.com',
-                'password' => 'sepesha@info24',
-                'port' => 465, // Corrected to an integer
-                'encryption' => 'tls',
-            ],
-
+            'useFileTransport' => false, // Set to false to send real emails
         ],
 
         'log' => [
@@ -126,8 +131,11 @@ $config = [
             'rules' => [
                 'auth/logout' => 'site/logout',
                 'auth/login' => 'site/login',
+                'auth/reset-password' => 'site/reset-password',
                 'auth/signup' => 'site/signup',
+                'auth/confirmemail' => 'site/confirmemail',
                 'auth/request-password-reset' => 'site/request-password-reset',
+                'auth/request-password-reset-admin' => 'site/request-password-reset-admin',
                 'auth/profile-change' => 'site/profile-change',
                 'dashboard' => 'site/index',
                 'attachment/ajax-delete/<id:\d+>' => 'attachment/ajax-delete',

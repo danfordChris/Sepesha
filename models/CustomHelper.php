@@ -566,21 +566,6 @@ class CustomHelper extends Model
         throw new NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
     }
 
-    public static function getRefererUrl()
-    {
-        $refer = $_SERVER['HTTP_REFERER'];
-        $trimmedUrl = preg_replace("#^.*/rcaappdev/#", "", $refer);
-
-        return $trimmedUrl;
-    }
-
-    public static function getCurrentUrl()
-    {
-        $refer = $_SERVER['REQUEST_URI'];
-        $trimmedUrl = preg_replace("#^.*/rcaappdev/#", "", $refer);
-
-        return $trimmedUrl;
-    }
 
     public static function getUserIcon()
     {
@@ -608,16 +593,7 @@ class CustomHelper extends Model
         return null;
     }
 
-    public static function getBeneficiaryServiceAttachment($service)
-    {
-
-        $beneficiaries = Attachment::find()->where(['table_key' => $service])->one();
-        if (!empty($beneficiaries->attachment ?? '')) {
-            return '/rcaappdev/' . $beneficiaries->attachment;
-        } else {
-            return null;
-        }
-    }
+    
 
 
     public static function getUuid()

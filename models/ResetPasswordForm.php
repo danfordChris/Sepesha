@@ -2,9 +2,10 @@
 namespace app\models;
 
 use yii\base\Model;
-use yii\base\InvalidParamException;
 use app\models\User;
+use yii\base\InvalidParamException;
 use kartik\password\StrengthValidator;
+use yii\base\InvalidArgumentException;
 
 /**
  * Password reset form
@@ -17,6 +18,8 @@ class ResetPasswordForm extends Model
      * @var \app\models\User
      */
     private $_user;
+    public $username;
+    public $confirm_password;
 
 
     /**
@@ -29,11 +32,11 @@ class ResetPasswordForm extends Model
     public function __construct($token, $config = [])
     {
         if (empty($token) || !is_string($token)) {
-            throw new InvalidParamException('Password reset token cannot be blank.');
+            throw new InvalidArgumentException('Password reset token cannot be blank.');
         }
         $this->_user = User::findByPasswordResetToken($token);
         if (!$this->_user) {
-            throw new InvalidParamException('Wrong password reset token.');
+            throw new InvalidArgumentException('Wrong password reset token.');
         }
         parent::__construct($config);
     }
@@ -44,8 +47,12 @@ class ResetPasswordForm extends Model
     public function rules()
     {
         return [
-            ['password', 'required'],
-            ['password', 'string', 'min' => 6],
+            [['password','confirm_password'], 'required'],
+            ['password', 'string', 'min' => 8],
+            [
+                'confirm_password', 'compare', 'compareAttribute' => 'password',
+                'message' => 'Error ! New Password and confirm password Mismatch.'
+            ],
             [['password'], StrengthValidator::class, 'preset' => Settings::config()->password_template],
 
         ];

@@ -32,6 +32,13 @@ $this->params['breadcrumbs'][] = $this->title;
                         ]
                     ); ?>
 
+                    <?= $form->field($model, 'confirm_password')->passwordInput(
+                       // PasswordInput::class,
+                        [
+                            'options' => ['required' => true]
+                        ]
+                    ); ?>
+
                     <div class="form-group">
                         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
                         <?= Html::a(' Back', ['index'], ['class' => 'btn btn-secondary']);  ?>
