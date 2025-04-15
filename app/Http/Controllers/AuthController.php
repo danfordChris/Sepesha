@@ -194,14 +194,14 @@ class AuthController extends Controller
 
                 [
 
-                    'profile_photo.required' => 'Photo is required.',
-                    'profile_photo.mimes' => 'Photo must be a image of type: jpg, jpeg, png.',
-                    'profile_photo.max' => 'Photo must not exceed 2MB in size.',
+                    'profile_photo.required' => 'Profile Photo is required.',
+                    'profile_photo.mimes' => 'Profile Photo must be a image of type: jpg, jpeg, png.',
+                    'profile_photo.max' => 'Profile Photo must not exceed 2MB in size.',
 
 
-                    'attachment.required' => 'ID Attechment is required',
-                    'attachment.mimes' => 'ID Attechment must be a image of type: jpg, jpeg, png,pdf.',
-                    'attachment.max' => 'ID Attechment must not exceed 2MB in size.',
+                    'attachment.required' => 'Driving Licence or National ID Attechment is required',
+                    'attachment.mimes' => 'Driving Licence or National ID Attechment must be a image of type: jpg, jpeg, png,pdf.',
+                    'attachment.max' => 'Driving Licence or National ID Attechment must not exceed 2MB in size.',
 
 
                     'licence_number.required_if' => 'The licence number is required when registering as a driver.',
