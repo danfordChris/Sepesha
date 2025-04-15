@@ -229,6 +229,7 @@ class AuthController extends Controller
             $validatedData['role'] = $validatedData['user_type'];
             $validatedData['entity_type'] = 'individual';
             $validatedData['wid'] = $validatedData['user_type'] == 'driver' ? 2 : 1;
+            $validatedData['is_verified'] = $validatedData['user_type'] != 'driver' ? 1 : 0;
             $validatedData['status'] = 0;
             Arr::forget($validatedData, ['first_name', 'middle_name', 'last_name', 'password', 'licence_number', 'licence_expiry', 'user_type']);
 
@@ -318,6 +319,7 @@ class AuthController extends Controller
                 'phone_number' => $user->phone,
                 'user_type' => $user->role,
                 'otp' => $otp,
+                'is_verified' => $user->is_verified,
                 'otp_expires_at' => $optExpires
             ]
         ]);
@@ -360,6 +362,7 @@ class AuthController extends Controller
                 'phone_number' => $user->phone,
                 'user_type' => $user->role,
                 'otp' => $otp,
+                'is_verified' => $user->is_verified,
                 'otp_expires_at' => $optExpires
             ]
         ]);
@@ -421,6 +424,7 @@ class AuthController extends Controller
         return response()->json([
             'status' => true,
             'message' => "OTP verified successfully",
+            'is_verified' => $user->is_verified,
             'access_token' => $accessToken,
             'refresh_token' => $refreshToken,
             'uid' => $user->auth_key,
