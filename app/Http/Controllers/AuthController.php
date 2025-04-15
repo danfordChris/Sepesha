@@ -265,6 +265,7 @@ class AuthController extends Controller
                         'profile_photo' => $user->profile_photo,
                         'attachment' => $user->attachment,
                         'user_type' => $user->role,
+                        'is_verified' => $user->is_verified,
                         'uid' => $user->auth_key,
                         'otp' => $otp,
                         'otp_expires_at' => $optExpires
