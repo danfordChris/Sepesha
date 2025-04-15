@@ -61,7 +61,8 @@ class User extends Authenticatable
         'license_expiry_date',
         'driver_license_number',
         'business_description',
-        'attachment'
+        'attachment',
+        'is_verified'
     ];
 
     /**
