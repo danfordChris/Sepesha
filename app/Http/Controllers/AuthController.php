@@ -198,7 +198,6 @@ class AuthController extends Controller
                     'profile_photo.mimes' => 'Profile Photo must be a image of type: jpg, jpeg, png.',
                     'profile_photo.max' => 'Profile Photo must not exceed 2MB in size.',
 
-
                     'attachment.required' => 'Driving Licence or National ID Attechment is required',
                     'attachment.mimes' => 'Driving Licence or National ID Attechment must be a image of type: jpg, jpeg, png,pdf.',
                     'attachment.max' => 'Driving Licence or National ID Attechment must not exceed 2MB in size.',
@@ -230,7 +229,7 @@ class AuthController extends Controller
             $validatedData['entity_type'] = 'individual';
             $validatedData['wid'] = $validatedData['user_type'] == 'driver' ? 2 : 1;
             $validatedData['is_verified'] = $validatedData['user_type'] != 'driver' ? 1 : 0;
-            $validatedData['status'] = 0;
+            $validatedData['status'] = 10;
             Arr::forget($validatedData, ['first_name', 'middle_name', 'last_name', 'password', 'licence_number', 'licence_expiry', 'user_type']);
 
             //  return $validatedData;
@@ -298,7 +297,7 @@ class AuthController extends Controller
         }
 
         $user = User::where('phone', $request->phone)
-            ->where('role', $request->user_type)
+            ->where('role', $request->user_type)->where('status', 10)
             ->first();
 
         $otp = $this->jwtService->generateOtp();
