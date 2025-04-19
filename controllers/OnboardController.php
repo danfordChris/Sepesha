@@ -197,7 +197,7 @@ class OnboardController extends Controller
                 if ($sno > $maxStage) {
                     $mainModel->status = 'A';
                     $driver->is_verified = 1;
-                    $driver->safe(false);
+                    $driver->save(false);
                     $mainModel->approved_by = Yii::$app->user->id;
                     $mainModel->approved_at = date('Y-m-d H:i:s');
                     $mainModel->requserinput = 'N';
