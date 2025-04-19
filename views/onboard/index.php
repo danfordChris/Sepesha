@@ -73,7 +73,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 [
                     'label' => 'Phone',
                     'content' => function ($m) {
-                        return $m->driver->getPhoneNumber() ?? '';
+                        return isset($m->driver)?$m->driver->getPhoneNumber(): '';
                     }
 
                 ],
