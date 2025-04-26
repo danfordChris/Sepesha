@@ -54,12 +54,9 @@ class AuthController extends Controller
             if (!$user) {
                 return CustomHelper::response(false, 'User is not found', 404);
             }
-
             $user->makeHidden(['otp', 'otp_expires_at', 'password_expiry', 'auth_key', 'password_reset_token', 'userid', 'confirmation_token']);
-
             $requiresPhoto = $request->user_type === 'driver' && is_null($user->profile_photo);
             $requiresAttachment = $request->user_type === 'driver' && is_null($user->attachment);
-
             $validated = $request->validate(
                 [
 
