@@ -1,0 +1,56 @@
+export const IMAGE = {
+    LOGO:require('../../../assets/Icons/logo.png'),
+    CROSS:require('../../../assets/Icons/cross.png'),
+    DOWN_ARW:require('../../../assets/Icons/down.png'),
+    APPLE:require('../../../assets/Icons/apple.png'),
+    GOOGLE:require('../../../assets/Icons/google.png'),
+    LEFT:require('../../../assets/Icons/arrowLeft.png'),
+    HOME:require('../../../assets/Icons/home.png'),
+    DRAWER:require('../../../assets/Icons/drawer.png'),
+    SETTINGS:require('../../../assets/Icons/settings.png'),
+    CALENDER:require('../../../assets/Icons/calendar.png'),
+    PP:require('../../../assets/Icons/pp.png'),
+    dl:require('../../../assets/Icons/dl.png'),
+    profile:require('../../../assets/Icons/profile.png'),
+    auto:require('../../../assets/Icons/auto.png'),
+    van:require('../../../assets/Icons/van.png'),
+    check:require('../../../assets/Icons/check.png'),
+    logo2:require('../../../assets/Icons/logo2.jpeg'),
+    pdfIcon:require('../../../assets/Icons/pdfIcon.png'),
+
+
+    motorcycle:require('../../../assets/Icons/motorcycle.png'),
+    phoneCall: require('../../../assets/Icons/phoneCall.png'),
+
+
+    car:require('../../../assets/Icons/car.png'),
+    search:require('../../../assets/Icons/search.png'),
+    a:require('../../../assets/Icons/a.png'),
+    b:require('../../../assets/Icons/b.png'),
+    c:require('../../../assets/Icons/c.png'),
+    ii:require('../../../assets/Icons/ii.png'),
+    loc:require('../../../assets/Icons/loc.png'),
+    person:require('../../../assets/Icons/person.png'),
+    cottage:require('../../../assets/Icons/cottage.png'),
+    loc1:require('../../../assets/Icons/loc1.png'),
+    loc2:require('../../../assets/Icons/loc2.png'),
+
+    cam:require('../../../assets/Icons/cam.png'),
+    vehicle:require('../../../assets/Icons/vehicle.png'),
+
+    share:require('../../../assets/Icons/share.png'),
+    help:require('../../../assets/Icons/help.png'),
+    support:require('../../../assets/Icons/support.png'),
+    notification:require('../../../assets/Icons/notification.png'),
+    logout:require('../../../assets/Icons/logout.png'),
+    profilecircle:require('../../../assets/Icons/profilecircle.png'),
+    arrowright:require('../../../assets/Icons/arrowright.png'),
+    card:require('../../../assets/Icons/card.png'),
+    chat:require('../../../assets/Icons/chat.png'),
+    cargo:require('../../../assets/Icons/cargo.png'),
+    warning:require('../../../assets/Icons/warning.png'),
+    eye:require('../../../assets/Icons/eye.png'),
+
+    av:require('../../../assets/Icons/av.png'),
+ 
+}

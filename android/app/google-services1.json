@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "808169042124",
+    "project_id": "sepesha-52a85",
+    "storage_bucket": "sepesha-52a85.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:808169042124:android:75a6617697934d7481d269",
+        "android_client_info": {
+          "package_name": "com.sepesha"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBW_oQ1Ev5ZTujs6tzB32REo4tpBMFHh9g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
